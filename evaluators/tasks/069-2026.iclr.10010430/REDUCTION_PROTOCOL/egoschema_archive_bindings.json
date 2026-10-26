@@ -1,0 +1,18 @@
+{
+  "schema_version": "egoschema-archive-bindings-v1",
+  "checked_at": "2026-10-01T13:07:51+08:00",
+  "anonymous_probe_host": "guangsawang-dev01",
+  "credentials_sent": false,
+  "dataset_repository": "lmms-eval/egoschema",
+  "revision": "58350524ea7eb29c47000121f4f4b65eb6b4acb9",
+  "archives": [
+    {"filename":"videos_chunked_01.zip","url":"https://huggingface.co/datasets/lmms-eval/egoschema/resolve/58350524ea7eb29c47000121f4f4b65eb6b4acb9/videos_chunked_01.zip","size_bytes":21424643499,"sha256":"bcd37a7d411ca40c05d12075b1275b046aab69b43ee01a3c9a85abc3a31dc633","xet_hash":"7a6665695aa0ab838ccd759c1283fb75df938a0bbfd029aff9c21e9a64219c44","anonymous_range_probe":"HTTP 206, bytes 0-0/21424643499"},
+    {"filename":"videos_chunked_02.zip","url":"https://huggingface.co/datasets/lmms-eval/egoschema/resolve/58350524ea7eb29c47000121f4f4b65eb6b4acb9/videos_chunked_02.zip","size_bytes":21405519046,"sha256":"c8c7bb911999db8d93f2801bd13fffcd914bc822e7af2c2aa1067a55fc6d8038","xet_hash":"2c390f1e04fe05b1f7eb9eea3aba3a08252d8b57e3294fb3b7da2bcb53cc5a3b","anonymous_range_probe":"HTTP 206, bytes 0-0/21405519046"},
+    {"filename":"videos_chunked_03.zip","url":"https://huggingface.co/datasets/lmms-eval/egoschema/resolve/58350524ea7eb29c47000121f4f4b65eb6b4acb9/videos_chunked_03.zip","size_bytes":21430009244,"sha256":"b4b8a0e8c92ec88cf802e3ec2dc7a060c1f6abe961c4dd3b2bfaf02618125055","xet_hash":"7cae809f16eb2c3f36ec9c82e3868778096dd637f46882e7ab86ab8ef3e9fe5d","anonymous_range_probe":"HTTP 206, bytes 0-0/21430009244"},
+    {"filename":"videos_chunked_04.zip","url":"https://huggingface.co/datasets/lmms-eval/egoschema/resolve/58350524ea7eb29c47000121f4f4b65eb6b4acb9/videos_chunked_04.zip","size_bytes":21382497595,"sha256":"b8e921b19521d003af86720690e5ac09dd8d587492a127c84d76ef7114a5a468","xet_hash":"70fd36975caf99130af10d9adb3755e3839963024d7ac88d9b6bedeb89d6809a","anonymous_range_probe":"HTTP 206, bytes 0-0/21382497595"},
+    {"filename":"videos_chunked_05.zip","url":"https://huggingface.co/datasets/lmms-eval/egoschema/resolve/58350524ea7eb29c47000121f4f4b65eb6b4acb9/videos_chunked_05.zip","size_bytes":20084367404,"sha256":"4bb14c7debcc36c2e4632c58076abecf004d33669d61e781a032f41905e39de9","xet_hash":"28538a7195ed8f5a91e3298c8653db8be2e654822d8387513707a9491fb889bb","anonymous_range_probe":"HTTP 206, bytes 0-0/20084367404"}
+  ],
+  "streaming_requirement": "Download, verify, extract wanted videos, and delete exactly one archive before starting the next archive.",
+  "total_compressed_bytes": 105127038788,
+  "peak_storage_policy_gb": 90
+}

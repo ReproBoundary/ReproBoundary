@@ -1,0 +1,49 @@
+{
+  "schema_version": "bounded-compatibility-repairs-v1",
+  "project_id": "2025.icml.sun25l",
+  "upstream_commit": "9d88ffcb7d2c6bda59fb5c44dad36adc101aadb1",
+  "repairs": [
+    {
+      "id": "correct-epochs-option",
+      "upstream_problem": "The released Qwen launcher passes --epoch 15 while the released parser defines --epochs.",
+      "repair": "The frozen launcher passes --epochs 15.",
+      "scientific_effect": "none; it applies the paper-stated 15-epoch calibration budget"
+    },
+    {
+      "id": "accept-pinned-local-model-directory",
+      "upstream_problem": "The parser restricts --model to a small list of author-local paths, which prevents a hash-verified local snapshot directory from being passed.",
+      "repair": "Accept an arbitrary model identifier/path while the frozen launcher and source verifier bind it to the exact Qwen revision and shard hashes.",
+      "scientific_effect": "none; model identity is unchanged and more strongly verified"
+    },
+    {
+      "id": "recognize-qwen25-path",
+      "upstream_problem": "The released loader tests for the string qwen-2.5, but the official Qwen2.5-7B-Instruct path does not contain that hyphenated spelling.",
+      "repair": "Normalize case and hyphens before architecture dispatch so the official Qwen2.5 path selects the released Qwen implementation.",
+      "scientific_effect": "none; this only reaches the released Qwen2ForCausalLM and FlatQuant-Qwen code path"
+    },
+    {
+      "id": "pin-local-wikitext-parquet",
+      "upstream_problem": "The released data loader expects a mutable local datasets directory without recording a source revision or content hash.",
+      "repair": "Add explicit train/test parquet arguments and bind them to the pinned public WikiText-2 revision after SHA256 verification.",
+      "scientific_effect": "none; config, splits, row order, text preprocessing and token-window sampling remain unchanged"
+    },
+    {
+      "id": "single-frozen-ppl-target",
+      "upstream_problem": "main.py unconditionally evaluates both WikiText-2 and C4 although the frozen gold metric is the atomic WikiText-2 column.",
+      "repair": "Parameterize the evaluation-dataset list, retain the upstream two-dataset default, and make the frozen launcher request only WikiText-2.",
+      "scientific_effect": "none; the selected WikiText-2 evaluator and complete target text stream are unchanged"
+    },
+    {
+      "id": "serialize-completion-evidence",
+      "upstream_problem": "The released entrypoint only prints perplexity and calibration progress.",
+      "repair": "Serialize the frozen configuration, stage markers, artifact existence, peak allocated GPU memory and WikiText-2 perplexity to metrics.json.",
+      "scientific_effect": "none; this observes existing outputs without modifying the algorithm or metric"
+    },
+    {
+      "id": "skip-unrelated-deployment-kernels",
+      "upstream_problem": "The root setup.py unconditionally builds deployment-only CUTLASS kernels for sm75/sm80/sm86, although the paper-table path uses fake quantization and the Python evaluator.",
+      "repair": "Install only the pinned fast-hadamard-transform dependency and import the project from its root; do not build unused deployment kernels.",
+      "scientific_effect": "none; no method stage or fake-quantized operation uses deploy._CUDA"
+    }
+  ]
+}

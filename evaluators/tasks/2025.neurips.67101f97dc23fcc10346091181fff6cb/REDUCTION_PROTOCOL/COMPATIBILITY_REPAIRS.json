@@ -1,0 +1,29 @@
+{
+  "schema_version": "bounded-compatibility-repairs-v1",
+  "project_id": "2025.neurips.67101f97dc23fcc10346091181fff6cb",
+  "repairs": [
+    {
+      "id": "explicit-llava-lora-dispatch",
+      "reason": "The released merger derives model_name from the first task directory (IconQA), which does not contain the strings llava and lora and therefore bypasses the RobustMerge branch in llava/model/builder.py.",
+      "bounded_change": "Add --model-name with frozen value llava-lora and pass it to load_and_merge_pretrained_model.",
+      "scientific_semantics_changed": false
+    },
+    {
+      "id": "correct-adapter-config-path-joins",
+      "reason": "The released merger concatenates IconQA and adapter_config.json and requires a trailing slash on save_model_path.",
+      "bounded_change": "Use os.path.join for both source and destination adapter_config.json paths.",
+      "scientific_semantics_changed": false
+    },
+    {
+      "id": "parameterize-paths-and-gpu",
+      "reason": "Released convenience scripts contain placeholder absolute paths and fixed CUDA device indices.",
+      "bounded_change": "The frozen launcher accepts explicit environment paths and leaves CUDA_VISIBLE_DEVICES to the scheduler while preserving all model, data, decoding and evaluator settings.",
+      "scientific_semantics_changed": false
+    }
+  ],
+  "static_recheck": {
+    "merge_script_syntax": "required",
+    "frozen_launcher_syntax": "required",
+    "preflight_without_model_loading": "required"
+  }
+}

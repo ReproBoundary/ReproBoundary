@@ -1,0 +1,383 @@
+{
+  "member_count": 47,
+  "members": [
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "4cf8fe132ae6a9d3043576a25a6369f882b739a983351a70b8db921b52d222d6",
+      "member_class": "original_preserved",
+      "project_id": "013-2026.iclr.10007159",
+      "target_contract": "evaluators/tasks/013-2026.iclr.10007159/TARGET_EVALUATION.json",
+      "target_contract_sha256": "8763a6bfdf5a3d9229cef2956c32beae3d081e7f44f0b9ed2fc94fa0e0adc3a3"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "23b81270dfa51727e2485c312f548c1cf46bde2326e378d270e4b372f51c91e6",
+      "member_class": "original_preserved",
+      "project_id": "016-2025.emnlp.109",
+      "target_contract": "evaluators/tasks/016-2025.emnlp.109/TARGET_EVALUATION.json",
+      "target_contract_sha256": "79aa2cae76b488fa6622abe140c3f8417068e8fe34922460eb7656ba672bcf27"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "2651f828bc6818367f999e53860ee65200de64e5b89d5b0f70671d493a5aca02",
+      "member_class": "original_preserved",
+      "project_id": "017-2026.acl-long.154",
+      "target_contract": "evaluators/tasks/017-2026.acl-long.154/TARGET_EVALUATION.json",
+      "target_contract_sha256": "e220163da08f4260a1d4e85ba4e8d481ad4ab30518aebda7383fa5cf27bbadee"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "e730b21b15cd14f4211cd7ab9af898912175a5493fa68fa7e60e87ea33139cec",
+      "member_class": "original_preserved",
+      "project_id": "018-2026.iclr.10008090",
+      "target_contract": "evaluators/tasks/018-2026.iclr.10008090/TARGET_EVALUATION.json",
+      "target_contract_sha256": "cbe7fa63388de7e773599da3a00f6b44e4334540b2b665b71638d6543007380f"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "729973939783f196f654ccae3ee0bc1355d47242b951cc2bb5c779f6e85704a0",
+      "member_class": "original_preserved",
+      "project_id": "019-2026.iclr.10010470",
+      "target_contract": "evaluators/tasks/019-2026.iclr.10010470/TARGET_EVALUATION.json",
+      "target_contract_sha256": "8ef316f813789fdf4c523a8d5676b0079dbcb68f3584b17ce2317ba9355aa243"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "810dc58308213463ac3da70e0bcb06989eb59e8d9c997badde5f96e0a6793e3f",
+      "member_class": "original_preserved",
+      "project_id": "026-2026.iclr.10007029",
+      "target_contract": "evaluators/tasks/026-2026.iclr.10007029/TARGET_EVALUATION.json",
+      "target_contract_sha256": "d12d74e85d2487d56b82116b5701dcd6afbd44141c901fb5aa780ce824c91c24"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "71f76897feca8681b1ca98957376eb9841e2bda71965fc2cccf0b2a83a8a886c",
+      "member_class": "original_preserved",
+      "project_id": "038-2026.iclr.10010317",
+      "target_contract": "evaluators/tasks/038-2026.iclr.10010317/TARGET_EVALUATION.json",
+      "target_contract_sha256": "319b0a9c9c03bac69c4d43fa76daa27b66142c509817b08540069c685596ed97"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "ac8eb7aedc4da74cbf9a6acf48076d516862e41101cbd55a2be5d8ab134f6bb8",
+      "member_class": "original_preserved",
+      "project_id": "040-2025.emnlp.281",
+      "target_contract": "evaluators/tasks/040-2025.emnlp.281/TARGET_EVALUATION.json",
+      "target_contract_sha256": "f00a4eada6060a81e6dc5a2dc7d88bd7de9d5aaf730468b68ad5e8e9c07db710"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "80ece72a9dd2272b8061885a9234e0dc51b3fabeb2d6827e99b5852564bf8771",
+      "member_class": "original_preserved",
+      "project_id": "044-2026.acl-long.704",
+      "target_contract": "evaluators/tasks/044-2026.acl-long.704/TARGET_EVALUATION.json",
+      "target_contract_sha256": "058076825b2677313dc8058e5af1dd2dfd39992cdfebe069108e8624b5433b86"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "28f203f70f9f68f29f74f39fcfab233f7ed48ea80a945a194c58dc1c8f221bd4",
+      "member_class": "original_preserved",
+      "project_id": "047-2026.acl-long.1062",
+      "target_contract": "evaluators/tasks/047-2026.acl-long.1062/TARGET_EVALUATION.json",
+      "target_contract_sha256": "3d4f4f1be6341936a5ee2e95449651c466d4a55c756087c7c00e3d372d86c897"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "9cc4760066455f2636875d4a3d98034de06f32d8e6f2dfb37af007b213fdb3fa",
+      "member_class": "original_preserved",
+      "project_id": "052-2026.acl-long.2151",
+      "target_contract": "evaluators/tasks/052-2026.acl-long.2151/TARGET_EVALUATION.json",
+      "target_contract_sha256": "bed66cbe7042df645f62c9c0cc063a2774ad1eb21aa889aaf5fcd71dbe29eaef"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "91c25708799f6cfe7b2efb059e834680ba3963063df6fc8805680c70ec2e2c79",
+      "member_class": "original_preserved",
+      "project_id": "069-2026.iclr.10010430",
+      "target_contract": "evaluators/tasks/069-2026.iclr.10010430/TARGET_EVALUATION.json",
+      "target_contract_sha256": "e15f0782a6b83a3f48d61b9f5b512c753f7782a0fe6794fff4f3588948d60f01"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "9c13681213e4bcc07f8cc28c078b7d395952e3ef596dec3f8769d2d4ca71eec5",
+      "member_class": "original_preserved",
+      "project_id": "078-2025.iccv.Zhu_Training-free_Geometric_Image_Editing_on_Diffusion_Models_ICCV_2025",
+      "target_contract": "evaluators/tasks/078-2025.iccv.Zhu_Training-free_Geometric_Image_Editing_on_Diffusion_Models_ICCV_2025/TARGET_EVALUATION.json",
+      "target_contract_sha256": "cb70b8c791ffdf40e8e16e0e9c595804d9800c1ca08655b75d5680641bccba49"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "7049002b953c1ee4f3dfe353a529c210d3d16d168c13040b4e92df6a35728b14",
+      "member_class": "original_preserved",
+      "project_id": "083-2026.acl-long.2124",
+      "target_contract": "evaluators/tasks/083-2026.acl-long.2124/TARGET_EVALUATION.json",
+      "target_contract_sha256": "0ada348671953a76c5cd786d592a14e67dd41b0e8589329694b9db8b36b1cf27"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "9086e501ccc12cd75105b0df211b5f69465a61fe7c80dd20490cc47a6caad95c",
+      "member_class": "original_preserved",
+      "project_id": "084-2026.acl-long.2059",
+      "target_contract": "evaluators/tasks/084-2026.acl-long.2059/TARGET_EVALUATION.json",
+      "target_contract_sha256": "c4f32a6377a0c6b04fd0284d90aadca4a7c1893b68d8dbd3dd86ef0e0cda7e19"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "534ba02e65b2ed294a7c92aa8a141d7828481bac4ca411b240bd66d81ab44863",
+      "member_class": "original_preserved",
+      "project_id": "085-2026.iclr.10010335",
+      "target_contract": "evaluators/tasks/085-2026.iclr.10010335/TARGET_EVALUATION.json",
+      "target_contract_sha256": "40df89c22476be913acaca1e440abe34acae2c04046aabc277b0c76af45d3685"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "bbd77cd610f2f3ba797422d4e97f1d7ee1c8f7fa546c72f38b5233f456da3b07",
+      "member_class": "original_preserved",
+      "project_id": "090-2026.iclr.10009775",
+      "target_contract": "evaluators/tasks/090-2026.iclr.10009775/TARGET_EVALUATION.json",
+      "target_contract_sha256": "329970990a3bc26bb9aa9b8bbdbbcaec52e238a379f5891ca1b0a30a94cc2466"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "1a527ca49c7456ae057449c0104bf1194c5b905e1b2fa49f15d4f961eaecaae1",
+      "member_class": "original_preserved",
+      "project_id": "097-2026.iclr.10011287",
+      "target_contract": "evaluators/tasks/097-2026.iclr.10011287/TARGET_EVALUATION.json",
+      "target_contract_sha256": "32187e5abc363289e2e5db59afe6bcd076962b521395c55185fa0da6a436e298"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "3da2cbedc99d92511bf393c695982301d23ec108a25266c0445e890f487e23a3",
+      "member_class": "original_preserved",
+      "project_id": "098-2026.iclr.10009097",
+      "target_contract": "evaluators/tasks/098-2026.iclr.10009097/TARGET_EVALUATION.json",
+      "target_contract_sha256": "873dc9185a424d7c31625a05a223c8763a5612b6d8088969f8db3489a14c80b3"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "8231df4089400b7a6ef7cc5478bb926d50ee504a0c90685396415a7809975bc4",
+      "member_class": "original_preserved",
+      "project_id": "099-2026.iclr.10010023",
+      "target_contract": "evaluators/tasks/099-2026.iclr.10010023/TARGET_EVALUATION.json",
+      "target_contract_sha256": "569621ec5568049dab60465aa43a5cd1a8bfe6af893bb67418d1775807d9e5a5"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "2594dd6219b7f21fd10a5583806036fb78ebffa41db02f17cfb4a3ed5a70783a",
+      "member_class": "original_preserved",
+      "project_id": "102-2026.iclr.10010728",
+      "target_contract": "evaluators/tasks/102-2026.iclr.10010728/TARGET_EVALUATION.json",
+      "target_contract_sha256": "1cccdd3515f0a092ba81ff2b48d9e6fbf6370c66781456a6b3db676b54fe3959"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "fcae5365677fa9a7d419497bcd73cbe458cf26881f44abb6a676e4e0d44f1829",
+      "member_class": "original_preserved",
+      "project_id": "103-2025.emnlp.280",
+      "target_contract": "evaluators/tasks/103-2025.emnlp.280/TARGET_EVALUATION.json",
+      "target_contract_sha256": "bd0551eb6170b84232489ac06df79f8235f498c7943bbfe8168b3881450e1093"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "ff47791789021eda9b88b9542f4a55a3beac3e47140a8b5a6a429637c33304d7",
+      "member_class": "original_preserved",
+      "project_id": "104-2026.iclr.10011413",
+      "target_contract": "evaluators/tasks/104-2026.iclr.10011413/TARGET_EVALUATION.json",
+      "target_contract_sha256": "20fd9c02dcc0bf719498c7b40014a0364189976beeb440c3d2c12d9013772689"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "74bb398553701a4fed433c0f188776fd9be4bac13063d9446e311b5330f0961b",
+      "member_class": "original_preserved",
+      "project_id": "112-2025.emnlp.1545",
+      "target_contract": "evaluators/tasks/112-2025.emnlp.1545/TARGET_EVALUATION.json",
+      "target_contract_sha256": "c705c8cdccbf7db78fabd0b226b5462e8f410b40e4e039420345fed28b5a9375"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "c8d85d04fc553ee69d5b2a7f2809cb299d7ea18b1566c4f2291d13132171b886",
+      "member_class": "original_preserved",
+      "project_id": "114-2026.acl-long.849",
+      "target_contract": "evaluators/tasks/114-2026.acl-long.849/TARGET_EVALUATION.json",
+      "target_contract_sha256": "1acf84d6175fb58c513daf98d7b73522639d09e9d569bf5b17f0c6d77cca6a55"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "04325c6977736bcf5a66f43f986daccd5564510a9f31d68e2e7a32ff94a486fb",
+      "member_class": "original_preserved",
+      "project_id": "118-2025.emnlp.1496",
+      "target_contract": "evaluators/tasks/118-2025.emnlp.1496/TARGET_EVALUATION.json",
+      "target_contract_sha256": "dfba2cc98abeddeadeacde93457674a43319f29e3b46e6558d15a3ea13983a7b"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "7eb5ec8dcd7a07ee045a8ef41dd5887842fa7707913fb87318089401345b0919",
+      "member_class": "original_preserved",
+      "project_id": "119-2026.acl-long.358",
+      "target_contract": "evaluators/tasks/119-2026.acl-long.358/TARGET_EVALUATION.json",
+      "target_contract_sha256": "49114d5d2ab8d3783773ca6087f214b101ca2338b90263ad33ece8687c1f9260"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "b3b34d9ee9493ad3eb1d00f72943d488570be7be23fd738bed1c095bd2f7d84d",
+      "member_class": "original_preserved",
+      "project_id": "121-2026.iclr.10011195",
+      "target_contract": "evaluators/tasks/121-2026.iclr.10011195/TARGET_EVALUATION.json",
+      "target_contract_sha256": "bb480da72a94f174a3ca91cafb7a2f2b912bf7fa40392af32a85c602e33b2e1b"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "1e831c35c7eba6a23a95ed5d7c1ade35f3242bbee7328815ba554b387f89c8f4",
+      "member_class": "original_preserved",
+      "project_id": "124-2025.emnlp.1362",
+      "target_contract": "evaluators/tasks/124-2025.emnlp.1362/TARGET_EVALUATION.json",
+      "target_contract_sha256": "9ec1f2dff859ee5c01aa7fd4a06cc28d5073a92d899e99d9ab7ffe9351d80be9"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "0191f661db6e793cfea209670bd7a8ae19886bbc971ae1a2d0d698425fd256d2",
+      "member_class": "original_preserved",
+      "project_id": "128-2026.acl-long.356",
+      "target_contract": "evaluators/tasks/128-2026.acl-long.356/TARGET_EVALUATION.json",
+      "target_contract_sha256": "1f21c84eeed02aac97f2762fe08ccacbd97c83c79bb5e0bedf67977a7889307b"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "62c9e97332152bb7bd73e6fb986e75e4a1647dbeae2b75da5c924571b2bb3353",
+      "member_class": "original_preserved",
+      "project_id": "132-2026.acl-long.1010",
+      "target_contract": "evaluators/tasks/132-2026.acl-long.1010/TARGET_EVALUATION.json",
+      "target_contract_sha256": "f78bb05ffc8c5228830691d79610c54566db4d5e5b81a1ee700f4596fd69dfda"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "f7b146acbe32a887a544f5f56d08d44adb4990b611206775daa5169a6953c011",
+      "member_class": "original_preserved",
+      "project_id": "134-2026.iclr.10008373",
+      "target_contract": "evaluators/tasks/134-2026.iclr.10008373/TARGET_EVALUATION.json",
+      "target_contract_sha256": "84b15641e4d25cb35506317eccd0e7f468904e2ae739544fc911480fa2e296b2"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "5b617dad2228019a7f50c4b3b4ee1c3af1d159aef9f3b13c66509a30bfd0a2d5",
+      "member_class": "original_preserved",
+      "project_id": "136-2026.iclr.10007474",
+      "target_contract": "evaluators/tasks/136-2026.iclr.10007474/TARGET_EVALUATION.json",
+      "target_contract_sha256": "0aefb5b4e66113421bbdf1877d54a608fa5b27eb1f6cb10169e85b799b116968"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "c70bee0df31cc9867393aaf13f07cb42027febe3d666d702233eade6e599720f",
+      "member_class": "original_preserved",
+      "project_id": "138-2026.iclr.10008475",
+      "target_contract": "evaluators/tasks/138-2026.iclr.10008475/TARGET_EVALUATION.json",
+      "target_contract_sha256": "ba402feccb64b1b5617f4dc3088dd7f57d7ac3765584f83dcf578f0f55d27856"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "be3d0c4ef16098ddba36d9a3005b36d249871f3c83d7bca7c01e172655f7fcc1",
+      "member_class": "original_preserved",
+      "project_id": "144-2025.neurips.26300d2734ce0c6bdac69b4c3187b5a2",
+      "target_contract": "evaluators/tasks/144-2025.neurips.26300d2734ce0c6bdac69b4c3187b5a2/TARGET_EVALUATION.json",
+      "target_contract_sha256": "5452d775ade3a04d615b73bcd373a2f0f62fd36820d12a19133501b125b89eb4"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "65bc38f852ef214efb948c4885638a768aeab22fa57f13e882852c79139e8aa2",
+      "member_class": "original_preserved",
+      "project_id": "145-2025.icml.wang25ex",
+      "target_contract": "evaluators/tasks/145-2025.icml.wang25ex/TARGET_EVALUATION.json",
+      "target_contract_sha256": "3b32301fab2a706b97fa1ba14135fc999d5d651693b4717b5344eafac9962298"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "8c52b08736e706b6a5dce9ce10e9b0012e54f2758e41f9ffb769c302acaa8ded",
+      "member_class": "original_preserved",
+      "project_id": "148-2026.iclr.10008008",
+      "target_contract": "evaluators/tasks/148-2026.iclr.10008008/TARGET_EVALUATION.json",
+      "target_contract_sha256": "459b38a2b1da9289563f9e3c13d4fa68dbe133395a3e2fd972b16c4ffa7baa7d"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "cca608d8b0e08978ea8c85472dc9b9e5531ade8ad995a06a2511ca5e69edd44b",
+      "member_class": "replacement",
+      "project_id": "2025.icml.bashari25a",
+      "target_contract": "evaluators/tasks/2025.icml.bashari25a/TARGET_EVALUATION.json",
+      "target_contract_sha256": "f2a66b7b2ad5379e8167c9019d88f5ca50a072a361889a323421a28e2d2b1237"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "4c483c26b0902db49ee6a76ca5fc2bfd4a161d4c0b027a9e422db12cdf88b0cd",
+      "member_class": "replacement",
+      "project_id": "2025.icml.chen25be",
+      "target_contract": "evaluators/tasks/2025.icml.chen25be/TARGET_EVALUATION.json",
+      "target_contract_sha256": "776bc05c1ed9fb82ea0978c506f7c510b059e489a337ff10d62001a1ca0d7351"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "710a0ae422684064c0bc3792985ec9204f3ef2fd8b27e82358534e8081e66b3f",
+      "member_class": "replacement",
+      "project_id": "2025.icml.deng25d",
+      "target_contract": "evaluators/tasks/2025.icml.deng25d/TARGET_EVALUATION.json",
+      "target_contract_sha256": "f4a9a345be03b1aab39afb0b844db014a0cf41ff6bc470bff2825ab6c8e9b4a6"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "4c731540af8cbd8547569467a86806d21ac77691dbf6dff6e020b65cf2b51f71",
+      "member_class": "replacement",
+      "project_id": "2025.icml.schopmans25a",
+      "target_contract": "evaluators/tasks/2025.icml.schopmans25a/TARGET_EVALUATION.json",
+      "target_contract_sha256": "990af4efecc0217df596a3a4b6365fe6c96bfce8a0be7419732e56dd1d76ca0d"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "219d380293be13291d58533bb0e85f6909f9c7bfc7d4091e003567a72644d02b",
+      "member_class": "replacement",
+      "project_id": "2025.icml.sun25l",
+      "target_contract": "evaluators/tasks/2025.icml.sun25l/TARGET_EVALUATION.json",
+      "target_contract_sha256": "1b2476bc9e16899f772057223d58885faa0532435e9784b895ea4cc841480297"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "57c1c705d270759bb19d71e08c29ed51be9ca17a8771f90c252b1d01289c5c2a",
+      "member_class": "replacement",
+      "project_id": "2025.neurips.0d5c9d43eb13c98db21eeb92c7c986d8",
+      "target_contract": "evaluators/tasks/2025.neurips.0d5c9d43eb13c98db21eeb92c7c986d8/TARGET_EVALUATION.json",
+      "target_contract_sha256": "edc2ac6ca79c7c44aeb4dbeb5bf94444e9834322282915c4992b89caa5368bb8"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "39489aded293b41b8bd5a7675932b6c83ddd0c8b6138f878030bb51360b6f274",
+      "member_class": "replacement",
+      "project_id": "2025.neurips.67101f97dc23fcc10346091181fff6cb",
+      "target_contract": "evaluators/tasks/2025.neurips.67101f97dc23fcc10346091181fff6cb/TARGET_EVALUATION.json",
+      "target_contract_sha256": "6eba56b9809bb63d71bb3152eb7f137e9e658ad96b20a8b9085eab67377aeb10"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "23e9770c36a8f9bcf697b3e8db7fcdf104fb84b92c7ab3f95871bc456ce90eb8",
+      "member_class": "replacement",
+      "project_id": "2025.neurips.e323ebf7c91a4ca061612ba4a2f2164d",
+      "target_contract": "evaluators/tasks/2025.neurips.e323ebf7c91a4ca061612ba4a2f2164d/TARGET_EVALUATION.json",
+      "target_contract_sha256": "0b9f4c74f4762ce3003c6a746284c96c1c93b7f654b0e745de30d0d0c70ed22a"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "ceab97a16ca9210a5ed9c5e133edf562a5f401a2483159107a459c02b5ad55f7",
+      "member_class": "replacement",
+      "project_id": "2026.acl-long.2069",
+      "target_contract": "evaluators/tasks/2026.acl-long.2069/TARGET_EVALUATION.json",
+      "target_contract_sha256": "79364f9cc922f430d22c988446560809724bbaad106680aedd674213bac95d6a"
+    },
+    {
+      "execution_status": "READY",
+      "gold_metric_sha256": "99f48dee51029065bcfb97b2877d057829ab2e84fb95b3ab09b2658a64f8b6d9",
+      "member_class": "replacement",
+      "project_id": "2026.iclr.10011500",
+      "target_contract": "evaluators/tasks/2026.iclr.10011500/TARGET_EVALUATION.json",
+      "target_contract_sha256": "116156d6631de82f3e3c15ec2d192ea18ccec5eee336eb7f8dc0866e69e42d8e"
+    }
+  ],
+  "release_id": "reproboundary-open-source-20261020",
+  "schema_version": "1.0-public"
+}

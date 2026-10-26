@@ -1,0 +1,45 @@
+{
+  "schema_version": "source-bindings-v1",
+  "project_id": "2025.neurips.67101f97dc23fcc10346091181fff6cb",
+  "repository": {
+    "url": "https://github.com/AuroraZengfh/RobustMerge",
+    "commit": "12128022190516cc93a549cc4931112ce4bdcda3"
+  },
+  "base_model": {
+    "id": "liuhaotian/llava-v1.5-7b",
+    "revision": "4481d270cc22fd5c4d1bb5df129622006ccd9234",
+    "expected_total_repository_bytes": 13561404073
+  },
+  "vision_encoder": {
+    "id": "openai/clip-vit-large-patch14-336",
+    "revision": "ce19dc912ca5cd21c8a653c79e251e808ccabcd1",
+    "required_pytorch_file_bytes": 1711974081
+  },
+  "merge_benchmark": {
+    "id": "AuroraZengfh/MM-MergeBench",
+    "revision": "21a32b0559369816f9265ac0b036e617238aa38a",
+    "scienceqa_instruction_path": "Seen_data/ScienceQA/test.json",
+    "scienceqa_instruction_bytes": 1856060,
+    "scienceqa_instruction_sha256": "e533e0df037b74d328a2c25b3b2474778880fa8c22132cdcf168092c0eb59c4e",
+    "scienceqa_instruction_count": 4241
+  },
+  "scienceqa": {
+    "repository": "https://github.com/lupantech/ScienceQA",
+    "revision": "2cbf8318e07b9ece895bb2ae605e71e38d623264",
+    "split": "test",
+    "sample_count": 4241,
+    "pid_splits_sha256": "85c7820b9f136e572579a01dab2c77a7f8140b59211e421fa5182491d45ee3a7",
+    "problems_git_blob_sha1": "3920b762556abfbfa001f298c9740c36d4e041e1",
+    "license": "CC-BY-NC-SA-4.0"
+  },
+  "lora_inputs": [
+    {"task": "ScienceQA", "directory": "ScienceQA", "id": "AuroraZengfh/LLaVA_7B_lora_r16_ScienceQA", "revision": "6615244215f448703b0dc40eae6949d7bddc6d81", "adapter_model_bytes": 80109197, "non_lora_trainables_bytes": 41961191},
+    {"task": "VizWiz", "directory": "vizwiz", "id": "AuroraZengfh/LLaVA_7B_lora_r16_VizWiz", "revision": "3163df5a9d8f919b672882464fc653eeb8903266", "adapter_model_bytes": 80109197, "non_lora_trainables_bytes": 41961191},
+    {"task": "ImageNet", "directory": "ImageNet", "id": "AuroraZengfh/LLaVA_7B_lora_r16_ImageNet", "revision": "665e0aee6a671443f882a59baf5c4fb3ab63cb0c", "adapter_model_bytes": 80109197, "non_lora_trainables_bytes": 41961191},
+    {"task": "VQAv2", "directory": "VQAv2", "id": "AuroraZengfh/LLaVA_7B_lora_r16_VQAv2", "revision": "a98c280f75fa4851e95d6eb8f00659a653856f88", "adapter_model_bytes": 80109197, "non_lora_trainables_bytes": 41961191},
+    {"task": "REC", "directory": "grounding", "id": "AuroraZengfh/LLaVA_7B_lora_r16_REC", "revision": "3fbf2e4fb3c41c31a4d08049039359601b13ad3e", "adapter_model_bytes": 80109197, "non_lora_trainables_bytes": 41961191},
+    {"task": "IconQA", "directory": "IconQA", "id": "AuroraZengfh/LLaVA_7B_lora_r16_IconQA", "revision": "611554693f6d2633d2eab1e0a6e81928f7598264", "adapter_model_bytes": 80109197, "non_lora_trainables_bytes": 41961191},
+    {"task": "Flickr30k", "directory": "flickr30k", "id": "AuroraZengfh/LLaVA_7B_lora_r16_flickr30k", "revision": "54360868f86716123632ba6cefbdbeb9eff8bed7", "adapter_model_bytes": 80109197, "non_lora_trainables_bytes": 41961191},
+    {"task": "OCRVQA", "directory": "OCRVQA", "id": "AuroraZengfh/LLaVA_7B_lora_r16_OCRVQA", "revision": "662f8fcf65c8fb5492c76a157fd409467e61534f", "adapter_model_bytes": 80109197, "non_lora_trainables_bytes": 41961191}
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "frozen-calibration-selection-v1",
+  "dataset": "Salesforce/wikitext",
+  "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+  "config": "wikitext-2-raw-v1",
+  "split": "train",
+  "canonical_source_sha256": "e83889baabc497075506f91975be5fac0d45c5290b6b20582c8cd1e853d0c9f7",
+  "canonical_text_stream": "Load the 36,718 train rows in parquet order, preserve the released filter/map behavior, strip each text value, join with two newline characters, and tokenize once with Qwen2.5-7B-Instruct revision a09a35458c702b33eeacc393d103063234e8bc28.",
+  "selection_rule": "Before data loading, seed Python random, NumPy, PyTorch and Transformers with 0. For draw indices 0 through 127, use random.randint(0, token_count - 2048 - 1) and take the contiguous half-open token window [start,start+2048). Preserve draw order and duplicates exactly as released code.",
+  "sample_count": 128,
+  "sequence_length_tokens": 2048,
+  "seed": 0,
+  "replacement": true,
+  "logical_draw_ids_path": "REDUCTION_PROTOCOL/calibration_draw_ids.jsonl",
+  "logical_draw_ids_sha256": "5b65ab498bb7c69b2ad2b3145e1820056e83270e9d5a190e600b31d3304e3db7",
+  "paper_role": "The same 128 windows supply the layerwise full-precision targets and quantized inputs for 15 epochs of FlatQuant affine-transformation and clipping calibration.",
+  "leakage_constraints": [
+    "DO_NOT_USE_WIKITEXT_TEST_TOKENS_FOR_CALIBRATION",
+    "DO_NOT_CHANGE_SEED_SAMPLE_COUNT_SEQUENCE_LENGTH_OR_DRAW_ORDER"
+  ]
+}

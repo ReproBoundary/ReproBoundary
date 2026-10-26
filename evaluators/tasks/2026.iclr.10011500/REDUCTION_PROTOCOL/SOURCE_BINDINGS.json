@@ -1,0 +1,26 @@
+{
+  "schema_version": "source-bindings-v1",
+  "project_id": "2026.iclr.10011500",
+  "repository": {
+    "url": "https://github.com/hanxunyu/VisionTrim",
+    "commit": "308e73a9b8437882c5c1056a32dbc60fd41efd53"
+  },
+  "model": {
+    "id": "liuhaotian/llava-v1.5-7b",
+    "revision": "4481d270cc22fd5c4d1bb5df129622006ccd9234",
+    "expected_total_repository_bytes": 13561404073
+  },
+  "vision_encoder": {
+    "id": "openai/clip-vit-large-patch14-336",
+    "revision": "ce19dc912ca5cd21c8a653c79e251e808ccabcd1",
+    "expected_total_repository_bytes": 3428047907
+  },
+  "evaluation_data": {
+    "repository": "https://github.com/lupantech/ScienceQA",
+    "revision": "2cbf8318e07b9ece895bb2ae605e71e38d623264",
+    "split": "test",
+    "sample_count": 4241,
+    "pid_splits_sha256": "85c7820b9f136e572579a01dab2c77a7f8140b59211e421fa5182491d45ee3a7",
+    "problems_git_blob_sha1": "3920b762556abfbfa001f298c9740c36d4e041e1"
+  }
+}

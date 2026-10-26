@@ -1,0 +1,18 @@
+{
+  "schema_version": "bounded-compatibility-repairs-v1",
+  "project_id": "2026.acl-long.2069",
+  "repairs": [
+    {
+      "id": "bind-seed-and-serialize-metric",
+      "reason": "The released run_tests.sh iterates a seed variable but does not pass it to infer_gpt2.py, and infer_gpt2.py prints rather than serializes the metric.",
+      "bounded_change": "The frozen wrapper calls the released set_seed(0), invokes the unchanged infer_gpt2.main with the paper parameters, parses its printed Pass@4 value, and writes a host-auditable JSON metric.",
+      "scientific_semantics_changed": false
+    },
+    {
+      "id": "remove-host-specific-device-binding",
+      "reason": "The released shell script hard-codes CUDA_VISIBLE_DEVICES=6.",
+      "bounded_change": "The frozen launcher leaves GPU assignment to the benchmark scheduler.",
+      "scientific_semantics_changed": false
+    }
+  ]
+}

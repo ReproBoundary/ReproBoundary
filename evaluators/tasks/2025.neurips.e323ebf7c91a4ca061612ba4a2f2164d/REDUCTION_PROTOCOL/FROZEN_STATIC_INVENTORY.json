@@ -1,0 +1,51 @@
+{
+  "schema_version": "paper-repository-static-inventory-v1",
+  "project_id": "2025.neurips.e323ebf7c91a4ca061612ba4a2f2164d",
+  "repository": "<LOCAL_WORKSPACE>/replacement_selection_9_from_2220_20261001/selected_projects/2025.neurips.e323ebf7c91a4ca061612ba4a2f2164d",
+  "commit": null,
+  "file_count": 32,
+  "total_bytes": 614533,
+  "readmes": [
+    "README.md"
+  ],
+  "dependency_files": [
+    "requirements.txt"
+  ],
+  "urls": [
+    "http://www.neilsloane.com/hadamard/index.html",
+    "https://arxiv.org/abs/2505.24680",
+    "https://cornell-relaxml.github.io/quip-sharp/",
+    "https://github.com/Cornell-RelaxML/quip-sharp/blob/main/lib/utils/matmul_had.py",
+    "https://github.com/chenxinrui-tsinghua/LinearPatch",
+    "https://github.com/huggingface/transformers/blob/main/src/transformers/models/llama/modeling_llama.py#L75",
+    "https://huggingface.co/baichuan-inc/Baichuan2-7B-Base",
+    "https://huggingface.co/datasets/Rowan/hellaswag",
+    "https://huggingface.co/datasets/Salesforce/wikitext",
+    "https://huggingface.co/datasets/allenai/ai2_arc",
+    "https://huggingface.co/datasets/allenai/c4",
+    "https://huggingface.co/datasets/allenai/winogrande",
+    "https://huggingface.co/datasets/aps/super_glue",
+    "https://huggingface.co/datasets/ehovy/race",
+    "https://huggingface.co/datasets/ptb-text-only/ptb_text_only",
+    "https://huggingface.co/datasets/ybisk/piqa",
+    "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Llama-8B",
+    "https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+    "https://huggingface.co/meta-llama/Llama-2-13B",
+    "https://huggingface.co/meta-llama/Llama-2-7B",
+    "https://huggingface.co/meta-llama/Llama-3.1-8B",
+    "https://img.shields.io/badge/LinearPatch-2505.24680-b31b1b.svg?logo=arXiv",
+    "https://stackoverflow.com/a/13503277/2988730"
+  ],
+  "command_candidates": [
+    "bash scripts/run_llama2-7b.sh",
+    "python \"${ROOT_DIR}/REDUCTION_PROTOCOL/render_task_config.py\" \\",
+    "python \"${ROOT_DIR}/REDUCTION_PROTOCOL/verify_sources.py\" \\",
+    "python -c 'import json,sys; p=json.load(open(sys.argv[1])); assert p[\"selected_start_layer\"] == 13; assert p[\"selected_end_layer\"] == 20; assert p[\"target_metric\"][\"task\"] == \"arc_easy_frozen\"; assert 0.0 <= p[\"target_metric\"][\"value\"] <= 100.0' \"${ARTIFACT_DIR}/metrics.json\"",
+    "python main_distill.py \\"
+  ],
+  "secret_findings": [],
+  "limitations": [
+    "Static inventory does not establish artifact completeness or runtime feasibility.",
+    "Secret matches are redacted findings, not proof that a credential is active."
+  ]
+}

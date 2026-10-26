@@ -1,0 +1,34 @@
+{
+  "schema_version": "compatibility-repairs-v1",
+  "project_id": "2025.icml.deng25d",
+  "repairs": [
+    {
+      "id": "project-local-skempi-path",
+      "type": "configuration_override",
+      "source_change": false,
+      "description": "Always pass --skempi_pdb_dir so the unused author-machine default /home/exx/arthur/data/SKEMPI_v2/PDBs is never resolved.",
+      "scientific_semantics_changed": false
+    },
+    {
+      "id": "scheduler-gpu-binding",
+      "type": "environment_binding",
+      "source_change": false,
+      "description": "The scheduler may bind one assigned H100 through CUDA_VISIBLE_DEVICES; repository code still observes one cuda device.",
+      "scientific_semantics_changed": false
+    },
+    {
+      "id": "h100-compatible-environment",
+      "type": "dependency_compatibility",
+      "source_change": false,
+      "description": "Resolve PyTorch/CUDA wheels compatible with the assigned H100 while preserving model architecture, tensor precision, data semantics and evaluator behavior.",
+      "scientific_semantics_changed": false
+    },
+    {
+      "id": "withhold-stage-bypass-artifacts",
+      "type": "benchmark_packaging",
+      "source_change": false,
+      "description": "The agent-visible project copy omits model_ckpts/stability_finetuned.pt, model_ckpts/stabddg.pt and baselines/StaB-ddG.csv so neither method-defining fine-tuning stage nor fresh target prediction can be bypassed. The untouched audit snapshot and archive retain them for provenance.",
+      "scientific_semantics_changed": false
+    }
+  ]
+}

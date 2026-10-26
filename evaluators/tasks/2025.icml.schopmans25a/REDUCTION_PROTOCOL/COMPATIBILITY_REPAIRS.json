@@ -1,0 +1,23 @@
+{
+  "schema_version": "bounded-compatibility-repairs-v1",
+  "repairs": [
+    {
+      "id": "pin-unversioned-git-dependencies",
+      "scope": "dependency resolution only",
+      "action": "Resolve the four unversioned git dependencies to the revisions recorded in SOURCE_BINDINGS.json before installation.",
+      "scientific_semantics_changed": false
+    },
+    {
+      "id": "offline-wandb",
+      "scope": "logging backend only",
+      "action": "Run W&B in offline mode and retain its local run directory because the official checkpoint writer stores checkpoints beneath wandb.run.dir.",
+      "scientific_semantics_changed": false
+    },
+    {
+      "id": "metric-serialization",
+      "scope": "output formatting only",
+      "action": "Parse the final official ESS_None_1.0K stdout value and multiply the fraction by 100 to match the paper's percent scale.",
+      "scientific_semantics_changed": false
+    }
+  ]
+}

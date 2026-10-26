@@ -1,0 +1,42 @@
+{
+  "schema_version": "source-bindings-v1",
+  "main_repository": {
+    "url": "https://github.com/ml-jku/plstm_experiments",
+    "commit": "ac539b61890a793be873472f16d33b7d78f994d4",
+    "archive_sha256": "1c67bbcdf127455920d2fbd5163675b7e4d3992c6255cd71510c192a6ff7d2a1"
+  },
+  "source_dependencies": [
+    {
+      "name": "plstm",
+      "url": "https://github.com/ml-jku/plstm",
+      "commit": "613fa274e9820fa341516d11a3660a9063a4cd6d",
+      "license": "MIT"
+    },
+    {
+      "name": "arrow_pointing_dataset",
+      "url": "https://github.com/ml-jku/arrow_pointing_dataset",
+      "commit": "5beb72448d76b582a67b11b790eac58e68bc09ec",
+      "license": "MIT"
+    },
+    {
+      "name": "jax_trainer",
+      "url": "https://github.com/kpoeppel/jax_trainer",
+      "commit": "3f20e4ac1bc97b3d1134997e48f20160f7d43bea",
+      "license": "MIT"
+    },
+    {
+      "name": "mill",
+      "url": "https://github.com/kpoeppel/mill",
+      "commit": "3c7b80dc7375462bbdced26794b14ffc472c96b4",
+      "license": "MIT"
+    }
+  ],
+  "package_dependencies": [
+    {
+      "name": "compoconf",
+      "version": "0.1.0",
+      "wheel_sha256": "e00f25269d700ce9790ab748d6a86af44702649ad006e01bc5e60ac9b24fb792",
+      "license": "MIT"
+    }
+  ]
+}

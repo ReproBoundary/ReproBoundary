@@ -1,0 +1,37 @@
+{
+  "schema_version": "bounded-compatibility-repairs-v1",
+  "project_id": "2025.neurips.e323ebf7c91a4ca061612ba4a2f2164d",
+  "upstream_commit": "d1274e8782676d13f1f006cae4405db5d0f96721",
+  "repairs": [
+    {
+      "id": "omit-net-alias",
+      "upstream_problem": "The released example passes --net, but main_distill.py incorrectly nests model loading and the complete method pipeline under `if args.net is None`.",
+      "repair": "The frozen launcher omits the optional cache-name alias so the released pipeline executes; main_distill.py deterministically derives the alias from the pinned model path.",
+      "scientific_effect": "none; --net only names cache files"
+    },
+    {
+      "id": "pin-public-datasets",
+      "upstream_problem": "WikiText-2 and ARC-Easy were loaded from mutable default branches.",
+      "repair": "Load hash-verified local parquet files from pinned public dataset revisions and render a task YAML identical to lm-eval 0.4.4 except for the local parquet binding and task name.",
+      "scientific_effect": "none; dataset rows, split, prompt, choices and metrics are unchanged"
+    },
+    {
+      "id": "assert-paper-pruning-interface",
+      "upstream_problem": "The released code dynamically selects the pruning interface but does not check it against the paper-reported DeepSeek-Qwen interface.",
+      "repair": "Execute cosine selection and fail unless it reproduces the paper-reported half-open layer interval [13,20).",
+      "scientific_effect": "none; the method stage still executes and the assertion prevents an incomparable result"
+    },
+    {
+      "id": "fix-progress-only-division",
+      "upstream_problem": "The first scaling progress update divides by the zero-based loop index and displays NaN.",
+      "repair": "Divide the cumulative scale by num+1 only in the diagnostic progress calculation.",
+      "scientific_effect": "none; the accumulated scaling parameters and final division by 128 are unchanged"
+    },
+    {
+      "id": "remove-unrequested-placeholder-mmlu-call",
+      "upstream_problem": "After the requested evaluation, main_distill.py unconditionally invokes MMLU with a literal /path-to placeholder.",
+      "repair": "Remove that unrelated call and serialize the already computed ARC-Easy result plus selected layer interval to metrics.json.",
+      "scientific_effect": "none; the selected ARC-Easy evaluator output is unchanged"
+    }
+  ]
+}

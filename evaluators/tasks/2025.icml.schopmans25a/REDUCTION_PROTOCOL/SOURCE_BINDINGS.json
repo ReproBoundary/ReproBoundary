@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-10-02T11:30:00+08:00",
+  "anonymous_auth_state": "credentials_cleared",
+  "sources": [
+    {
+      "name": "TA-BG",
+      "url": "https://github.com/aimat-lab/TA-BG",
+      "revision": "2f752359fdd548acf252ef3323078921d7167bc5",
+      "access": "public_no_auth",
+      "role": "paper source, training and evaluator"
+    },
+    {
+      "name": "bundled 2D GMM target samples",
+      "path": "annealed_bg/data/gmm/data.npy",
+      "sha256": "7943c10ee8ba283eaa1a2e6bc809ba17b6bb46c577faf928e70fb1b23033cc4d",
+      "shape": [1000, 2],
+      "dtype": "float32",
+      "role": "complete NLL reference population and plotting data; reverse ESS itself uses generated samples and analytic target energies"
+    },
+    {
+      "name": "boltzmann-generators",
+      "url": "https://github.com/VincentStimper/boltzmann-generators",
+      "revision": "2b177fc155f533933489b8fce8d6483ebad250d3",
+      "access": "public_no_auth",
+      "role": "Boltzmann generator implementation"
+    },
+    {
+      "name": "bgflow",
+      "url": "https://github.com/henrik-schopmans/bgflow",
+      "revision": "5565f44ca20ead8a0fb8e45c3b41b105d1524144",
+      "access": "public_no_auth",
+      "role": "normalizing-flow implementation"
+    },
+    {
+      "name": "fab-torch-orig",
+      "url": "https://github.com/henrik-schopmans/fab-torch-orig",
+      "revision": "cdc1beed9e2d10404cae13ec9ee644f73fb86032",
+      "access": "public_no_auth",
+      "role": "40-component GMM target implementation"
+    },
+    {
+      "name": "AutoSlurm",
+      "url": "https://github.com/aimat-lab/AutoSlurm",
+      "revision": "ec0a40061b052eb37f8d2a55f2149037dcac65bd",
+      "access": "public_no_auth",
+      "role": "optional experiment timer helper imported by the official entrypoint"
+    }
+  ]
+}

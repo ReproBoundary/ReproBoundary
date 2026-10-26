@@ -1,0 +1,42 @@
+working_dir: ./artifacts/138/soflow-cifar10-50k
+noising_type: Linear
+coefficient_type: Euler
+model_type: UNet
+dataset_type: CIFAR10
+data_size: 32
+dataset_path: ./artifacts/138/datasets/CIFAR10
+
+velocity_loss_ratio: 0.0
+p: 0.75
+eps: 0.001
+time_mean: [-0.9, -4.0, -0.9]
+time_std: [1.6, 1.6, 1.6]
+cfg_scale: 1.0
+mix_ratio: 1.0
+cfg_drop_rate: 0.0
+cfg_decay_time: 1.0
+l_schedule: Exponent
+l_init_ratio: 1.0
+l_end_ratio: 0.0003125
+
+total_steps: 50000
+ema_decay_rate: 0.9999
+learning_rate: 0.0001
+betas: [0.9, 0.999]
+weight_decay: 0.0
+
+batch_size: 128
+num_workers: 12
+prefetch_factor: 6
+
+# The frozen protocol runs the complete 50K-image evaluation as a separate
+# stage after the fresh step-50K checkpoint is written.
+eval_steps: 1000000
+eval_batch_size: 125
+eval_NFE: 1
+eval_demo_steps: 50000
+eval_demo_shape: [4, 8]
+
+ckpt_saving_steps: 50000
+logging_steps: 100
+seed: 42

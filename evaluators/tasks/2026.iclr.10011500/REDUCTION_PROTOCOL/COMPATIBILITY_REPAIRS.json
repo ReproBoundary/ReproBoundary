@@ -1,0 +1,18 @@
+{
+  "schema_version": "bounded-compatibility-repairs-v1",
+  "project_id": "2026.iclr.10011500",
+  "repairs": [
+    {
+      "id": "parameterize-absolute-paths-and-gpu",
+      "reason": "The released convenience script hard-codes /visiontrim, /llm_checkpoints and CUDA_VISIBLE_DEVICES=3.",
+      "bounded_change": "The frozen launcher resolves paths under the assigned project and leaves GPU assignment to the scheduler.",
+      "scientific_semantics_changed": false
+    },
+    {
+      "id": "generate-public-question-manifest",
+      "reason": "The released eval.zip convenience bundle was not reachable from the audit host, while the exact questions, choices, answers, split IDs and images are public in the pinned ScienceQA repository.",
+      "bounded_change": "The frozen launcher invokes the repository's released convert_sqa_to_llava.py with split=test and prompt_format=CQM-A before inference.",
+      "scientific_semantics_changed": false
+    }
+  ]
+}

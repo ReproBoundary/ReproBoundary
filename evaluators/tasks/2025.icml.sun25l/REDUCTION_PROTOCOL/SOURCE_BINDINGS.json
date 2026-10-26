@@ -1,0 +1,51 @@
+{
+  "schema_version": "frozen-source-bindings-v1",
+  "project_id": "2025.icml.sun25l",
+  "repository": {
+    "url": "https://github.com/ruikangliu/FlatQuant",
+    "commit": "9d88ffcb7d2c6bda59fb5c44dad36adc101aadb1",
+    "license": "MIT"
+  },
+  "required_submodule": {
+    "url": "https://github.com/Dao-AILab/fast-hadamard-transform",
+    "commit": "d1a56eee9d502e67faacf61b7b947180d66b32a0",
+    "path": "third-party/fast-hadamard-transform"
+  },
+  "model": {
+    "id": "Qwen/Qwen2.5-7B-Instruct",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "license": "Apache-2.0",
+    "private": false,
+    "gated": false,
+    "architecture": "Qwen2ForCausalLM",
+    "weight_bytes": 15231271888,
+    "large_file_sha256": {
+      "model-00001-of-00004.safetensors": "a1333e6293854747c481288ea83b348226af178dd565c49b6f9495ba1966aba7",
+      "model-00002-of-00004.safetensors": "f5d25a2772cb825164a2a2c0fb6d51a87e282abf21e4dd75bc5cfb3cd0ea6185",
+      "model-00003-of-00004.safetensors": "8efdec4c1bc12317ae1a38dc42b595ce777738a64deea3fcb8a0a91381bcdfd5",
+      "model-00004-of-00004.safetensors": "1a72d403cdf0c1ec3cb7f289f17b394a01e64394c2e9b3c0f94dbce3faf879bd"
+    }
+  },
+  "calibration_and_evaluation_dataset": {
+    "id": "Salesforce/wikitext",
+    "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "config": "wikitext-2-raw-v1",
+    "calibration_split": "train",
+    "evaluation_split": "test",
+    "train_rows": 36718,
+    "test_rows": 4358,
+    "license": [
+      "CC-BY-SA-3.0",
+      "GFDL"
+    ],
+    "train_parquet_sha256": "e83889baabc497075506f91975be5fac0d45c5290b6b20582c8cd1e853d0c9f7",
+    "test_parquet_sha256": "5f1bea067869d04849c0f975a2b29c4ff47d867f484f5010ea5e861eab246d91"
+  },
+  "evaluator": {
+    "implementation": "FlatQuant flatquant/eval_utils.py:ppl_eval",
+    "repository_commit": "9d88ffcb7d2c6bda59fb5c44dad36adc101aadb1",
+    "sequence_length_tokens": 2048,
+    "aggregation": "exp(sum block NLL / (number of complete blocks * 2048))",
+    "target_split_policy": "all WikiText-2 raw test rows joined in canonical row order; only the final incomplete token block is ignored exactly as in the released evaluator"
+  }
+}

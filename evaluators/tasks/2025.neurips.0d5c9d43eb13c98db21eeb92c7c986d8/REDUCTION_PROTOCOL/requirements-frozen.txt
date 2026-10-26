@@ -1,0 +1,8 @@
+compoconf==0.1.0
+torch==2.4.1
+torchvision==0.19.1
+torchaudio==2.4.1
+plstm[jax,torch] @ git+https://github.com/ml-jku/plstm@613fa274e9820fa341516d11a3660a9063a4cd6d
+arrow-pointing-dataset[torch] @ git+https://github.com/ml-jku/arrow_pointing_dataset@5beb72448d76b582a67b11b790eac58e68bc09ec
+jax_trainer @ git+https://github.com/kpoeppel/jax_trainer@3f20e4ac1bc97b3d1134997e48f20160f7d43bea
+mill @ git+https://github.com/kpoeppel/mill@3c7b80dc7375462bbdced26794b14ffc472c96b4

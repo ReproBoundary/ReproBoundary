@@ -1,0 +1,28 @@
+{
+  "schema_version": "bounded-compatibility-repairs-v1",
+  "upstream_commit": "ac539b61890a793be873472f16d33b7d78f994d4",
+  "repairs": [
+    {
+      "file": "scripts/run_experiment_simplified.py",
+      "kind": "nnx_validation_dispatch",
+      "change": "Pass use_nnx and mesh to the validation evaluator, as the test evaluator already does.",
+      "scientific_semantics_changed": false
+    },
+    {
+      "file": "scripts/run_experiment_simplified.py",
+      "kind": "metric_serialization",
+      "change": "Add an optional metrics_output argument that serializes already-computed validation and test metrics to JSON.",
+      "scientific_semantics_changed": false
+    },
+    {
+      "file": "REDUCTION_PROTOCOL/run_frozen_plstm.sh",
+      "kind": "execution_binding",
+      "change": "Select the released pLSTM tiny extrapolation config, best learning rate 0.0001, seed 42, NNX path, offline logging, and fixed output path.",
+      "scientific_semantics_changed": false
+    }
+  ],
+  "verification": {
+    "method": "static source inspection plus Python syntax compilation only",
+    "candidate_training_or_inference_executed": false
+  }
+}

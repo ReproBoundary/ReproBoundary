@@ -1,0 +1,52 @@
+{
+  "schema_version": "frozen-source-bindings-v1",
+  "project_id": "2025.neurips.e323ebf7c91a4ca061612ba4a2f2164d",
+  "repository": {
+    "url": "https://github.com/chenxinrui-tsinghua/LinearPatch",
+    "commit": "d1274e8782676d13f1f006cae4405db5d0f96721",
+    "license": "MIT"
+  },
+  "model": {
+    "id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+    "revision": "916b56a44061fd5cd7d6a8fb632557ed4f724f60",
+    "license": "MIT",
+    "private": false,
+    "gated": false,
+    "architecture": "Qwen2ForCausalLM",
+    "num_hidden_layers": 28,
+    "hidden_size": 3584,
+    "weight_bytes": 15231271850,
+    "large_file_sha256": {
+      "model-00001-of-000002.safetensors": "8b27be8d43b81d0cd19b3113ef88caf1a61c2fc602de77e3cce97aedcec184b4",
+      "model-00002-of-000002.safetensors": "1780a9502f56f592cb4d6262c8c76ca8ad36a86b0257e052c672d87f49707e80"
+    }
+  },
+  "calibration_dataset": {
+    "id": "Salesforce/wikitext",
+    "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+    "config": "wikitext-2-raw-v1",
+    "split": "train",
+    "license": [
+      "CC-BY-SA-3.0",
+      "GFDL"
+    ],
+    "train_parquet_sha256": "e83889baabc497075506f91975be5fac0d45c5290b6b20582c8cd1e853d0c9f7",
+    "test_parquet_sha256": "5f1bea067869d04849c0f975a2b29c4ff47d867f484f5010ea5e861eab246d91"
+  },
+  "evaluation_dataset": {
+    "id": "allenai/ai2_arc",
+    "revision": "210d026faf9955653af8916fad021475a3f00453",
+    "config": "ARC-Easy",
+    "split": "test",
+    "sample_count": 2376,
+    "license": "CC-BY-SA-4.0",
+    "test_parquet_sha256": "4160597d618ae851c7eb04e281574f3f654776216ac6b6641588d64527b47177"
+  },
+  "evaluator": {
+    "id": "EleutherAI/lm-evaluation-harness",
+    "version": "0.4.4",
+    "commit": "543617fef9ba885e87f8db8930fbbff1d4e2ca49",
+    "upstream_task_path": "lm_eval/tasks/arc/arc_easy.yaml",
+    "frozen_task_template_sha256": "d95224723bf29a4d4ba32bcd5e97792dc806cec0b5952d9931da924b6c83dd09"
+  }
+}

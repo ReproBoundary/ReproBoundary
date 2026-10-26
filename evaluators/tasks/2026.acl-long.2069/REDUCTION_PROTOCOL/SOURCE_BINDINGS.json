@@ -1,0 +1,20 @@
+{
+  "schema_version": "source-bindings-v1",
+  "project_id": "2026.acl-long.2069",
+  "repository": {
+    "url": "https://github.com/ModalityDance/LatentTTS",
+    "commit": "23e756b6c27bf884aaead146f85b2cf0aecfc34d"
+  },
+  "model": {
+    "id": "ModalityDance/latent-tts-coconut",
+    "revision": "89501ce8cc7cefd020b6e30c475a6772494de0a4",
+    "expected_model_safetensors_bytes": 497783424
+  },
+  "evaluation_data": {
+    "path": "data/gsm_test.json",
+    "sample_count": 1319,
+    "sha256": "46ce5b0c44fde0bfc8cf1e7492aa640b96111d9dcb80a54340d9911141a9caa9",
+    "upstream_dataset": "openai/gsm8k",
+    "upstream_revision": "740312add88f781978c0658806c59bc2815b9866"
+  }
+}

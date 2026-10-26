@@ -1,0 +1,40 @@
+{
+  "assignment_count": 423,
+  "evaluator_contract_count": 47,
+  "evaluator_bundled_file_count": 173,
+  "evaluator_bundle_bytes": 3275770,
+  "evaluator_bundle_limit_bytes": 10485760,
+  "evaluator_file_limit_bytes": 1048576,
+  "excluded": [
+    "datasets and model weights",
+    "complete third-party repositories",
+    "raw security telemetry",
+    "provider API payloads and credentials",
+    "host-only admission and verdict records"
+  ],
+  "redaction_counts": {
+    "authorization_header": 13,
+    "aws_access_key": 0,
+    "cookie_header": 21,
+    "google_key": 0,
+    "jwt": 23,
+    "local_home": 4,
+    "local_workspace": 34,
+    "openai_anthropic_key": 1,
+    "secret_assignment": 128,
+    "service_token": 22,
+    "shared_storage": 0,
+    "shared_workspace": 6730,
+    "url_secret": 600
+  },
+  "release_id": "reproboundary-open-source-20261020",
+  "schema_version": "1.0",
+  "task_count": 47,
+  "trajectory_file_count": 423,
+  "trajectory_file_format": "redacted agent.log.gz",
+  "trajectory_artifact_counts": {
+    "complete_evidence_bundle": 418,
+    "raw_unresolved_trajectory": 4,
+    "running_snapshot_with_prior_attempt_bundle": 1
+  }
+}

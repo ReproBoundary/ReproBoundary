@@ -1,0 +1,24 @@
+{
+  "schema_version": "bounded-compatibility-repairs-v1",
+  "project_id": "2025.icml.chen25be",
+  "repairs": [
+    {
+      "repair_id": "scheduler_gpu_binding",
+      "finding": "The released ETTh1 shell script hard-codes CUDA_VISIBLE_DEVICES=3.",
+      "repair": "The frozen wrapper does not execute that assignment and inherits the scheduler-provided CUDA_VISIBLE_DEVICES value.",
+      "semantic_effect": "none"
+    },
+    {
+      "repair_id": "h100_runtime",
+      "finding": "The paper used torch 1.7.1, torchvision 0.8.2 and timm 0.3.2, versions that predate H100 support.",
+      "repair": "Use an H100-capable PyTorch stack while retaining the pinned source, checkpoint, tensor shapes, bilinear interpolation and antialias=false behavior already implemented by visionts.util.safe_resize.",
+      "semantic_effect": "backend compatibility only; metric provenance must record exact package versions"
+    },
+    {
+      "repair_id": "single_horizon_entrypoint",
+      "finding": "The released shell script loops over four horizons.",
+      "repair": "The frozen wrapper invokes the same official run.py entrypoint once for the paper-reported horizon 96 tuple.",
+      "semantic_effect": "removes unrelated evaluations; does not reduce the selected target split"
+    }
+  ]
+}

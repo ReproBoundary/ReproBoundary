@@ -1,0 +1,29 @@
+{
+  "schema_version": "source-bindings-v1",
+  "project_id": "2025.icml.bashari25a",
+  "repository": {
+    "url": "https://github.com/Meshiba/robust-conformal-od",
+    "commit": "a322beec53f7042a211fbee5c9bfcd205a864fc3",
+    "archive_sha256": "4be429a5b16094752f85af10a7cceff183c8f605bcc3953b00c00196472f480d"
+  },
+  "artifacts": {
+    "openood_cifar10_resnet18_v1_5": {
+      "google_drive_id": "1byGeYxM_PlLjT72wZsMQvP6popJeWBgt",
+      "filename": "cifar10_res18_v1.5.zip",
+      "bytes": 374531537
+    },
+    "openood_benchmark_imglist": {
+      "google_drive_id": "1XKzBdWCqg3vPoj-D32YixJyJJ0hL63gP",
+      "filename": "benchmark_imglist_legacy_without_imagenet-es.zip",
+      "bytes": 27747583
+    },
+    "cifar10": {
+      "url": "https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz",
+      "bytes": 170498071
+    },
+    "dtd_r1_0_1": {
+      "url": "https://www.robots.ox.ac.uk/~vgg/data/dtd/download/dtd-r1.0.1.tar.gz",
+      "bytes": 625239812
+    }
+  }
+}

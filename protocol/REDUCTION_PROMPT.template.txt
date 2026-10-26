@@ -1,0 +1,43 @@
+Given the paper, its official repository at the pinned revision, the selected
+paper-reported target result, and the fixed resource envelope below, propose
+one concrete resource-bounded reproduction protocol for human review.
+
+Inputs:
+- project ID: <PROJECT_ID>
+- paper and pinned repository: <PAPER_AND_REPOSITORY>
+- selected target result: <TARGET_RESULT>
+- resource envelope: <RESOURCE_ENVELOPE>
+
+Trace the selected result backward from the official evaluator to the raw
+inputs. Enumerate every method-defining stage, its paper or repository
+evidence, official entry point, inputs, outputs, dependencies, and completion
+evidence. Preserve all such stages, their order, and the provenance of
+intermediate artifacts. Preserve the task, dataset and version, language,
+target metric, official evaluator, prediction parsing, and the complete target
+evaluation set.
+
+Reduce resource use only within required stages. Permitted candidates include
+a deterministic subset of the same training split, fewer training or
+optimization steps, fewer fixed seeds, a smaller method-compatible model, and
+changes to batch size, precision, or backend. For every reduction, specify one
+exact value rather than a range or menu. Record original and reduced values,
+fixed seeds, selected-example IDs or a deterministic selection rule, and
+hashes for selection manifests. Do not let the execution agent choose an
+additional reduction.
+
+Do not skip, replace, reorder, or bypass a method-defining stage. Released
+predictions, cached metrics, or published values cannot replace execution. A
+released checkpoint may be used only when explicitly assigned as the input to
+a required stage. Do not reduce or substitute the target evaluation set,
+metric, evaluator, task, dataset version, or language.
+
+Estimate wall time, GPU memory, CPU memory, storage, and downloads for each
+stage. If the complete method pipeline and full target evaluation cannot fit
+the resource envelope, return no_feasible_protocol and identify the concrete
+blocker; do not make the protocol fit by removing a required stage.
+
+Return the proposed protocol in the GOLD_METRIC_SELECTION schema, including
+pipeline_stages, data_scopes, stage_budgets, released_artifact_policy,
+forbidden_flow_changes, and stage-level feasibility evidence. Do not use prior
+agent outcomes when choosing the protocol. The proposal is not frozen until a
+human reviewer verifies it against the paper and pinned repository.

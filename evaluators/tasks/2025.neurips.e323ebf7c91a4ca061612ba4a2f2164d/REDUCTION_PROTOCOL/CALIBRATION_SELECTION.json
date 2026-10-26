@@ -1,0 +1,21 @@
+{
+  "schema_version": "frozen-calibration-selection-v1",
+  "dataset": "Salesforce/wikitext",
+  "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+  "config": "wikitext-2-raw-v1",
+  "split": "train",
+  "canonical_source_sha256": "e83889baabc497075506f91975be5fac0d45c5290b6b20582c8cd1e853d0c9f7",
+  "canonical_text_stream": "Join the train split text column in dataset row order with two newline characters, then tokenize once with the tokenizer at model revision 916b56a44061fd5cd7d6a8fb632557ed4f724f60.",
+  "selection_rule": "Initialize Python random with seed 2. For draw indices 0 through 127, sample start_token = random.randint(0, floor(0.9 * token_count) - 2048 - 1), and use the contiguous half-open token window [start_token,start_token+2048). Preserve draw order and duplicates exactly as released code.",
+  "sample_count": 128,
+  "sequence_length_tokens": 2048,
+  "seed": 2,
+  "replacement": true,
+  "logical_draw_ids_path": "REDUCTION_PROTOCOL/calibration_draw_ids.jsonl",
+  "logical_draw_ids_sha256": "1c8c7f4c5358d88a6f85286c6a143d53bc34011eb0b4bacd53f03c1eec3db878",
+  "paper_role": "The same 128 calibration windows drive both cosine layer selection and rotated-space channel scaling.",
+  "leakage_constraints": [
+    "DO_NOT_USE_ARC_EASY_TEST_INPUTS_OR_LABELS_FOR_CALIBRATION",
+    "DO_NOT_CHANGE_SEED_SAMPLE_COUNT_SEQUENCE_LENGTH_OR_ORDER"
+  ]
+}

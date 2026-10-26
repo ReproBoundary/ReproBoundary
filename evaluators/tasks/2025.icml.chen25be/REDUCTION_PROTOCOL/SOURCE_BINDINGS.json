@@ -1,0 +1,30 @@
+{
+  "schema_version": "frozen-source-bindings-v1",
+  "project_id": "2025.icml.chen25be",
+  "repository": {
+    "url": "https://github.com/Keytoyze/VisionTS",
+    "commit": "7f34731cea92f6d670f1f5835f2018267d1b6135",
+    "license": "MIT"
+  },
+  "dataset": {
+    "name": "ETDataset ETTh1",
+    "repository_url": "https://github.com/zhouhaoyi/ETDataset",
+    "commit": "1d16c8f4f943005d613b5bc962e9eeb06058cf07",
+    "path": "ETT-small/ETTh1.csv",
+    "git_blob_sha1": "a52c4925778c07c1ef1a2cf6fd01594919717d9e",
+    "size_bytes": 2589657,
+    "rows_including_header": 17421,
+    "license": "CC BY-ND 4.0",
+    "anonymous_url": "https://api.github.com/repos/zhouhaoyi/ETDataset/contents/ETT-small/ETTh1.csv?ref=1d16c8f4f943005d613b5bc962e9eeb06058cf07"
+  },
+  "checkpoint": {
+    "name": "MAE ViT-Base visualization checkpoint",
+    "anonymous_url": "https://dl.fbaipublicfiles.com/mae/visualize/mae_visualize_vit_base.pth",
+    "size_bytes": 447725789,
+    "etag": "\"55ea8d85216830007737d258b61178d4-54\"",
+    "last_modified": "Mon, 10 Jan 2022 00:33:27 GMT",
+    "upstream_repository": "https://github.com/facebookresearch/mae",
+    "upstream_commit": "efb2a8062c206524e35e47d04501ed4f544c0ae8",
+    "license": "CC BY-NC 4.0"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": "compatibility-repairs-v1",
+  "project_id": "2025.icml.bashari25a",
+  "repairs": [
+    {
+      "repair": "scheduler_safe_launcher",
+      "description": "Run the released score-generation and statistical entrypoints locally on the assigned worker rather than through SLURM; do not bind a physical GPU index."
+    },
+    {
+      "repair": "frozen_metric_serialization",
+      "description": "Serialize the repository's released relative-power calculation from results.pkl into a deterministic JSON artifact without changing its formula."
+    },
+    {
+      "repair": "public_upstream_dataset_fallback",
+      "description": "If the OpenOOD Google Drive data bundle is temporarily quota-limited, stage the identical CIFAR-10 and DTD image populations from their public upstream archives into the OpenOOD imglist layout. The sample identities and benchmark imglist must remain unchanged."
+    }
+  ],
+  "scientific_method_changed": false
+}

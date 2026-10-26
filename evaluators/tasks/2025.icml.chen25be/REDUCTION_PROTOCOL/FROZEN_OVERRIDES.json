@@ -1,0 +1,23 @@
+{
+  "schema_version": "visionts-etth1-zero-shot-v1",
+  "project_id": "2025.icml.chen25be",
+  "task": "ETTh1 multivariate zero-shot long-term forecasting",
+  "model": "VisionTS with MAE ViT-Base",
+  "training_epochs": 0,
+  "dataset": "ETTh1.csv at ETTDataset commit 1d16c8f4f943005d613b5bc962e9eeb06058cf07",
+  "features": "M",
+  "context_length": 2880,
+  "prediction_length": 96,
+  "periodicity": 24,
+  "normalization_constant": 0.4,
+  "alignment_constant": 0.4,
+  "interpolation": "bilinear with antialias disabled by visionts.util.safe_resize",
+  "batch_size": 32,
+  "test_window_count": 2785,
+  "variables": 7,
+  "target_evaluation": "all 2785 official ETTh1 horizon-96 test windows",
+  "metric": "numpy mean squared error over every prediction-window, horizon and variable element",
+  "paper_reference_value": 0.353,
+  "agent_may_reduce_target_evaluation": false,
+  "released_predictions_may_replace_execution": false
+}
