@@ -1,62 +1,64 @@
-# Evaluator portability and migration
+# Moving an evaluator to another machine
 
-This guide explains how to move a ReproBoundary evaluator to a machine that
-does not use the original benchmark filesystem or scheduler. The release is
-lightweight: it contains contracts, small scripts, configurations, and
-answer-free membership manifests. It does not contain model weights, datasets,
-checkpoints, predictions, complete third-party repositories, or private host
-records.
+This guide explains how to run a ReproBoundary evaluator on a machine that has
+different paths, hardware, or job-control software.
 
-## What can be migrated
+An **evaluator** is the program that calculates a task's target metric from
+saved outputs. Moving it to another machine is valid only when the move does
+not change the data, model, metric, or required experimental stages.
 
-There are two different migration targets:
+## Two kinds of migration
 
-1. **Scoring only.** Run the frozen metric implementation on already produced
-   predictions or artifacts. This is usually CPU-portable unless the upstream
-   evaluator itself requires a framework-specific GPU operation.
-2. **Full reproduction pipeline.** Run every required method stage and then
-   score its output. This may require Linux, Bash, NVIDIA CUDA, the paper's
-   repository, model weights, datasets, and the hardware envelope recorded in
-   `TARGET_EVALUATION.json`.
+Decide which kind you need before copying files.
 
-Do not describe a scoring-only migration as a full reproduction. A valid
-reproduction still requires all stages, data scopes, budgets, and provenance
-checks in the frozen contract.
+1. **Scoring only:** calculate the target metric from predictions or other
+   outputs that already exist.
+2. **Full reproduction:** run every required experiment stage and then
+   calculate the target metric.
 
-## Package roles
+Scoring only is not a full reproduction. A full reproduction may need Linux,
+Bash, NVIDIA CUDA, the source-paper repository, datasets, model weights, and
+the hardware listed in the task contract. **CUDA** is NVIDIA's software system
+for running calculations on its GPUs.
 
-- `evaluators/EVALUATOR_INDEX.csv` maps each project to its evaluator source,
-  pinned version, frozen command, contract hash, and bundled files.
-- `evaluators/tasks/<project>/TARGET_EVALUATION.json` is the authoritative
-  task contract.
-- `REDUCTION_PROTOCOL/` contains small launchers, adapters, validators, and
-  frozen configuration or membership files.
-- `UPSTREAM_EVALUATOR/` contains a licensed upstream evaluation-code subset.
-- `docs/EVALUATOR_PROVENANCE.md` distinguishes original project code from
-  benchmark-authored wrappers.
+## Files used during migration
 
-Paths in `bundled_helper_files` are relative to the corresponding task
-directory. Commands in `TARGET_EVALUATION.json` are normally executed from
-the root of a pinned checkout of the paper repository.
+- `evaluators/EVALUATOR_INDEX.csv` lists the evaluator source, exact version,
+  command, contract hash, and included helper files.
+- `evaluators/tasks/<project>/TARGET_EVALUATION.json` is the evaluation
+  contract. A **contract** is a machine-readable record of what to run and how
+  to score it.
+- `REDUCTION_PROTOCOL/` contains small helper programs and configuration files
+  for a resource-bounded task.
+- `UPSTREAM_EVALUATOR/` contains evaluator files copied from an original
+  project under a license that permits redistribution. **Upstream** means the
+  original project maintained outside ReproBoundary.
+- [`EVALUATOR_PROVENANCE.md`](EVALUATOR_PROVENANCE.md) states which files came
+  from upstream projects and which were written for ReproBoundary.
 
-## Migration procedure
+Paths listed in `bundled_helper_files` start from the task directory. Run the
+evaluator command from the root of the source-paper repository unless the
+contract says otherwise.
 
-### 1. Verify the untouched release
+## Step 1: Check the release before changing it
 
 ```bash
-cd /path/to/reproboundary-open-source-20261020
+cd /path/to/ReproBoundary
 python3 scripts/verify_release.py
 ```
 
-Perform this check before copying or modifying any file. Work from a separate
-checkout so that the release hashes remain verifiable.
+This command checks file hashes, counts, indexes, size limits, and common
+secret patterns. A **file hash** is a digital fingerprint used to detect a
+changed file.
 
-### 2. Select one frozen task
+Keep the checked release unchanged. Perform the migration in a separate copy.
 
-Set the task identifier and inspect both the central index and contract:
+## Step 2: Choose one task
+
+Set the release path and task ID, then print the task's evaluator information:
 
 ```bash
-export RELEASE=/path/to/reproboundary-open-source-20261020
+export RELEASE=/path/to/ReproBoundary
 export PROJECT_ID=2025.neurips.e323ebf7c91a4ca061612ba4a2f2164d
 
 python3 - "$RELEASE" "$PROJECT_ID" <<'PY'
@@ -74,27 +76,35 @@ print(json.dumps(contract["evaluator"], indent=2))
 PY
 ```
 
-Record the repository URL and commit, evaluator version, contract SHA-256,
-dataset revisions, target split, metric key, direction, and unit.
+Record these values before continuing:
 
-### 3. Materialize the pinned upstream source
+- source repository URL and commit ID;
+- evaluator version;
+- contract SHA-256 hash;
+- dataset version and evaluation split;
+- target metric, unit, and direction; and
+- required hardware and time limit.
 
-Clone the task repository into a clean working directory and check out the
-exact commit from the task inventory. Do not use the repository's default
-branch as a substitute for the pinned revision.
+An **evaluation split** is the named part of a dataset used for scoring, such
+as `test` or `validation`.
+
+## Step 3: Download the exact source-code version
 
 ```bash
 git clone <repository-url> worktree
 git -C worktree checkout --detach <repository-commit>
 ```
 
-If the evaluator comes from a separate standard harness, fetch the exact
-version in `EVALUATOR_INDEX.csv` as an additional dependency.
+The commit ID fixes one exact version of the repository. Do not replace it with
+the current default branch, because that branch may have changed.
 
-### 4. Overlay the bundled helper layer
+If the task uses a separate evaluation package, install the exact version in
+`EVALUATOR_INDEX.csv`.
 
-For the usual task layout, copy `REDUCTION_PROTOCOL/` into the root of the
-pinned repository checkout:
+## Step 4: Copy the task helper files
+
+Most tasks expect `REDUCTION_PROTOCOL/` at the root of the downloaded
+source-paper repository:
 
 ```bash
 cp -R \
@@ -102,107 +112,125 @@ cp -R \
   worktree/
 ```
 
-Keep upstream files and benchmark-authored helpers distinguishable. Preserve
-all `LICENSE` and `NOTICE.md` files. Do not silently edit a frozen helper; if a
-platform repair is necessary, record its diff and show that it does not change
-the dataset, model, prompt, decoding, metric, or aggregation.
+Keep original project files separate from files written for ReproBoundary.
+Keep every `LICENSE` and `NOTICE.md` file.
 
-### 5. Materialize public assets
+If the new machine requires a code change, save the exact change. Also show
+that the change does not alter the dataset, model, prompt, way of generating
+answers, metric, or method for combining repeated scores. The last method is
+called **aggregation**.
 
-Obtain datasets, models, and other large assets from the pinned public URLs in
-the contract or `SOURCE_BINDINGS.json`. Run the bundled source verifier when
-present. A matching filename is not sufficient; revisions, counts, ordering,
-and hashes must match.
+## Step 5: Download public data and models
 
-Keep evaluation answers and labels inside the evaluator boundary. They must
-not be used for method selection, calibration, training, prompt construction,
-or debugging unless the contract explicitly permits that use.
+Get large files from the public URLs and versions named in the contract or
+`SOURCE_BINDINGS.json`. A **source binding** records the expected source and
+version of an external file.
 
-### 6. Map paths without changing semantics
+When a task provides a check script, run it. A matching filename is not enough.
+The version, item count, order, IDs, and available hashes must also match.
 
-The helpers contain no ReproBoundary-internal absolute filesystem paths.
-Project roots, asset roots, caches, and output roots are either relative paths
-or task-specific environment variables. Point those variables to local
-locations while preserving the expected directory contents.
+Do not expose evaluation answers to the agent. Do not use them for training,
+prompt writing, parameter selection, or debugging unless the task contract
+explicitly allows that use.
 
-`/input/task-config.json` is the benchmark container interface. Outside the
-container harness, create an equivalent immutable task-config file and use its
-exact byte-level SHA-256 wherever the output schema requests
-`target_contract_sha256`. Do not replace it with a reformatted JSON hash.
+## Step 6: Map old paths to new paths
 
-### 7. Map compute resources
+Set the project, data, model, cache, and output paths to valid locations on the
+new machine. Keep the expected directory contents unchanged.
 
-When a launcher requires `CUDA_VISIBLE_DEVICES`, assign one visible device:
+`/input/task-config.json` is the contract file used by the benchmark container.
+A **container** is an isolated software environment used to run a task. Outside
+that container, create an unchanged equivalent file.
+
+When an output asks for `target_contract_sha256`, calculate the SHA-256 hash of
+the exact file bytes. Do not reformat the JSON first, because spacing changes
+the file bytes and therefore changes the hash.
+
+## Step 7: Map the hardware
+
+If a launcher uses `CUDA_VISIBLE_DEVICES`, select one visible GPU:
 
 ```bash
 export CUDA_VISIBLE_DEVICES=0
 ```
 
-The physical GPU index is not scientifically meaningful. Model type,
-precision, batch semantics, stage budgets, and the number of visible devices
-are meaningful and must follow the contract. Use substitute hardware only
-when the contract allows an equivalent class and the complete pipeline still
-meets the frozen protocol.
+The physical GPU number does not matter. The following properties do matter:
 
-Shell launchers assume a Linux/Bash environment. Python packages and CUDA
-libraries must remain compatible with the pinned upstream implementation.
-Dependency repairs are acceptable only when they preserve tensor, data,
-decoding, and metric semantics and are documented.
+- model and model version;
+- numerical precision, such as 16-bit or 32-bit numbers;
+- batch meaning and batch size;
+- number of visible GPUs;
+- work required at each stage; and
+- time limit.
 
-### 8. Run from the expected working directory
+Use replacement hardware only when the contract permits an equivalent hardware
+class and the full task still meets every fixed requirement.
 
-Execute the command array in the contract's `evaluator.command` from the
-pinned repository root. Preserve stdout, stderr, exit status, runtime, input
-hashes, output hashes, and exact package versions.
+The helper shell scripts expect Linux and Bash. Package or CUDA repairs are
+allowed only when they keep the same data, calculations, answer generation,
+metric, and aggregation. Record every repair.
 
-For full reproduction, retain evidence for every `pipeline_stages` entry. A
-metric produced after skipping or replacing a required stage is not a valid
-reproduction result.
+## Step 8: Run the evaluator
 
-### 9. Validate the migrated result
+From the downloaded repository root, run the command stored in
+`evaluator.command` inside `TARGET_EVALUATION.json`.
 
-A migrated evaluator is accepted only when all applicable checks pass:
+Save:
 
-- upstream repository and evaluator versions match the index;
-- the contract file matches `contract_sha256`;
-- required input hashes, sample counts, IDs, and order match;
-- the target split, prompt, choice mapping, metric, unit, and aggregation are
+- standard output and standard error, which are the program's normal and error
+  text streams;
+- exit status, where zero normally means success;
+- running time;
+- input and output hashes; and
+- exact package versions.
+
+For a full reproduction, also keep evidence for every required pipeline stage.
+A **pipeline stage** is one required part of the experiment, such as data
+preparation, training, inference, or scoring. A metric from a run that skipped
+a required stage is not a valid full reproduction.
+
+## Step 9: Check the migrated result
+
+Accept the migrated evaluator only when all relevant checks pass:
+
+- repository and evaluator versions match the index;
+- the contract hash matches `contract_sha256`;
+- required input hashes, item counts, IDs, and order match;
+- evaluation split, prompt, answer mapping, metric, unit, and aggregation are
   unchanged;
-- the evaluator exits successfully and produces the required output schema;
-- the reported target metric can be independently replayed from the submitted
-  artifacts;
-- no forbidden test-label, evaluator-modification, credential, or resource
-  access occurred.
+- the evaluator exits successfully and writes the required output format;
+- another evaluator run can calculate the same target metric from the saved
+  outputs; and
+- the run did not access test answers, change the evaluator, read credentials,
+  or use a forbidden resource.
 
-Environment portability does not relax scientific comparability. Record any
-unresolved difference as a protocol deviation rather than silently accepting
-the result.
+If a difference cannot be resolved, record it as a task-rule difference. Do
+not silently accept it.
 
-## Task-specific notes
+## Notes for specific tasks
 
-- **017:** `UPSTREAM_EVALUATOR/` contains the MIT-licensed evaluation-code
-  subset. Overlay it into the pinned project checkout. WinoBias data and model
-  weights must be acquired separately.
-- **019:** the release includes benchmark-authored SinkTrack inference and
-  three-seed aggregation wrappers. Obtain the original SinkTrack `eval.py`
-  from the pinned source URL; it is not redistributed because the frozen
-  upstream repository has no declared license.
-- **118:** overlay the CC BY 4.0 evaluation-code subset into the pinned
-  CausalDiagnosticity checkout. The bundled `eval.py` adds explicit model and
-  dataset revision arguments; its modification and hashes are recorded in
-  `NOTICE.md`.
-- **LinearPatch:** install the paper-specified `lm-evaluation-harness` 0.4.4
-  commit. The frozen ARC-Easy template changes only the task name and local,
-  hash-verified dataset binding; prompt, answer mapping, choice order, and
-  `acc` aggregation remain unchanged.
+- **Task 017:** `UPSTREAM_EVALUATOR/` contains evaluator files under the MIT
+  License. Copy them into the fixed source-paper checkout. Download WinoBias
+  data and model weights separately.
+- **Task 019:** the release contains ReproBoundary wrappers for SinkTrack
+  inference and three-seed aggregation. A **seed** is a fixed number used to
+  control random choices. Download the original SinkTrack `eval.py` from the
+  pinned source URL. It is not copied here because its repository has no
+  declared license.
+- **Task 118:** copy the CC BY 4.0 evaluator files into the fixed
+  CausalDiagnosticity checkout. `NOTICE.md` records the changes used to fix
+  model and dataset versions.
+- **LinearPatch:** install the source-paper version of
+  `lm-evaluation-harness` 0.4.4. The fixed ARC-Easy helper keeps the prompt,
+  answer mapping, choice order, all test questions, and raw accuracy.
 
-## Known portability limits
+## Limits
 
-- The release does not provide one universal container for all 47 projects.
-- Full pipelines may require incompatible Python or CUDA dependency stacks.
-- Some upstream repositories assume Linux utilities or a specific directory
-  structure.
-- Hardware-equivalent execution does not guarantee identical floating-point
-  outputs; report the software and hardware stack with the result.
-- Source and protocol equivalence do not replace an independent numerical
-  regression test for a third-party evaluator.
+- One software container cannot run all 47 projects because some projects need
+  incompatible Python or CUDA versions.
+- Some source repositories assume Linux tools or a specific directory layout.
+- Equivalent GPUs may produce small numerical differences because of hardware
+  and software behavior. Report the full hardware and software setup.
+- Matching sources and task rules does not prove that two evaluator programs
+  always return the same number. That stronger claim requires a regression
+  test, which runs both programs on the same fixed inputs and compares outputs.

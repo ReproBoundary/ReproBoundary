@@ -1,9 +1,17 @@
-# Public release checklist
+# Checklist before public release
 
-- [ ] Select and add a top-level license for project-authored metadata, scripts, and documentation.
-- [ ] Review each bundled evaluation helper for third-party license compatibility.
-- [ ] Run `python3 scripts/verify_release.py` and retain its clean output.
-- [ ] Independently inspect a sample of logs with high redaction counts.
-- [ ] Publish `.gz` trajectories through Git LFS, Hugging Face Datasets, or Zenodo.
-- [ ] Create a version tag and archival DOI, then add the release URL to the paper.
-- [ ] Confirm that no data, weights, hidden labels, credentials, or private host records are included.
+- [ ] Add a top-level license for metadata, scripts, and documentation written
+  by the ReproBoundary team. A license states how others may reuse the files.
+- [ ] Check the license of every included evaluation helper.
+- [ ] Run `python3 scripts/verify_release.py` and save the successful output.
+- [ ] Manually inspect a sample of logs with many redactions. Redaction means
+  replacement of detected sensitive text.
+- [ ] Publish compressed logs through Git LFS, Hugging Face Datasets, or Zenodo.
+  Git LFS stores large files outside normal Git history; Zenodo is a research
+  archive.
+- [ ] Create a version tag and a DOI, then add the release URL to the paper. A
+  DOI is a permanent identifier for a published research item.
+- [ ] Confirm that the package contains no datasets, model weights, hidden
+  labels, credentials, or private machine records.
+- [ ] Confirm that the task list, evaluator index, website task data, and paper
+  report the same task count and versions.

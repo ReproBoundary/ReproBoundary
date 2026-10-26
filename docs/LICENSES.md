@@ -1,11 +1,30 @@
-# Licensing notes
+# License notes
 
-A top-level release license has not yet been selected; add it before public distribution. The 47 source papers, repositories, datasets, models, and official evaluator implementations remain under their respective upstream licenses and are not relicensed by this package. Bundled helper files must be reviewed individually before publication; where redistribution is not permitted, retain only the pinned upstream URL, revision, command, and checksum in `EVALUATOR_INDEX.csv`.
+No top-level license has been selected for the files written by the
+ReproBoundary team. Add and review that license before making the repository
+public.
 
-The task-017 evaluator subset is redistributed under its upstream MIT license.
-The task-118 evaluator subset is redistributed under CC BY 4.0 with attribution
-and a notice describing the benchmark's revision-pinning changes. Task 019
-includes only benchmark-authored wrappers and an answer-free ID manifest; the
-unlicensed upstream SinkTrack evaluator is referenced but not redistributed.
-See the `NOTICE.md` file in each task directory and
-`docs/EVALUATOR_PROVENANCE.md` for the source boundary.
+A **license** states how other people may copy, change, and redistribute a
+file. The ReproBoundary license will not replace the licenses of source papers,
+datasets, models, source repositories, or original evaluators. Those materials
+keep the terms set by their owners.
+
+Review every included evaluation helper before public release. If its license
+does not permit redistribution, keep only the public source URL, exact version,
+command, and file hash in `EVALUATOR_INDEX.csv`. A **file hash** is a digital
+fingerprint used to identify exact file contents.
+
+## Included third-party evaluator files
+
+- Task 017 includes an evaluator subset under the MIT License.
+- Task 118 includes an evaluator subset under Creative Commons Attribution 4.0
+  (CC BY 4.0). Its notice records attribution and the changes made to pin model
+  and dataset versions.
+- Task 019 includes only wrappers written for ReproBoundary and a list of item
+  IDs without answers. The source SinkTrack evaluator has no declared license,
+  so it is linked but not copied.
+
+A **wrapper** is a small program that prepares inputs or calls another program.
+Read the `NOTICE.md` file in each task directory and
+[Where the evaluator files came from](EVALUATOR_PROVENANCE.md) before
+redistributing these files.
