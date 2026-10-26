@@ -147,8 +147,8 @@ a {
   background-color: var(--paper);
   background-image: url("./assets/domain-distribution.png");
   background-repeat: no-repeat;
-  background-position: calc(50% + 470px) center;
-  background-size: 980px auto;
+  background-position: right 16px center;
+  background-size: 720px auto;
 }
 
 .hero-inner {
@@ -850,8 +850,8 @@ td {
 
 @media (max-width: 980px) {
   .hero {
-    background-position: calc(50% + 400px) center;
-    background-size: 800px auto;
+    background-position: right 12px center;
+    background-size: 620px auto;
   }
 
   .hero-inner::before {
@@ -941,8 +941,8 @@ td {
 
   .hero {
     min-height: calc(100svh - 96px);
-    background-position: center bottom -20px;
-    background-size: 660px auto;
+    background-position: center bottom 8px;
+    background-size: 420px auto;
   }
 
   .hero-inner {
