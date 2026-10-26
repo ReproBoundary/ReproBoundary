@@ -9,6 +9,7 @@ This release contains the frozen inventory for 47 paper-reproduction tasks, reda
 - `evaluators/`: 47 frozen task contracts, bundled evaluation helpers or licensed evaluator subsets, and pinned upstream evaluator links. See `docs/EVALUATOR_PROVENANCE.md` before describing bundled helpers as original paper code.
 - `protocol/`: public prompt and task-specification templates.
 - `docs/`: release scope, evaluator provenance and migration, redaction policy, licensing notes, and publication checklist. Start with `docs/PORTABILITY.md` when moving an evaluator to another machine.
+- `website/`: static benchmark homepage, searchable task pool, and a data-driven leaderboard shell for frozen aggregate results.
 
 Verify the package with `python3 scripts/verify_release.py`. Large trajectory files should be published with Git LFS or an archival data host rather than ordinary Git blobs.
 
