@@ -29,13 +29,14 @@ private machine or service-provider information.
 
 ## Required checks before publication
 
-Run:
+Download the fixed Hugging Face trajectory dataset and run from its root:
 
 ```bash
-python3 scripts/verify_release.py
+python3 scripts/verify_dataset.py
 ```
 
-Also inspect a sample of logs with many replacements. Automatic matching can
-miss a sensitive value that uses an unexpected format. A replacement count of
-zero means only that no configured pattern matched; it does not prove that the
-log contains no sensitive information.
+The GitHub code release contains only the trajectory index, not the compressed
+logs. Also inspect a sample of dataset logs with many replacements. Automatic
+matching can miss a sensitive value that uses an unexpected format. A
+replacement count of zero means only that no configured pattern matched; it
+does not prove that the log contains no sensitive information.

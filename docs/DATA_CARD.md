@@ -42,9 +42,12 @@ source paper.
 
 ## Execution logs
 
-The release provides one cleaned `agent.log.gz` file for each planned run. The
-central file [`TRAJECTORY_INDEX.csv`](../trajectories/TRAJECTORY_INDEX.csv)
-links every log to its task and model-agent setting.
+The large execution logs are stored in the separate
+[Hugging Face trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories)
+at revision `57e17e11f795c6df9f7806ad2262fd32897ec2e6`. The GitHub repository keeps
+the small [`TRAJECTORY_INDEX.csv`](../trajectories/TRAJECTORY_INDEX.csv), which
+links every log to its task and model-agent setting. The dataset provides one
+cleaned `agent.log.gz` file for each planned run.
 
 The logs have been **redacted**, meaning that detected credentials, private
 paths, authorization headers, cookies, and similar sensitive text were

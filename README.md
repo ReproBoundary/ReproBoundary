@@ -5,6 +5,7 @@
 **An Agent Capability Boundary Benchmark for Complex Paper-to-Code Reproduction**
 
 [Task list](task_pool/TASK_INVENTORY_47.csv) ·
+[Trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories) ·
 [Website](website/) ·
 [Data description](docs/DATA_CARD.md) ·
 [Evaluator guide](docs/EVALUATOR_PROVENANCE.md) ·
@@ -30,7 +31,7 @@ resource limits, result to report, and program used to check that result.
 | --- | ---: | --- |
 | Paper-reproduction tasks | 47 | One fixed experiment from each paper |
 | Model-agent settings | 9 | Nine combinations of a language model and coding agent |
-| Execution logs | 423 | One cleaned, compressed log for every planned run |
+| Execution logs | 423 | Cleaned, compressed logs hosted in the separate Hugging Face dataset |
 | Evaluator records | 47 | The exact metric, command, source, and version for each task |
 
 Twenty tasks keep the experiment size selected from the paper. The other 27
@@ -45,7 +46,8 @@ All 47 tasks retain their complete target evaluation set.
   in a machine-readable format.
 - **Study an agent run:**
   [`TRAJECTORY_INDEX.csv`](trajectories/TRAJECTORY_INDEX.csv) links every task
-  and model-agent setting to its `agent.log.gz` file.
+  and model-agent setting to its `agent.log.gz` file in the
+  [trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories).
 - **Check a submitted result:**
   [`EVALUATOR_INDEX.csv`](evaluators/EVALUATOR_INDEX.csv) identifies the
   evaluation command, source-code version, and required helper files.
@@ -53,34 +55,50 @@ All 47 tasks retain their complete target evaluation set.
   [migration guide](docs/PORTABILITY.md) without changing the task's data,
   method, or metric.
 
-## Download and verify
-
-The compressed logs use [Git LFS](https://git-lfs.com/), a Git extension for
-large files.
+## Download and verify the code release
 
 ```bash
-git lfs install
 git clone https://github.com/endlesssalaxy/ReproBoundary.git
 cd ReproBoundary
-git lfs pull
 python3 scripts/verify_release.py
 ```
 
 Expected output:
 
 ```text
-verification OK: tasks=47 evaluators=47 trajectories=423
+verification OK: tasks=47 evaluators=47 trajectory_records=423 bundled_logs=0
 ```
 
-This check confirms file hashes, index entries, size limits, task and evaluator
-counts, all 423 logs, and common credential patterns.
+This check confirms file hashes, index entries, task and evaluator counts,
+evaluator size limits, and that no compressed trajectory logs are bundled in
+the GitHub repository.
+
+## Download and verify the trajectories
+
+The 423 compressed logs are stored in the private
+[Hugging Face dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories)
+at revision `57e17e11f795c6df9f7806ad2262fd32897ec2e6`. After obtaining access,
+download that dataset and run:
+
+```bash
+python3 scripts/verify_dataset.py
+```
+
+Expected output:
+
+```text
+verification OK: tasks=47 settings=9 trajectories=423
+```
+
+The dataset check reads every gzip file and verifies all 423 indexed SHA-256
+hashes. SHA-256 is a file fingerprint used to detect changed bytes.
 
 ## Repository map
 
 | Path | Contents |
 | --- | --- |
 | [`task_pool/`](task_pool/) | Paper list, selected experiments, reported reference values, datasets, budgets, and pinned source-code versions |
-| [`trajectories/`](trajectories/) | Cleaned execution logs and the index connecting each log to its task and model-agent setting |
+| [`trajectories/`](trajectories/) | The small index connecting each externally hosted log to its task and model-agent setting |
 | [`evaluators/`](evaluators/) | Per-task evaluation instructions and small helper files used to calculate the target metric |
 | [`protocol/`](protocol/) | Prompt and task-file templates given to the agents |
 | [`docs/`](docs/) | Data scope, file sources, licenses, cleaning rules, release checks, and evaluator migration instructions |
@@ -104,9 +122,10 @@ the complete target evaluation set.
 
 ## Execution logs
 
-Every planned run has one cleaned `agent.log.gz` file. Credentials, private
-paths, authorization headers, cookies, and similar sensitive text have been
-removed or replaced.
+Every planned run has one cleaned `agent.log.gz` file in the separate
+[trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories).
+GitHub keeps only the central index. Credentials, private paths, authorization
+headers, cookies, and similar sensitive text have been removed or replaced.
 
 The archive contains 418 completed run records, four logs whose final state is
 unresolved, and one snapshot saved while a run was active. These states are
@@ -139,10 +158,11 @@ publish leaderboard results; the page contains a placeholder only.
 
 ## Not included
 
-The release does not contain datasets, trained model files, saved training
-states, saved predictions, complete copies of third-party projects,
-credentials, or private machine records. Download public dependencies from the
-exact links and versions recorded in the task and evaluator files.
+The GitHub release does not contain trajectory logs, datasets, trained model
+files, saved training states, saved predictions, complete copies of third-party
+projects, credentials, or private machine records. Download the trajectories
+from the fixed Hugging Face dataset and public dependencies from the exact
+links and versions recorded in the task and evaluator files.
 
 ## Contributing
 

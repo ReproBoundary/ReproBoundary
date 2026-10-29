@@ -1,7 +1,9 @@
 # Contributing to ReproBoundary
 
 This repository is an evidence record as well as a code repository. A change
-must preserve the source and meaning of every task, log, and score.
+must preserve the source and meaning of every task, trajectory index entry, and
+score. Compressed execution logs are maintained in the separate Hugging Face
+dataset rather than this GitHub repository.
 
 ## Changes we accept
 
@@ -38,6 +40,6 @@ The first command rebuilds the website task list from the main task table. The
 second checks file hashes, indexes, counts, size limits, and common secret
 patterns.
 
-Do not include datasets, trained model files, saved training states, saved
-predictions, credentials, private machine paths, or complete copies of other
-projects.
+Do not include trajectory logs, datasets, trained model files, saved training
+states, saved predictions, credentials, private machine paths, or complete
+copies of other projects.

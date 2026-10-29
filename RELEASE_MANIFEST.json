@@ -30,11 +30,16 @@
   "release_id": "reproboundary-open-source-20261020",
   "schema_version": "1.0",
   "task_count": 47,
-  "trajectory_file_count": 423,
   "trajectory_file_format": "redacted agent.log.gz",
   "trajectory_artifact_counts": {
     "complete_evidence_bundle": 418,
     "raw_unresolved_trajectory": 4,
     "running_snapshot_with_prior_attempt_bundle": 1
-  }
+  },
+  "trajectory_index_count": 423,
+  "bundled_trajectory_file_count": 0,
+  "external_trajectory_repository": "SupingSun/ReproBoundary-Execution-Trajectories",
+  "external_trajectory_url": "https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories",
+  "external_trajectory_revision": "57e17e11f795c6df9f7806ad2262fd32897ec2e6",
+  "external_trajectory_visibility": "private_pending_license_review"
 }
