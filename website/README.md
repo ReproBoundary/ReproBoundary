@@ -5,7 +5,7 @@ site**, meaning that a web server can send the files directly without running a
 database or server-side application.
 
 The published site is expected at
-<https://endlesssalaxy.github.io/ReproBoundary/>.
+<https://reproboundary.github.io/>.
 
 ## Preview the site
 

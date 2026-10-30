@@ -58,7 +58,7 @@ All 47 tasks retain their complete target evaluation set.
 ## Download and verify the code release
 
 ```bash
-git clone https://github.com/endlesssalaxy/ReproBoundary.git
+git clone https://github.com/ReproBoundary/ReproBoundary.git
 cd ReproBoundary
 python3 scripts/verify_release.py
 ```
