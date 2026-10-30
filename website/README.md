@@ -45,5 +45,5 @@ been checked.
 ## GitHub Pages
 
 GitHub Pages hosts a static website from a GitHub repository. The workflow in
-`.github/workflows/pages.yml` is manual while this repository is private. Run
-`Deploy benchmark website` only after Pages has been enabled for the repository.
+`.github/workflows/pages.yml` remains manual. Run `Deploy benchmark website`
+only after Pages has been enabled for the repository.

@@ -75,17 +75,15 @@ the GitHub repository.
 
 ## Download and verify the trajectories
 
-The 423 compressed logs are stored in the private
+The 423 compressed logs are stored in the public
 [Hugging Face dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories)
-at revision `57e17e11f795c6df9f7806ad2262fd32897ec2e6`. While the dataset is
-private, ask the dataset owner for access before running these commands. Log in
-interactively; do not put an access token in a script, URL, or terminal log.
+at revision `57e17e11f795c6df9f7806ad2262fd32897ec2e6`. No account or access
+token is required to download the public dataset.
 
 ```bash
 python3 -m venv .hf-venv
 source .hf-venv/bin/activate
 python -m pip install "huggingface_hub>=1.0,<2"
-hf auth whoami || hf auth login
 
 hf download SupingSun/ReproBoundary-Execution-Trajectories \
   --repo-type dataset \
@@ -195,8 +193,8 @@ version supporting the change.
 
 ## License
 
-No license has yet been selected for files written by the ReproBoundary team.
-Do not make the repository public until that license and all included
-third-party files have been reviewed. Papers, datasets, models, source
+No top-level license has yet been selected for files written by the
+ReproBoundary team. Public access does not by itself grant permission to copy,
+modify, or redistribute those files. Papers, datasets, models, source
 repositories, and original evaluation programs retain their own licenses. See
-[`docs/LICENSES.md`](docs/LICENSES.md).
+[`docs/LICENSES.md`](docs/LICENSES.md) before reuse.

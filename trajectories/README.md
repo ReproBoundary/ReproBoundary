@@ -1,7 +1,7 @@
 # Execution trajectories
 
 This GitHub repository keeps only the trajectory index. The 423 compressed
-`agent.log.gz` files are stored in the private
+`agent.log.gz` files are stored in the public
 [Hugging Face dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories)
 at revision `57e17e11f795c6df9f7806ad2262fd32897ec2e6`.
 

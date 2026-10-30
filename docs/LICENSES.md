@@ -1,18 +1,19 @@
 # License notes
 
 No top-level license has been selected for the files written by the
-ReproBoundary team. Add and review that license before making the repository
-public.
+ReproBoundary team. The repository is publicly readable, but public access
+does not by itself grant permission to copy, modify, or redistribute files
+that do not carry their own license.
 
 A **license** states how other people may copy, change, and redistribute a
 file. The ReproBoundary license will not replace the licenses of source papers,
 datasets, models, source repositories, or original evaluators. Those materials
 keep the terms set by their owners.
 
-Review every included evaluation helper before public release. If its license
-does not permit redistribution, keep only the public source URL, exact version,
-command, and file hash in `EVALUATOR_INDEX.csv`. A **file hash** is a digital
-fingerprint used to identify exact file contents.
+Review every included evaluation helper before reuse. If its license does not
+permit redistribution, use only the public source URL, exact version, command,
+and file hash in `EVALUATOR_INDEX.csv`. A **file hash** is a digital fingerprint
+used to identify exact file contents.
 
 ## Included third-party evaluator files
 

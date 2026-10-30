@@ -41,5 +41,5 @@
   "external_trajectory_repository": "SupingSun/ReproBoundary-Execution-Trajectories",
   "external_trajectory_url": "https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories",
   "external_trajectory_revision": "57e17e11f795c6df9f7806ad2262fd32897ec2e6",
-  "external_trajectory_visibility": "private_pending_license_review"
+  "external_trajectory_visibility": "public_pending_license_review"
 }
