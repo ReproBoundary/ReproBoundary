@@ -48,7 +48,7 @@ been checked.
 ## Result submissions
 
 The website does not accept file uploads. The Submit section opens an email to
-`fanjinz@ruc.edu.cn` with the subject `ReproBoundary Result Submission`.
+`endlesssalaxy@outlook.com` with the subject `ReproBoundary Result Submission`.
 Change the address in `index.html` if the project contact changes.
 
 ## GitHub Pages
