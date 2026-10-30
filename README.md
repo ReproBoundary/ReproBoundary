@@ -77,10 +77,22 @@ the GitHub repository.
 
 The 423 compressed logs are stored in the private
 [Hugging Face dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories)
-at revision `57e17e11f795c6df9f7806ad2262fd32897ec2e6`. After obtaining access,
-download that dataset and run:
+at revision `57e17e11f795c6df9f7806ad2262fd32897ec2e6`. While the dataset is
+private, ask the dataset owner for access before running these commands. Log in
+interactively; do not put an access token in a script, URL, or terminal log.
 
 ```bash
+python3 -m venv .hf-venv
+source .hf-venv/bin/activate
+python -m pip install "huggingface_hub>=1.0,<2"
+hf auth whoami || hf auth login
+
+hf download SupingSun/ReproBoundary-Execution-Trajectories \
+  --repo-type dataset \
+  --revision 57e17e11f795c6df9f7806ad2262fd32897ec2e6 \
+  --local-dir ReproBoundary-Execution-Trajectories
+
+cd ReproBoundary-Execution-Trajectories
 python3 scripts/verify_dataset.py
 ```
 
@@ -91,7 +103,13 @@ verification OK: tasks=47 settings=9 trajectories=423
 ```
 
 The dataset check reads every gzip file and verifies all 423 indexed SHA-256
-hashes. SHA-256 is a file fingerprint used to detect changed bytes.
+hashes. SHA-256 is a file fingerprint used to detect changed bytes. The
+download is about 399 MB; allow at least 1 GB of free space. A full check took
+about two minutes on the machine used for the release audit.
+
+To inspect one log without extra Python packages, run the example in the
+[trajectory guide](trajectories/README.md). It prints the run metadata, checks
+the selected file hash, and shows only the first 20 lines.
 
 ## Repository map
 
@@ -145,6 +163,11 @@ is which.
 Recomputing a metric can confirm a submitted number. It does not by itself
 prove that the agent completed every required experimental stage. Stage checks
 and metric checks must therefore remain separate.
+
+The trajectory dataset contains logs, not saved predictions, checkpoints,
+model weights, or training states. The logs support chronology, tool-use,
+failure, and release-integrity analysis. They are not sufficient by themselves
+to recompute most task metrics.
 
 ## Preview the website
 
