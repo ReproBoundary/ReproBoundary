@@ -186,7 +186,7 @@ a {
 }
 
 .hero-subtitle {
-  max-width: 720px;
+  max-width: 560px;
   margin: 18px 0 0;
   color: var(--ink);
   font-size: 26px;
@@ -195,7 +195,7 @@ a {
 }
 
 .hero-copy {
-  max-width: 650px;
+  max-width: 560px;
   margin: 24px 0 0;
   color: var(--ink-soft);
   font-size: 18px;
@@ -756,6 +756,49 @@ td {
   font-size: 13px;
 }
 
+.section-submit {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.submission-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+  gap: 88px;
+  align-items: center;
+}
+
+.submission-grid h2 {
+  max-width: 600px;
+}
+
+.submission-grid p:not(.section-kicker) {
+  max-width: 650px;
+  margin: 18px 0 0;
+  color: var(--ink-soft);
+}
+
+.submission-contact {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 0 14px 36px;
+  border-left: 2px solid var(--coral);
+}
+
+.submission-contact > span,
+.submission-contact > small {
+  color: var(--ink-soft);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+}
+
+.submission-contact .button {
+  max-width: 100%;
+}
+
 .resource-list {
   margin-top: 44px;
   border-top: 2px solid var(--ink);
@@ -860,7 +903,8 @@ td {
 
   .split-heading,
   .protocol-grid,
-  .coverage-grid {
+  .coverage-grid,
+  .submission-grid {
     grid-template-columns: 1fr;
     gap: 36px;
   }
@@ -1054,6 +1098,17 @@ td {
 
   .contract-panel li strong {
     text-align: left;
+  }
+
+  .submission-contact {
+    padding: 20px 0 0;
+    border-top: 2px solid var(--coral);
+    border-left: 0;
+  }
+
+  .submission-contact .button {
+    width: 100%;
+    overflow-wrap: anywhere;
   }
 
   .coverage-visual {

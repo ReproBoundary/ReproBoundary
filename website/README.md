@@ -4,6 +4,9 @@ This folder contains the ReproBoundary benchmark website. It is a **static
 site**, meaning that a web server can send the files directly without running a
 database or server-side application.
 
+The published site is expected at
+<https://endlesssalaxy.github.io/ReproBoundary/>.
+
 ## Preview the site
 
 From the repository root, run:
@@ -41,6 +44,12 @@ Each future row uses these fields:
 
 Publish only values derived from a fixed set of runs whose source records have
 been checked.
+
+## Result submissions
+
+The website does not accept file uploads. The Submit section opens an email to
+`fanjinz@ruc.edu.cn` with the subject `ReproBoundary Result Submission`.
+Change the address in `index.html` if the project contact changes.
 
 ## GitHub Pages
 
