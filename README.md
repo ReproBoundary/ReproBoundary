@@ -4,9 +4,13 @@
 
 **An Agent Capability Boundary Benchmark for Complex Paper-to-Code Reproduction**
 
+[![Website](https://img.shields.io/badge/website-reproboundary.github.io-12213f)](https://reproboundary.github.io/)
+[![Dataset](https://img.shields.io/badge/Hugging%20Face-423%20trajectories-FFD21E)](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories)
+[![Release check](https://img.shields.io/badge/release-verification%20script-197a66)](#download-and-verify-the-code-release)
+
 [Task list](task_pool/TASK_INVENTORY_47.csv) ·
 [Trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories) ·
-[Website](website/) ·
+[Website](https://reproboundary.github.io/) ·
 [Data description](docs/DATA_CARD.md) ·
 [Evaluator guide](docs/EVALUATOR_PROVENANCE.md) ·
 [Migration guide](docs/PORTABILITY.md)
@@ -20,6 +24,11 @@
 ReproBoundary tests whether a coding agent can reproduce one specified
 experiment from a research paper. Each task fixes the data, required stages,
 resource limits, result to report, and program used to check that result.
+
+**Code and metadata live here; the 423 compressed trajectories live on
+[Hugging Face](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories).**
+This separation keeps the GitHub clone lightweight while preserving a fixed,
+hash-verifiable data release.
 
 > **Scope.** A task reproduces one selected result under a fixed resource
 > limit. It does not reproduce every result or support every conclusion in the

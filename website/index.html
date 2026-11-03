@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="ReproBoundary evaluates coding agents on 47 frozen, verifiable paper-to-code reproduction tasks.">
   <meta name="theme-color" content="#12213f">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://reproboundary.github.io/">
+  <meta property="og:title" content="ReproBoundary | Paper-to-Code Reproduction Benchmark">
+  <meta property="og:description" content="47 frozen tasks, 423 released execution trajectories, and task-specific evaluators for auditable paper-to-code reproduction.">
+  <meta property="og:image" content="https://reproboundary.github.io/assets/domain-distribution.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://reproboundary.github.io/">
   <title>ReproBoundary | Paper-to-Code Reproduction Benchmark</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +33,7 @@
       <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
         <a href="#benchmark">Benchmark</a>
         <a href="#tasks">Tasks</a>
+        <a href="#data">Data</a>
         <a href="#leaderboard">Leaderboard</a>
         <a href="#submit">Submit</a>
         <a href="#resources">Resources</a>
@@ -43,15 +51,24 @@
           Forty-seven frozen tasks test whether coding agents can turn published methods into complete experiments and submit results that withstand independent verification.
         </p>
         <div class="hero-actions" aria-label="Primary resources">
-          <a class="button button-primary" href="https://github.com/ReproBoundary/ReproBoundary">
-            <i data-lucide="github" aria-hidden="true"></i>
-            Repository
+          <a class="button button-primary" href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories">
+            <i data-lucide="database" aria-hidden="true"></i>
+            Get the data
           </a>
-          <a class="button button-secondary" href="#tasks">
+          <a class="button button-secondary" href="https://github.com/ReproBoundary/ReproBoundary">
+            <i data-lucide="github" aria-hidden="true"></i>
+            View code
+          </a>
+          <a class="button button-quiet" href="#tasks">
             <i data-lucide="list-filter" aria-hidden="true"></i>
             Explore tasks
           </a>
         </div>
+        <ul class="release-signals" aria-label="Release status">
+          <li><i data-lucide="badge-check" aria-hidden="true"></i> Public release</li>
+          <li><i data-lucide="fingerprint" aria-hidden="true"></i> SHA-256 indexed</li>
+          <li><i data-lucide="shield-check" aria-hidden="true"></i> Redacted logs</li>
+        </ul>
       </div>
     </section>
 
@@ -141,6 +158,51 @@
           </p>
           <p class="coverage-note">The task pool contains one frozen target claim from each source paper.</p>
         </div>
+      </div>
+    </section>
+
+    <section id="data" class="section section-data">
+      <div class="shell">
+        <div class="split-heading">
+          <div>
+            <p class="section-kicker">Open release</p>
+            <h2>Download, inspect, and verify</h2>
+          </div>
+          <p>
+            Code and trajectory data are separated deliberately: GitHub keeps the lightweight task and evaluator release, while Hugging Face hosts 423 compressed execution logs.
+          </p>
+        </div>
+        <div class="data-grid">
+          <article>
+            <span class="data-step">01 / Code</span>
+            <h3>Clone the benchmark</h3>
+            <p>Get all 47 task contracts, evaluator records, protocol templates, and release checks.</p>
+            <a href="https://github.com/ReproBoundary/ReproBoundary">Open GitHub <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+          </article>
+          <article>
+            <span class="data-step">02 / Trajectories</span>
+            <h3>Download the logs</h3>
+            <p>Study the released chronology and tool use across nine model-agent settings.</p>
+            <a href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories">Open Hugging Face <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+          </article>
+          <article>
+            <span class="data-step">03 / Integrity</span>
+            <h3>Verify every file</h3>
+            <p>Run the bundled checks to validate counts, indexed paths, gzip readability, and SHA-256 hashes.</p>
+            <a href="https://github.com/ReproBoundary/ReproBoundary#download-and-verify-the-code-release">Read verification guide <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+          </article>
+        </div>
+        <div class="command-panel" aria-label="Quick verification commands">
+          <div class="command-panel-header">
+            <span>quick-start.sh</span>
+            <span>public release</span>
+          </div>
+          <pre><code><span class="prompt">$</span> git clone https://github.com/ReproBoundary/ReproBoundary.git
+<span class="prompt">$</span> cd ReproBoundary
+<span class="prompt">$</span> python3 scripts/verify_release.py
+<span class="success">verification OK: tasks=47 evaluators=47 trajectory_records=423 bundled_logs=0</span></code></pre>
+        </div>
+        <p class="scope-note"><strong>Evidence boundary:</strong> released logs support chronology, tool-use, failure, and integrity analysis. They do not include checkpoints, predictions, model weights, or training states, and cannot by themselves replay most scientific metrics.</p>
       </div>
     </section>
 
@@ -285,6 +347,9 @@
       <span>Verifiable paper-to-code reproduction</span>
       <a href="https://github.com/ReproBoundary/ReproBoundary" aria-label="ReproBoundary on GitHub" title="GitHub">
         <i data-lucide="github" aria-hidden="true"></i>
+      </a>
+      <a href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories" aria-label="ReproBoundary dataset on Hugging Face" title="Hugging Face">
+        <i data-lucide="database" aria-hidden="true"></i>
       </a>
     </div>
   </footer>
