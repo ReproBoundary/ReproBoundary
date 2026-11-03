@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="ReproBoundary evaluates coding agents on 47 frozen, verifiable paper-to-code reproduction tasks.">
-  <meta name="theme-color" content="#12213f">
+  <meta name="theme-color" content="#ffffff">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://reproboundary.github.io/">
   <meta property="og:title" content="ReproBoundary | Paper-to-Code Reproduction Benchmark">
@@ -15,343 +15,137 @@
   <title>ReproBoundary | Paper-to-Code Reproduction Benchmark</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&family=Noto+Serif:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
   <script src="./app.js" defer></script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="shell nav-shell">
-      <a class="brand" href="#top" aria-label="ReproBoundary home">
-        <span class="brand-mark" aria-hidden="true">RB</span>
-        <span>ReproBoundary</span>
-      </a>
-      <button class="icon-button nav-toggle" type="button" aria-label="Open navigation" title="Open navigation" aria-expanded="false" aria-controls="site-nav">
-        <i data-lucide="menu" aria-hidden="true"></i>
-      </button>
-      <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
-        <a href="#benchmark">Benchmark</a>
-        <a href="#tasks">Tasks</a>
-        <a href="#data">Data</a>
-        <a href="#leaderboard">Leaderboard</a>
-        <a href="#submit">Submit</a>
-        <a href="#resources">Resources</a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="top">
+  <main>
     <section class="hero" aria-labelledby="hero-title">
-      <div class="shell hero-inner">
-        <p class="eyebrow">Agent capability boundary benchmark</p>
+      <div class="container hero-content">
+        <p class="project-label">Agent capability boundary benchmark</p>
         <h1 id="hero-title">ReproBoundary</h1>
-        <p class="hero-subtitle">An Agent Capability Boundary Benchmark for Complex Paper-to-Code Reproduction</p>
-        <p class="hero-copy">
-          Forty-seven frozen tasks test whether coding agents can turn published methods into complete experiments and submit results that withstand independent verification.
-        </p>
-        <div class="hero-actions" aria-label="Primary resources">
-          <a class="button button-primary" href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories">
-            <i data-lucide="database" aria-hidden="true"></i>
-            Get the data
+        <p class="subtitle">An Agent Capability Boundary Benchmark for Complex Paper-to-Code Reproduction</p>
+        <div class="project-links" aria-label="Project links">
+          <a class="project-button" href="https://github.com/ReproBoundary/ReproBoundary">
+            <i data-lucide="github" aria-hidden="true"></i><span>Code</span>
           </a>
-          <a class="button button-secondary" href="https://github.com/ReproBoundary/ReproBoundary">
-            <i data-lucide="github" aria-hidden="true"></i>
-            View code
+          <a class="project-button" href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories">
+            <span aria-hidden="true">🤗</span><span>Hugging Face</span>
           </a>
-          <a class="button button-quiet" href="#tasks">
-            <i data-lucide="list-filter" aria-hidden="true"></i>
-            Explore tasks
+          <a class="project-button" href="#tasks">
+            <i data-lucide="list" aria-hidden="true"></i><span>Tasks</span>
+          </a>
+          <a class="project-button" href="mailto:endlesssalaxy@outlook.com?subject=ReproBoundary%20Result%20Submission">
+            <i data-lucide="mail" aria-hidden="true"></i><span>Submit</span>
           </a>
         </div>
-        <ul class="release-signals" aria-label="Release status">
-          <li><i data-lucide="badge-check" aria-hidden="true"></i> Public release</li>
-          <li><i data-lucide="fingerprint" aria-hidden="true"></i> SHA-256 indexed</li>
-          <li><i data-lucide="shield-check" aria-hidden="true"></i> Redacted logs</li>
-        </ul>
+        <p class="release-line">47 tasks <span>·</span> 9 model-agent settings <span>·</span> 423 trajectories <span>·</span> 15 domains</p>
       </div>
     </section>
 
-    <section class="metrics-strip" aria-label="Benchmark summary">
-      <div class="shell metrics-grid">
-        <div><strong id="stat-tasks">47</strong><span>paper tasks</span></div>
-        <div><strong>423</strong><span>primary runs</span></div>
-        <div><strong>9</strong><span>model-agent settings</span></div>
-        <div><strong id="stat-domains">15</strong><span>research domains</span></div>
-      </div>
-    </section>
-
-    <section id="benchmark" class="section section-intro">
-      <div class="shell split-heading">
-        <div>
-          <p class="section-kicker">Benchmark design</p>
-          <h2>From a paper claim to an auditable run</h2>
-        </div>
-        <p>
-          Each task fixes the data scope, required stage sequence, resource budget, target metric, and evaluator before an agent starts. Process evidence and metric replay are checked separately.
-        </p>
-      </div>
-      <div class="shell stage-grid" aria-label="Reproduction stages">
-        <article>
-          <span>01</span>
-          <h3>Understand</h3>
-          <p>Recover the target claim, method-defining components, and evaluation contract.</p>
-        </article>
-        <article>
-          <span>02</span>
-          <h3>Plan</h3>
-          <p>Translate the frozen specification into a feasible experimental pipeline.</p>
-        </article>
-        <article>
-          <span>03</span>
-          <h3>Execute</h3>
-          <p>Run every required stage within the declared compute and time envelope.</p>
-        </article>
-        <article>
-          <span>04</span>
-          <h3>Verify</h3>
-          <p>Deliver traceable artifacts whose target metric can be independently replayed.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section section-protocol">
-      <div class="shell protocol-grid">
-        <div class="protocol-copy">
-          <p class="section-kicker">Frozen protocol</p>
-          <h2>Comparable by construction</h2>
+    <section class="section" id="introduction">
+      <div class="container narrow">
+        <h2 class="section-title">Introduction</h2>
+        <div class="prose">
           <p>
-            ReproBoundary does not treat a plausible report as proof of reproduction. Every run is evaluated against the same task-specific contract and evidence boundary.
+            Reproducing a machine-learning paper requires more than generating plausible code. An agent must recover the target claim, respect the experimental contract, complete every required stage, and deliver artifacts whose reported metric can be independently checked. ReproBoundary evaluates this end-to-end capability across 47 frozen paper-to-code tasks.
           </p>
-          <dl class="definition-list">
-            <div><dt>20</dt><dd>paper-scale tasks</dd></div>
-            <div><dt>27</dt><dd>resource-bounded tasks with the full target evaluation set retained</dd></div>
-            <div><dt>47</dt><dd>task-specific evaluator contracts</dd></div>
-          </dl>
+          <p>
+            Each task fixes the source repository and revision, data scope, required stages, compute budget, target metric, reference value, and evaluator before the run begins. Twenty tasks retain the paper-selected experimental scale; 27 reduce training, search, or repetition while keeping the complete target evaluation set.
+          </p>
         </div>
-        <div class="contract-panel" aria-label="Frozen contract fields">
-          <div class="contract-header">
-            <span>target_contract.json</span>
-            <span class="status-dot">frozen</span>
-          </div>
-          <ul>
-            <li><span>source</span><strong>repository + commit</strong></li>
-            <li><span>scope</span><strong>data + required stages</strong></li>
-            <li><span>budget</span><strong>time + compute + storage</strong></li>
-            <li><span>target</span><strong>metric + direction + reference</strong></li>
-            <li><span>verification</span><strong>official evaluator + replay</strong></li>
-          </ul>
-        </div>
+        <p class="scope-box"><strong>Scope.</strong> Each task reproduces one selected result under a fixed resource limit. It does not reproduce every result or support every conclusion in the source paper.</p>
       </div>
     </section>
 
-    <section class="section section-coverage">
-      <div class="shell coverage-grid">
-        <div class="coverage-visual">
+    <section class="section section-light" id="overview">
+      <div class="container">
+        <h2 class="section-title">Benchmark Overview</h2>
+        <p class="section-lead">A frozen task contract connects the paper claim, agent execution, delivered artifacts, and independent verification.</p>
+        <div class="stats" aria-label="Benchmark statistics">
+          <div><strong id="stat-tasks">47</strong><span>paper tasks</span></div>
+          <div><strong>20</strong><span>paper-scale</span></div>
+          <div><strong>27</strong><span>resource-bounded</span></div>
+          <div><strong>423</strong><span>execution logs</span></div>
+          <div><strong id="stat-domains">15</strong><span>research domains</span></div>
+        </div>
+        <figure class="overview-figure">
           <img src="./assets/domain-distribution.png" alt="Distribution of the 47 ReproBoundary tasks across research domains" width="2378" height="1500">
-        </div>
-        <div class="coverage-copy">
-          <p class="section-kicker">Coverage</p>
-          <h2>One benchmark, diverse experimental workloads</h2>
-          <p>
-            The pool spans language models, multimodal learning, computer vision, reasoning, safety, reinforcement learning, time series, graph learning, optimization, information retrieval, and scientific machine learning.
-          </p>
-          <p class="coverage-note">The task pool contains one frozen target claim from each source paper.</p>
+          <figcaption>Distribution of the frozen task pool across research domains.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="design">
+      <div class="container">
+        <h2 class="section-title">What ReproBoundary Checks</h2>
+        <div class="check-grid">
+          <article><span>01</span><h3>Understand and plan</h3><p>Recover the selected claim and translate the frozen specification into a feasible experimental pipeline.</p></article>
+          <article><span>02</span><h3>Execute the contract</h3><p>Complete every required stage within the declared compute, time, memory, and storage envelope.</p></article>
+          <article><span>03</span><h3>Deliver evidence</h3><p>Retain traceable outputs and process evidence rather than treating a plausible final report as success.</p></article>
+          <article><span>04</span><h3>Verify independently</h3><p>Check artifact completeness and metric agreement separately with the frozen task-specific evaluator.</p></article>
         </div>
       </div>
     </section>
 
-    <section id="data" class="section section-data">
-      <div class="shell">
-        <div class="split-heading">
-          <div>
-            <p class="section-kicker">Open release</p>
-            <h2>Download, inspect, and verify</h2>
-          </div>
-          <p>
-            Code and trajectory data are separated deliberately: GitHub keeps the lightweight task and evaluator release, while Hugging Face hosts 423 compressed execution logs.
-          </p>
-        </div>
-        <div class="data-grid">
-          <article>
-            <span class="data-step">01 / Code</span>
-            <h3>Clone the benchmark</h3>
-            <p>Get all 47 task contracts, evaluator records, protocol templates, and release checks.</p>
-            <a href="https://github.com/ReproBoundary/ReproBoundary">Open GitHub <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-          </article>
-          <article>
-            <span class="data-step">02 / Trajectories</span>
-            <h3>Download the logs</h3>
-            <p>Study the released chronology and tool use across nine model-agent settings.</p>
-            <a href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories">Open Hugging Face <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-          </article>
-          <article>
-            <span class="data-step">03 / Integrity</span>
-            <h3>Verify every file</h3>
-            <p>Run the bundled checks to validate counts, indexed paths, gzip readability, and SHA-256 hashes.</p>
-            <a href="https://github.com/ReproBoundary/ReproBoundary#download-and-verify-the-code-release">Read verification guide <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-          </article>
-        </div>
-        <div class="command-panel" aria-label="Quick verification commands">
-          <div class="command-panel-header">
-            <span>quick-start.sh</span>
-            <span>public release</span>
-          </div>
-          <pre><code><span class="prompt">$</span> git clone https://github.com/ReproBoundary/ReproBoundary.git
-<span class="prompt">$</span> cd ReproBoundary
-<span class="prompt">$</span> python3 scripts/verify_release.py
-<span class="success">verification OK: tasks=47 evaluators=47 trajectory_records=423 bundled_logs=0</span></code></pre>
-        </div>
-        <p class="scope-note"><strong>Evidence boundary:</strong> released logs support chronology, tool-use, failure, and integrity analysis. They do not include checkpoints, predictions, model weights, or training states, and cannot by themselves replay most scientific metrics.</p>
-      </div>
-    </section>
-
-    <section id="tasks" class="section section-tasks">
-      <div class="shell">
-        <div class="split-heading compact-heading">
-          <div>
-            <p class="section-kicker">Task pool</p>
-            <h2>Explore all 47 reproduction tasks</h2>
-          </div>
-          <p id="task-count" class="result-count" aria-live="polite">Loading task inventory...</p>
-        </div>
-
+    <section class="section section-light" id="tasks">
+      <div class="container">
+        <h2 class="section-title">Task Explorer</h2>
+        <p class="section-lead">Browse all frozen tasks by paper, domain, target metric, dataset, or experimental scale.</p>
         <div class="task-controls">
-          <label class="search-control">
-            <i data-lucide="search" aria-hidden="true"></i>
-            <span class="sr-only">Search tasks</span>
-            <input id="task-search" type="search" placeholder="Search paper, task, metric, or dataset" autocomplete="off">
-          </label>
-          <label class="select-control">
-            <span class="sr-only">Filter by domain</span>
-            <select id="domain-filter">
-              <option value="all">All domains</option>
-            </select>
-            <i data-lucide="chevron-down" aria-hidden="true"></i>
-          </label>
-          <div class="segmented-control" role="group" aria-label="Filter by experimental scale">
+          <label class="search-control"><i data-lucide="search" aria-hidden="true"></i><span class="sr-only">Search tasks</span><input id="task-search" type="search" placeholder="Search paper, task, metric, or dataset" autocomplete="off"></label>
+          <label class="select-control"><span class="sr-only">Filter by domain</span><select id="domain-filter"><option value="all">All domains</option></select></label>
+          <div class="scale-control" role="group" aria-label="Filter by experimental scale">
             <button type="button" class="is-active" data-scale="all" aria-pressed="true">All</button>
             <button type="button" data-scale="paper-scale" aria-pressed="false">Paper-scale</button>
             <button type="button" data-scale="resource-bounded" aria-pressed="false">Resource-bounded</button>
           </div>
         </div>
-
-        <div class="table-frame">
+        <p id="task-count" class="result-count" aria-live="polite">Loading task inventory...</p>
+        <div class="table-wrap">
           <table class="task-table">
-            <thead>
-              <tr>
-                <th scope="col">Paper and target task</th>
-                <th scope="col">Domain</th>
-                <th scope="col">Target metric</th>
-                <th scope="col">Scale</th>
-                <th scope="col">Budget</th>
-                <th scope="col"><span class="sr-only">Source repository</span></th>
-              </tr>
-            </thead>
+            <thead><tr><th scope="col">Paper and target task</th><th scope="col">Domain</th><th scope="col">Target metric</th><th scope="col">Scale</th><th scope="col">Budget</th><th scope="col"><span class="sr-only">Source repository</span></th></tr></thead>
             <tbody id="task-table-body"></tbody>
           </table>
           <div id="task-empty" class="empty-state" hidden>No tasks match the current filters.</div>
         </div>
-        <button id="show-all-tasks" class="text-button" type="button" hidden>
-          Show all tasks
-          <i data-lucide="arrow-down" aria-hidden="true"></i>
-        </button>
+        <button id="show-all-tasks" class="show-all" type="button" hidden>Show all tasks</button>
       </div>
     </section>
 
-    <section id="leaderboard" class="section section-leaderboard">
-      <div class="shell">
-        <div class="split-heading compact-heading">
-          <div>
-            <p class="section-kicker">Leaderboard</p>
-            <h2>Verified agent performance</h2>
-          </div>
-          <p class="leaderboard-updated" id="leaderboard-updated">Frozen results pending publication</p>
-        </div>
-        <div class="table-frame leaderboard-frame">
-          <table class="leaderboard-table">
-            <thead>
-              <tr>
-                <th scope="col">Configuration</th>
-                <th scope="col">Execution</th>
-                <th scope="col">Delivery</th>
-                <th scope="col">Replay agreement</th>
-                <th scope="col">Strict success</th>
-                <th scope="col">PGap</th>
-              </tr>
-            </thead>
-            <tbody id="leaderboard-body"></tbody>
-          </table>
-          <div id="leaderboard-empty" class="leaderboard-empty">
-            <i data-lucide="shield-check" aria-hidden="true"></i>
-            <strong>Leaderboard data is not yet published.</strong>
-            <span>Only frozen, provenance-checked aggregates will appear here.</span>
-          </div>
-        </div>
+    <section class="section" id="data">
+      <div class="container narrow">
+        <h2 class="section-title">Data and Verification</h2>
+        <div class="prose"><p>GitHub hosts the lightweight task definitions, evaluator records, protocol templates, and verification code. Hugging Face hosts 423 cleaned, compressed execution logs with a central provenance index and SHA-256 fingerprints.</p></div>
+        <pre class="command"><code>git clone https://github.com/ReproBoundary/ReproBoundary.git
+cd ReproBoundary
+python3 scripts/verify_release.py
+
+# verification OK: tasks=47 evaluators=47 trajectory_records=423 bundled_logs=0</code></pre>
+        <p class="evidence-note"><strong>Evidence boundary.</strong> The logs support chronology, tool-use, failure, and release-integrity analysis. They do not include checkpoints, predictions, model weights, or training states and cannot by themselves replay most scientific metrics.</p>
       </div>
     </section>
 
-    <section id="submit" class="section section-submit">
-      <div class="shell submission-grid">
-        <div>
-          <p class="section-kicker">Submit results</p>
-          <h2>Share a run for verification</h2>
-          <p>
-            Email the evaluated configuration, result files, and a link to the supporting artifacts. There is no web upload form.
-          </p>
-        </div>
-        <div class="submission-contact">
-          <span>Result submissions</span>
-          <a class="button button-primary" href="mailto:endlesssalaxy@outlook.com?subject=ReproBoundary%20Result%20Submission">
-            <i data-lucide="mail" aria-hidden="true"></i>
-            endlesssalaxy@outlook.com
-          </a>
-          <small>Subject: ReproBoundary Result Submission</small>
-        </div>
+    <section class="section section-light" id="results">
+      <div class="container narrow has-text-centered">
+        <h2 class="section-title">Results</h2>
+        <p class="section-lead">The public leaderboard is pending publication of frozen, provenance-checked aggregates. No provisional result is presented as a verified benchmark score.</p>
       </div>
     </section>
 
-    <section id="resources" class="section section-resources">
-      <div class="shell">
-        <p class="section-kicker">Open materials</p>
-        <h2>Inspect and reproduce the benchmark</h2>
-        <div class="resource-list">
-          <a href="https://github.com/ReproBoundary/ReproBoundary/tree/main/task_pool">
-            <i data-lucide="library-big" aria-hidden="true"></i>
-            <span><strong>Task pool</strong><small>Paper metadata, target metrics, budgets, and pinned repositories</small></span>
-            <i data-lucide="arrow-up-right" aria-hidden="true"></i>
-          </a>
-          <a href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories/tree/57e17e11f795c6df9f7806ad2262fd32897ec2e6">
-            <i data-lucide="file-archive" aria-hidden="true"></i>
-            <span><strong>Agent trajectories</strong><small>423 redacted execution logs with a central provenance index</small></span>
-            <i data-lucide="arrow-up-right" aria-hidden="true"></i>
-          </a>
-          <a href="https://github.com/ReproBoundary/ReproBoundary/tree/main/evaluators">
-            <i data-lucide="scale" aria-hidden="true"></i>
-            <span><strong>Evaluators</strong><small>Frozen contracts and lightweight task-specific evaluation helpers</small></span>
-            <i data-lucide="arrow-up-right" aria-hidden="true"></i>
-          </a>
-          <a href="https://github.com/ReproBoundary/ReproBoundary/blob/main/docs/PORTABILITY.md">
-            <i data-lucide="move-right" aria-hidden="true"></i>
-            <span><strong>Migration guide</strong><small>Move scoring or full pipelines without changing scientific semantics</small></span>
-            <i data-lucide="arrow-up-right" aria-hidden="true"></i>
-          </a>
-        </div>
+    <section class="section" id="submission">
+      <div class="container narrow has-text-centered">
+        <h2 class="section-title">Submit a Run</h2>
+        <p class="section-lead">Send the evaluated configuration, result files, and a link to supporting artifacts for verification.</p>
+        <a class="email-link" href="mailto:endlesssalaxy@outlook.com?subject=ReproBoundary%20Result%20Submission">endlesssalaxy@outlook.com</a>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="shell footer-inner">
-      <span>ReproBoundary</span>
-      <span>Verifiable paper-to-code reproduction</span>
-      <a href="https://github.com/ReproBoundary/ReproBoundary" aria-label="ReproBoundary on GitHub" title="GitHub">
-        <i data-lucide="github" aria-hidden="true"></i>
-      </a>
-      <a href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories" aria-label="ReproBoundary dataset on Hugging Face" title="Hugging Face">
-        <i data-lucide="database" aria-hidden="true"></i>
-      </a>
-    </div>
+  <footer class="footer">
+    <div class="container footer-content"><span>ReproBoundary</span><div><a href="https://github.com/ReproBoundary/ReproBoundary">GitHub</a><a href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories">Hugging Face</a></div></div>
   </footer>
 </body>
 </html>
