@@ -30,19 +30,6 @@ DOMAIN_LABELS = {
 }
 
 
-def scale_fields(scale_class: str) -> tuple[str, str]:
-    if scale_class == "full_scale":
-        return "paper-scale", "Paper-scale"
-    return "resource-bounded", "Resource-bounded"
-
-
-def hardware_label(row: dict[str, str]) -> str:
-    gpu_count = int(row["gpu_count"])
-    if gpu_count == 0:
-        return f'{row["cpu_cores"]} CPU cores'
-    return f'{gpu_count} x H100-class GPU'
-
-
 def reference_display(row: dict[str, str]) -> str:
     unit = row["metric_unit"].strip().lower()
     suffix = "%" if unit == "percent" else ""
@@ -56,7 +43,6 @@ def main() -> None:
     domain_counts = Counter(row["screening_domain"] for row in source_rows)
     tasks = []
     for row in source_rows:
-        scale_key, scale_label = scale_fields(row["scale_class"])
         tasks.append(
             {
                 "project_id": row["project_id"],
@@ -66,11 +52,7 @@ def main() -> None:
                 "target_task": row["target_task"],
                 "target_metric": row["target_metric"],
                 "reference_display": reference_display(row),
-                "scale_key": scale_key,
-                "scale_label": scale_label,
                 "evaluation_dataset": row["evaluation_dataset"],
-                "wall_time_hours": row["wall_time_hours"],
-                "hardware_label": hardware_label(row),
                 "repository_url": row["repository_url"],
             }
         )

@@ -90,11 +90,7 @@
       "target_task": "DIJA jailbreak attack generation against LLaDA-8B-Instruct on all HarmBench text behaviors",
       "target_metric": "keyword-based attack success rate (ASR-k)",
       "reference_display": "96.3%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "HarmBench behaviors_text_all",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/ZichenWen1/DIJA"
     },
     {
@@ -105,11 +101,7 @@
       "target_task": "One-shot Chinese-English code-mixed MMLU multiple-choice answering",
       "target_metric": "accuracy",
       "reference_display": "47.4%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "CodeMixBench CM-MMLU zh-en",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/Jeromeyluck/CodeMixBench"
     },
     {
@@ -120,11 +112,7 @@
       "target_task": "Sparse multi-component causal tracing over GPT-2 attention heads",
       "target_metric": "average causal-tracing metric l(D,m)",
       "reference_display": "0.115",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "WinoBias",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/ZiruiYan/multi-component-causal-tracing"
     },
     {
@@ -135,11 +123,7 @@
       "target_task": "MLC systematic generalization to held-out visual transformation compositions",
       "target_metric": "exact match accuracy",
       "reference_display": "78.26%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "Compositional-ARC",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/mainlp/C-ARC"
     },
     {
@@ -150,11 +134,7 @@
       "target_task": "Training-free multimodal multiple-choice reasoning with SinkTrack context anchoring",
       "target_metric": "accuracy",
       "reference_display": "48.25%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "M3CoT",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/67L1/SinkTrack"
     },
     {
@@ -165,11 +145,7 @@
       "target_task": "Relational signal classification with 90% distractor tokens",
       "target_metric": "accuracy",
       "reference_display": "98.8%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "GLOT diagnostic relational needle stress test",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/ipsitmantri/GLOT"
     },
     {
@@ -180,11 +156,7 @@
       "target_task": "Mathematical problem solving",
       "target_metric": "pass@1 averaged over 16 samples",
       "reference_display": "14%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "AIME 2024",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/Infini-AI-Lab/M2PO"
     },
     {
@@ -195,11 +167,7 @@
       "target_task": "Pairwise reward-model preference prediction",
       "target_metric": "pairwise accuracy",
       "reference_display": "73.84%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "Unified-Feedback",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/BIRlz/APLOT"
     },
     {
@@ -210,11 +178,7 @@
       "target_task": "Hallucination detection from attention-graph topology",
       "target_metric": "mean test ROC-AUC over five splits",
       "reference_display": "0.76",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "RAGTruth QA (MS MARCO)",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/sb-ai-lab/TOHA"
     },
     {
@@ -225,11 +189,7 @@
       "target_task": "Pairwise preference evaluation of complete tool-using agent trajectories",
       "target_metric": "macro pairwise accuracy across seven splits",
       "reference_display": "65.88%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "Plan-RewardBench",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/wyy-1112/Plan-RewardBench"
     },
     {
@@ -240,11 +200,7 @@
       "target_task": "Embodied household task completion with parallel LLM-agent exploration",
       "target_metric": "seen/OOD macro-average success rate",
       "reference_display": "94.1%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "ALFWorld",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/LePanda026/Code-for-DPEPO"
     },
     {
@@ -255,11 +211,7 @@
       "target_task": "Long-video multiple-choice question answering",
       "target_metric": "multiple-choice accuracy",
       "reference_display": "63.4%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "EgoSchema Subset",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/Fanziyang-v/FlashVID"
     },
     {
@@ -270,11 +222,7 @@
       "target_task": "2D geometric image editing",
       "target_metric": "Warp Error",
       "reference_display": "0.055",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "GeoBenchMeta",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/CIawevy/FreeFine"
     },
     {
@@ -285,11 +233,7 @@
       "target_task": "Mental composition multiple-choice visual reasoning",
       "target_metric": "accuracy",
       "reference_display": "27.9%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "Mind's Eye diagnostic benchmark",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/microsoft/Mind-s-Eye"
     },
     {
@@ -300,11 +244,7 @@
       "target_task": "object-hallucination evaluation",
       "target_metric": "Macro accuracy",
       "reference_display": "87.68%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "POPE on COCO",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/ShunqiM/PM"
     },
     {
@@ -315,11 +255,7 @@
       "target_task": "Solar-power forecasting with image and numerical-weather covariates",
       "target_metric": "MAE",
       "reference_display": "0.193",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "MMSP",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/hanlu-nju/UniCA"
     },
     {
@@ -330,11 +266,7 @@
       "target_task": "visual question answering",
       "target_metric": "Accuracy",
       "reference_display": "73.78%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "TextVQA",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/MouxiaoHuang/PPE"
     },
     {
@@ -345,11 +277,7 @@
       "target_task": "Eight-way relative city-direction classification",
       "target_metric": "accuracy",
       "reference_display": "97.94%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "GeoNames cities1000-derived US city-pair task",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/LucasPrietoAl/correlations-feature-geometry"
     },
     {
@@ -360,11 +288,7 @@
       "target_task": "Five-task class-incremental learning on Split CIFAR-10",
       "target_metric": "Final Average Accuracy",
       "reference_display": "71.02%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "CIFAR-10",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/YutingLi0606/Idempotent-Continual-Learning"
     },
     {
@@ -375,11 +299,7 @@
       "target_task": "hierarchical speculative decoding",
       "target_metric": "Block Efficiency",
       "reference_display": "6.3",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "GSM8K",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/ZhouYuxuanYX/Hierarchical-Speculative-Decoding"
     },
     {
@@ -390,11 +310,7 @@
       "target_task": "Single-cell distribution interpolation at held-out time points",
       "target_metric": "1-Wasserstein distance (EMD)",
       "reference_display": "0.742",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "Processed Single-cell RNA Time Series Data, Multiome",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/czi-ai/cell-mnn"
     },
     {
@@ -405,11 +321,7 @@
       "target_task": "out-of-distribution detection in a text-rich citation network",
       "target_metric": "AUROC",
       "reference_display": "94.3%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "TextTopoOOD Cora",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/DannyW618/TNT"
     },
     {
@@ -420,11 +332,7 @@
       "target_task": "Zero-shot synthetic logical reasoning after ground-truth-reward RL",
       "target_metric": "avg@8 accuracy",
       "reference_display": "42.6%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "SynLogic-Easy",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/hkust-nlp/model-task-align-rl"
     },
     {
@@ -435,11 +343,7 @@
       "target_task": "WikiText-103 next-token prediction at context length 2048",
       "target_metric": "perplexity",
       "reference_display": "21.48",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "WikiText-103 raw",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/AlgonetLabs/Cable"
     },
     {
@@ -450,11 +354,7 @@
       "target_task": "Query-aware dense retrieval dimension selection",
       "target_metric": "NDCG@10",
       "reference_display": "0.839",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "BEIR SciFact",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/wzy2001wzy/learning2select"
     },
     {
@@ -465,11 +365,7 @@
       "target_task": "Measure whether continuous Filler Tokens scores rank faithful ICE explanations above paired unfaithful ICE explanations on FactCheck",
       "target_metric": "continuous Filler Tokens diagnosticity",
       "reference_display": "0.828",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "l3-unc/CausalDiagnosticity",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/KeremZaman/CausalDiagnosticity"
     },
     {
@@ -480,11 +376,7 @@
       "target_task": "AIME 2024 mathematical reasoning with sixteen stochastic solutions per problem",
       "target_metric": "Average@16 accuracy",
       "reference_display": "12.7%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "AIME 2024 evaluation data bundled with GIFT/Qwen2.5-Math",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/sustech-nlp/gift"
     },
     {
@@ -495,11 +387,7 @@
       "target_task": "Solve HardcoreLogic Hitori 5x5 puzzles with locally validated structured outputs",
       "target_metric": "accuracy",
       "reference_display": "21.5%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "HardcoreLogic Hitori 5x5",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/ljcleo/hardcore-logic"
     },
     {
@@ -510,11 +398,7 @@
       "target_task": "Five-shot MMLU multiple-choice answering after lengthening one wrong option",
       "target_metric": "exact-match accuracy",
       "reference_display": "36.3%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "MMLU wrong-option-lengthened (WL)",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/Qihoo360/LLMs-Generalization-Test"
     },
     {
@@ -525,11 +409,7 @@
       "target_task": "Long-horizon mathematical problem solving after sequence-level PPO",
       "target_metric": "Average@16 accuracy",
       "reference_display": "83.78%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "MATH-500",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/sustech-nlp/SPPO"
     },
     {
@@ -540,11 +420,7 @@
       "target_task": "Multimodal mathematical reasoning on MMPR-mini",
       "target_metric": "final accuracy",
       "reference_display": "45.8%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "MMPR-mini",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/XinGuo2002/Head-Tail-Rebalancing"
     },
     {
@@ -555,11 +431,7 @@
       "target_task": "Activation-based detection of phishing dialogues",
       "target_metric": "ROC-AUC",
       "reference_display": "0.99",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "GAVEL released misuse and benign dialogue evaluation",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/Offensive-AI-Lab/gavel"
     },
     {
@@ -570,11 +442,7 @@
       "target_task": "Unconditional CIFAR-10 image generation with flow matching",
       "target_metric": "FID-50K",
       "reference_display": "3.71",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "CIFAR-10",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/konglk1203/AlignFlow"
     },
     {
@@ -585,11 +453,7 @@
       "target_task": "One-step unconditional 32x32 CIFAR-10 image generation",
       "target_metric": "FID-50K",
       "reference_display": "2.86",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "CIFAR-10",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/zlab-princeton/SoFlow"
     },
     {
@@ -600,11 +464,7 @@
       "target_task": "Post-hoc saliency explanation on synthetic time series",
       "target_metric": "AUPRC",
       "reference_display": "0.6407",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "MCC-E synthetic motif-count classification",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/BosonHwang/ShapeX"
     },
     {
@@ -615,11 +475,7 @@
       "target_task": "long-horizon video pendulum forecasting",
       "target_metric": "extrapolation MSE",
       "reference_display": "1.417",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "Phy-SSM synthetic video pendulum",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/511205787/Phy_SSM-ICML2025"
     },
     {
@@ -630,11 +486,7 @@
       "target_task": "Ground-truth graph explanation recovery",
       "target_metric": "explanation AUC",
       "reference_display": "99.14%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "BA-2MOTIFS",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/ICDM-UESTC/SelfConsistencyXGNN"
     },
     {
@@ -645,11 +497,7 @@
       "target_task": "Robust conformal outlier detection with contaminated calibration data",
       "target_metric": "Label-Trim relative empirical power",
       "reference_display": "1.448",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "OpenOOD CIFAR-10 inliers plus DTD Texture outliers",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/Meshiba/robust-conformal-od"
     },
     {
@@ -660,11 +508,7 @@
       "target_task": "ETTh1 multivariate zero-shot long-term forecasting at prediction horizon 96",
       "target_metric": "mean squared error",
       "reference_display": "0.353",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "ETDataset ETTh1",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/Keytoyze/VisionTS"
     },
     {
@@ -675,11 +519,7 @@
       "target_task": "Predict mutational effects on protein-protein binding energy for the complete released SKEMPIv2 held-out test split",
       "target_metric": "overall root mean squared error",
       "reference_display": "1.72",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "SKEMPIv2 filtered interface-homology held-out test split",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/LDeng0205/StaB-ddG"
     },
     {
@@ -690,11 +530,7 @@
       "target_task": "Variational sampling of the 2D 40-component Gaussian mixture with a temperature-annealed Boltzmann generator",
       "target_metric": "reverse effective sample size",
       "reference_display": "96.89%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "TA-BG 2D 40-component Gaussian mixture",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/aimat-lab/TA-BG"
     },
     {
@@ -705,11 +541,7 @@
       "target_task": "WikiText-2 language-model perplexity after FlatQuant W4A4KV4 post-training quantization",
       "target_metric": "WikiText-2 perplexity",
       "reference_display": "8.46",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "WikiText-2 raw",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/ruikangliu/FlatQuant"
     },
     {
@@ -720,11 +552,7 @@
       "target_task": "Arrow Pointing Extrapolation binary image classification",
       "target_metric": "Extrapolation test top-1 accuracy",
       "reference_display": "0.778",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "Arrow Pointing Extrapolation",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/ml-jku/plstm_experiments"
     },
     {
@@ -735,11 +563,7 @@
       "target_task": "ScienceQA multiple-choice visual question answering after eight-task parameter-efficient model merging",
       "target_metric": "multiple-choice accuracy",
       "reference_display": "73.43%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "ScienceQA",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/AuroraZengfh/RobustMerge"
     },
     {
@@ -750,11 +574,7 @@
       "target_task": "ARC-Easy zero-shot multiple-choice question answering after training-free contiguous layer pruning with LinearPatch[L]",
       "target_metric": "raw multiple-choice accuracy",
       "reference_display": "54.84%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "AI2 ARC-Easy",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/chenxinrui-tsinghua/LinearPatch"
     },
     {
@@ -765,11 +585,7 @@
       "target_task": "GSM8K arithmetic reasoning with parallel latent test-time sampling",
       "target_metric": "Coverage@4",
       "reference_display": "46.7%",
-      "scale_key": "resource-bounded",
-      "scale_label": "Resource-bounded",
       "evaluation_dataset": "GSM8K",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/ModalityDance/LatentTTS"
     },
     {
@@ -780,11 +596,7 @@
       "target_task": "ScienceQA multiple-choice question answering with vision-token compression",
       "target_metric": "ScienceQA test accuracy",
       "reference_display": "71%",
-      "scale_key": "paper-scale",
-      "scale_label": "Paper-scale",
       "evaluation_dataset": "ScienceQA",
-      "wall_time_hours": "24",
-      "hardware_label": "1 x H100-class GPU",
       "repository_url": "https://github.com/hanxunyu/VisionTrim"
     }
   ]

@@ -26,19 +26,16 @@ Each task record includes:
 - source paper and research domain;
 - target experiment and target metric;
 - value reported by the paper;
-- paper-scale and benchmark-scale work;
 - final evaluation data;
-- time, hardware, memory, and storage limits;
 - source repository and exact commit ID; and
 - a hash of the evaluation contract.
 
 A **commit ID** names one exact version of a Git repository. A **hash** is a
 digital fingerprint used to detect a changed file.
 
-Twenty-seven tasks reduce training, search, or repeated work to fit the fixed
-resource limit. They keep the complete target evaluation set. These tasks test
-one fixed claim under a fixed budget; they do not reproduce all claims in the
-source paper.
+Task records test one fixed claim and retain the complete target evaluation
+set; they do not reproduce all claims in the source paper. Execution
+requirements remain in the task-specific evaluation contracts.
 
 ## Execution logs
 

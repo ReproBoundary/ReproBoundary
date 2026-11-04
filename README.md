@@ -23,16 +23,16 @@
 
 ReproBoundary tests whether a coding agent can reproduce one specified
 experiment from a research paper. Each task fixes the data, required stages,
-resource limits, result to report, and program used to check that result.
+result to report, and program used to check that result.
 
 **Code and metadata live here; the 423 compressed trajectories live on
 [Hugging Face](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories).**
 This separation keeps the GitHub clone lightweight while preserving a fixed,
 hash-verifiable data release.
 
-> **Scope.** A task reproduces one selected result under a fixed resource
-> limit. It does not reproduce every result or support every conclusion in the
-> source paper.
+> **Scope.** A task reproduces one selected result under a frozen task
+> definition. It does not reproduce every result or support every conclusion
+> in the source paper.
 
 ## At a glance
 
@@ -43,8 +43,6 @@ hash-verifiable data release.
 | Execution logs | 423 | Cleaned, compressed logs hosted in the separate Hugging Face dataset |
 | Evaluator records | 47 | The exact metric, command, source, and version for each task |
 
-Twenty tasks keep the experiment size selected from the paper. The other 27
-reduce training, search, or repeated work to fit the benchmark resource limit.
 All 47 tasks retain their complete target evaluation set.
 
 ## Start here
@@ -122,7 +120,7 @@ the selected file hash, and shows only the first 20 lines.
 
 | Path | Contents |
 | --- | --- |
-| [`task_pool/`](task_pool/) | Paper list, selected experiments, reported reference values, datasets, budgets, and pinned source-code versions |
+| [`task_pool/`](task_pool/) | Paper list, selected experiments, reported reference values, datasets, and pinned source-code versions |
 | [`trajectories/`](trajectories/) | The small index connecting each externally hosted log to its task and model-agent setting |
 | [`evaluators/`](evaluators/) | Per-task evaluation instructions and small helper files used to calculate the target metric |
 | [`protocol/`](protocol/) | Prompt and task-file templates given to the agents |
@@ -136,14 +134,11 @@ Each row in [`TASK_INVENTORY_47.csv`](task_pool/TASK_INVENTORY_47.csv) records:
 - the paper title and research area;
 - the selected experiment and result to report;
 - the value reported by the paper;
-- paper-scale and benchmark-scale work;
 - dataset and final evaluation data;
-- time, hardware, memory, and storage limits; and
 - source repository and exact code version.
 
-The reduced tasks change only the amount of training, search, or repeated work
-allowed by their fixed specification. They still test one selected result on
-the complete target evaluation set.
+Execution requirements remain in each task-specific evaluation contract rather
+than being duplicated in the central task catalog.
 
 ## Execution logs
 
