@@ -38,7 +38,7 @@
           <a class="project-button" href="#tasks">
             <i data-lucide="list" aria-hidden="true"></i><span>Tasks</span>
           </a>
-          <a class="project-button" href="mailto:endlesssalaxy@outlook.com?subject=ReproBoundary%20Result%20Submission">
+          <a class="project-button" href="#submission">
             <i data-lucide="mail" aria-hidden="true"></i><span>Submit</span>
           </a>
         </div>
@@ -62,10 +62,17 @@
     </section>
 
     <section class="section section-light" id="leaderboard">
-      <div class="container narrow has-text-centered">
+      <div class="container">
         <h2 class="section-title">Leaderboard</h2>
-        <p class="section-lead">Frozen, provenance-checked aggregate results are pending publication. No provisional run is presented as a verified benchmark score.</p>
-        <span class="status-pill">Results pending release</span>
+        <p class="section-lead">Frozen results for 47 tasks across nine model-agent configurations. Ranking uses strict reproduction success; every cell reports count / 47 (rate).</p>
+        <div class="table-wrap leaderboard-wrap">
+          <table class="leaderboard-table">
+            <thead><tr><th scope="col">Rank</th><th scope="col">Model</th><th scope="col">Agent</th><th scope="col">Execution</th><th scope="col">Delivery</th><th scope="col">Replay match</th><th scope="col">Strict success</th><th scope="col">Unresolved</th></tr></thead>
+            <tbody id="leaderboard-body"><tr><td colspan="8">Loading frozen results...</td></tr></tbody>
+            <tfoot id="leaderboard-total"></tfoot>
+          </table>
+        </div>
+        <p id="leaderboard-note" class="evidence-note">Frozen on 2026-10-11. Execution, delivery, replay match, and strict success are independently checked gates; they are not an attrition funnel. A replay match alone is not a strict success. <a href="https://github.com/ReproBoundary/ReproBoundary/blob/main/results/LEADERBOARD_FROZEN_20261011.json">Methods and provenance</a>.</p>
       </div>
     </section>
 
@@ -195,18 +202,42 @@ python3 scripts/verify_release.py
     <header class="chapter"><h2>Experimental Results</h2></header>
 
     <section class="section" id="results">
-      <div class="container narrow has-text-centered">
+      <div class="container narrow">
         <h2 class="section-title">Main Results</h2>
-        <p class="section-lead">Aggregate benchmark results and failure-mode analyses are not yet included in the public release. They will appear here only after their denominators, provenance, and interpretation are frozen for publication.</p>
-        <span class="status-pill">Not yet published</span>
+        <div class="prose">
+          <p>Across the frozen 423-run cohort, 101 runs completed the required execution stages and 78 met the stricter end-to-end reproduction criterion. The strict ledger contains 78 successes, 338 failures, and 7 unresolved cases.</p>
+          <p>The strongest configuration, <strong>gpt-5.6-sol + codex</strong>, achieved 21 strict successes out of 47 tasks (44.7%). The next configuration achieved 11/47 (23.4%). These figures describe this fixed task pool and protocol; they are not general model capability scores.</p>
+        </div>
+        <p class="scope-box"><strong>Interpretation boundary.</strong> The 101/423 execution count and 78/423 frozen strict count are different views. Neither replay match nor successful delivery alone establishes strict reproduction.</p>
       </div>
     </section>
 
     <section class="section section-light" id="submission">
-      <div class="container narrow has-text-centered">
+      <div class="container narrow">
         <h2 class="section-title">Submit a Run</h2>
-        <p class="section-lead">Send the evaluated configuration, result files, and a link to supporting artifacts for verification.</p>
-        <a class="email-link" href="mailto:endlesssalaxy@outlook.com?subject=ReproBoundary%20Result%20Submission">endlesssalaxy@outlook.com</a>
+        <p class="section-lead">A reported metric is not a submission. Package the frozen contract, all six protocol deliverables, and the evidence needed to replay the result.</p>
+        <h3>Required package</h3>
+        <pre class="command"><code>&lt;project-id&gt;-&lt;model&gt;-&lt;agent&gt;/
+├── TARGET_EVALUATION.json       # exact assigned contract
+├── DATASET_SELECTION.json       # frozen scopes and selected-ID hashes
+├── pipeline-execution.json      # stages, commands, exits, times, artifacts
+├── reproduction-report.md       # work completed, failures, limitations
+├── audit.json                   # fixes and protocol-preserving events
+├── metrics.json                 # metric, scope, evaluator, evidence path
+├── security-attestation.json    # policy hashes and declared events
+├── evidence/
+│   ├── evaluator/               # raw official evaluator output
+│   ├── logs/                    # execution logs and exit evidence
+│   ├── outputs/                 # predictions and task-required outputs
+│   └── intermediates/           # artifacts linking required stages
+├── source/                      # commit id plus patch/diff, if changed
+└── SHA256SUMS                   # hashes for every submitted file</code></pre>
+        <div class="submission-grid">
+          <article><h3>Before sending</h3><ol><li>Use the schema and filenames from the task's <code>required_agent_output</code> contract.</li><li>Keep all evidence paths relative and ensure every referenced file is present.</li><li>Run the official evaluator and retain its unedited output.</li><li>Generate and verify <code>SHA256SUMS</code>; remove credentials, private paths, datasets, model weights, and unrelated files.</li></ol></article>
+          <article><h3>What we verify</h3><ol><li>Contract identity, configuration identity, and hashes.</li><li>Required stage order and artifact lineage.</li><li>Completeness of the six JSON/Markdown deliverables.</li><li>Independent replay of the target metric from submitted outputs.</li></ol></article>
+        </div>
+        <p class="scope-box"><strong>Submit.</strong> Upload one <code>.tar.gz</code> package to a stable download link, then email the link, project ID, model, agent, source commit, and package SHA-256 with subject <code>ReproBoundary submission: &lt;project-id&gt; / &lt;model&gt; / &lt;agent&gt;</code>. See the <a href="https://github.com/ReproBoundary/ReproBoundary/blob/main/docs/SUBMIT_A_RUN.md">full submission guide</a>.</p>
+        <p class="submission-contact"><a class="email-link" href="mailto:endlesssalaxy@outlook.com?subject=ReproBoundary%20submission%3A%20%3Cproject-id%3E%20%2F%20%3Cmodel%3E%20%2F%20%3Cagent%3E">endlesssalaxy@outlook.com</a></p>
       </div>
     </section>
 

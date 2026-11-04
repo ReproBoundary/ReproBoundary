@@ -1,5 +1,24 @@
 {
   "schema_version": "1.0",
-  "updated_at": null,
-  "rows": []
+  "freeze_date": "2026-10-11",
+  "cohort": {
+    "task_count": 47,
+    "configuration_count": 9,
+    "run_count": 423,
+    "denominator_per_configuration": 47
+  },
+  "ranking_metric": "strict_success",
+  "source": "https://github.com/ReproBoundary/ReproBoundary/blob/main/results/LEADERBOARD_FROZEN_20261011.json",
+  "rows": [
+    {"rank": 1, "model": "gpt-5.6-sol", "agent": "codex", "execution": 25, "delivery": 33, "replay_match": 25, "strict_success": 21, "unresolved": 0},
+    {"rank": 2, "model": "deepseek-v4-pro", "agent": "claude", "execution": 13, "delivery": 17, "replay_match": 13, "strict_success": 11, "unresolved": 0},
+    {"rank": 3, "model": "k3", "agent": "claude", "execution": 12, "delivery": 17, "replay_match": 16, "strict_success": 9, "unresolved": 1},
+    {"rank": 3, "model": "glm-5.2", "agent": "mini", "execution": 10, "delivery": 14, "replay_match": 11, "strict_success": 9, "unresolved": 1},
+    {"rank": 5, "model": "k3", "agent": "kimi-code", "execution": 15, "delivery": 21, "replay_match": 18, "strict_success": 8, "unresolved": 3},
+    {"rank": 6, "model": "glm-5.2", "agent": "claude", "execution": 10, "delivery": 12, "replay_match": 11, "strict_success": 7, "unresolved": 2},
+    {"rank": 7, "model": "deepseek-v4-pro", "agent": "dsh", "execution": 8, "delivery": 14, "replay_match": 8, "strict_success": 5, "unresolved": 0},
+    {"rank": 7, "model": "gpt-5.6-sol", "agent": "claude", "execution": 5, "delivery": 13, "replay_match": 5, "strict_success": 5, "unresolved": 0},
+    {"rank": 9, "model": "claude-opus-4-8-cc", "agent": "claude", "execution": 3, "delivery": 4, "replay_match": 4, "strict_success": 3, "unresolved": 0}
+  ],
+  "totals": {"execution": 101, "delivery": 145, "replay_match": 111, "strict_success": 78, "strict_failure": 338, "unresolved": 7}
 }

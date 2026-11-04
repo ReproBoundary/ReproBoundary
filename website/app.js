@@ -7,6 +7,8 @@ const taskCount = document.querySelector("#task-count");
 const searchInput = document.querySelector("#task-search");
 const domainFilter = document.querySelector("#domain-filter");
 const showAllButton = document.querySelector("#show-all-tasks");
+const leaderboardBody = document.querySelector("#leaderboard-body");
+const leaderboardTotal = document.querySelector("#leaderboard-total");
 
 function escapeHTML(value) {
   return String(value)
@@ -53,6 +55,36 @@ function populateDomains(domains) {
   });
 }
 
+function scoreCell(value, denominator) {
+  const rate = (100 * value / denominator).toFixed(1);
+  return `${value}/${denominator} <span class="score-rate">${rate}%</span>`;
+}
+
+async function loadLeaderboard() {
+  try {
+    const response = await fetch("./data/leaderboard.json");
+    if (!response.ok) throw new Error(`Leaderboard data returned ${response.status}`);
+    const payload = await response.json();
+    const denominator = payload.cohort.denominator_per_configuration;
+    leaderboardBody.innerHTML = payload.rows.map((row) => `
+      <tr>
+        <td>${row.rank}</td>
+        <td><strong>${escapeHTML(row.model)}</strong></td>
+        <td>${escapeHTML(row.agent)}</td>
+        <td>${scoreCell(row.execution, denominator)}</td>
+        <td>${scoreCell(row.delivery, denominator)}</td>
+        <td>${scoreCell(row.replay_match, denominator)}</td>
+        <td class="strict-score">${scoreCell(row.strict_success, denominator)}</td>
+        <td>${row.unresolved}</td>
+      </tr>
+    `).join("");
+    leaderboardTotal.innerHTML = `<tr><th colspan="3" scope="row">All 423 runs</th><td>${payload.totals.execution}/423</td><td>${payload.totals.delivery}/423</td><td>${payload.totals.replay_match}/423</td><td>${payload.totals.strict_success}/423</td><td>${payload.totals.unresolved}</td></tr>`;
+  } catch (error) {
+    leaderboardBody.innerHTML = '<tr><td colspan="8">Frozen leaderboard data could not be loaded.</td></tr>';
+    console.error(error);
+  }
+}
+
 async function loadTasks() {
   try {
     const response = await fetch("./data/tasks.json");
@@ -90,5 +122,6 @@ showAllButton.addEventListener("click", () => {
 
 window.addEventListener("DOMContentLoaded", () => {
   if (window.lucide) window.lucide.createIcons();
+  loadLeaderboard();
   loadTasks();
 });

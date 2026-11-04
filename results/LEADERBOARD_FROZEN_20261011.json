@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "title": "ReproBoundary frozen main-results leaderboard",
+  "freeze_date": "2026-10-11",
+  "cohort": {
+    "description": "47 frozen paper-to-code tasks evaluated with 9 model-agent configurations",
+    "task_count": 47,
+    "configuration_count": 9,
+    "run_count": 423,
+    "denominator_per_configuration": 47
+  },
+  "ranking": {
+    "field": "strict_success",
+    "direction": "descending",
+    "tie_policy": "competition ranking"
+  },
+  "field_definitions": {
+    "execution": "Count where execution_success is true in the stage ledger.",
+    "delivery": "Count where delivery_verdict is PASS in the frozen strict ledger.",
+    "replay_match": "Count where replay.status is MATCH in the frozen strict ledger.",
+    "strict_success": "Count where final_verdict is STRICT_SUCCESS in the frozen strict ledger.",
+    "unresolved": "Count where final_verdict is neither STRICT_SUCCESS nor STRICT_FAILURE."
+  },
+  "source_artifacts": [
+    {
+      "name": "MAIN_EXPERIMENT_FACT_CHECK.json",
+      "sha256": "abbc916177547722a38d148ab389dc4cbab11fc813b431d4a4e59c29cc04353b",
+      "publicly_bundled": false
+    },
+    {
+      "name": "primary_failure_423.jsonl",
+      "sha256": "0f340fa0597c880efc06788b4efb4b7b0fb28923fe50d7da4a729b9c55ea285a",
+      "publicly_bundled": false
+    },
+    {
+      "name": "CONVERGED_STRICT_423_LEDGER_V3_20261011.jsonl",
+      "sha256": "ecc4d3c47ca7740e09f096a1b204f4db0822101155eba2d1613bf372ef48c51b",
+      "publicly_bundled": false
+    }
+  ],
+  "rows": [
+    {"rank": 1, "model": "gpt-5.6-sol", "agent": "codex", "denominator": 47, "execution": 25, "delivery": 33, "replay_match": 25, "strict_success": 21, "unresolved": 0},
+    {"rank": 2, "model": "deepseek-v4-pro", "agent": "claude", "denominator": 47, "execution": 13, "delivery": 17, "replay_match": 13, "strict_success": 11, "unresolved": 0},
+    {"rank": 3, "model": "k3", "agent": "claude", "denominator": 47, "execution": 12, "delivery": 17, "replay_match": 16, "strict_success": 9, "unresolved": 1},
+    {"rank": 3, "model": "glm-5.2", "agent": "mini", "denominator": 47, "execution": 10, "delivery": 14, "replay_match": 11, "strict_success": 9, "unresolved": 1},
+    {"rank": 5, "model": "k3", "agent": "kimi-code", "denominator": 47, "execution": 15, "delivery": 21, "replay_match": 18, "strict_success": 8, "unresolved": 3},
+    {"rank": 6, "model": "glm-5.2", "agent": "claude", "denominator": 47, "execution": 10, "delivery": 12, "replay_match": 11, "strict_success": 7, "unresolved": 2},
+    {"rank": 7, "model": "deepseek-v4-pro", "agent": "dsh", "denominator": 47, "execution": 8, "delivery": 14, "replay_match": 8, "strict_success": 5, "unresolved": 0},
+    {"rank": 7, "model": "gpt-5.6-sol", "agent": "claude", "denominator": 47, "execution": 5, "delivery": 13, "replay_match": 5, "strict_success": 5, "unresolved": 0},
+    {"rank": 9, "model": "claude-opus-4-8-cc", "agent": "claude", "denominator": 47, "execution": 3, "delivery": 4, "replay_match": 4, "strict_success": 3, "unresolved": 0}
+  ],
+  "totals": {
+    "denominator": 423,
+    "execution": 101,
+    "delivery": 145,
+    "replay_match": 111,
+    "strict_success": 78,
+    "strict_failure": 338,
+    "unresolved": 7
+  },
+  "interpretation": [
+    "Execution, delivery, replay match, and strict success are independently checked gates and must not be read as an attrition funnel.",
+    "A replay match alone is not strict reproduction success.",
+    "The 71/423 security-fused view is a separate post-freeze analysis and does not replace the 78/423 frozen strict result.",
+    "No PGap, runtime, or token aggregate is published because no frozen end-to-end aggregate was available for this release."
+  ]
+}

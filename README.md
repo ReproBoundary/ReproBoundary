@@ -11,6 +11,8 @@
 [Task list](task_pool/TASK_INVENTORY_47.csv) ·
 [Trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories) ·
 [Website](https://reproboundary.github.io/) ·
+[Frozen results](results/LEADERBOARD_FROZEN_20261011.json) ·
+[Submit a run](docs/SUBMIT_A_RUN.md) ·
 [Data description](docs/DATA_CARD.md) ·
 [Evaluator guide](docs/EVALUATOR_PROVENANCE.md) ·
 [Migration guide](docs/PORTABILITY.md)
@@ -58,6 +60,9 @@ All 47 tasks retain their complete target evaluation set.
 - **Check a submitted result:**
   [`EVALUATOR_INDEX.csv`](evaluators/EVALUATOR_INDEX.csv) identifies the
   evaluation command, source-code version, and required helper files.
+- **Read or submit leaderboard results:** inspect the
+  [frozen aggregate](results/LEADERBOARD_FROZEN_20261011.json) and follow the
+  [evidence-package submission guide](docs/SUBMIT_A_RUN.md).
 - **Move an evaluator to another machine:** follow the
   [migration guide](docs/PORTABILITY.md) without changing the task's data,
   method, or metric.
@@ -124,8 +129,9 @@ the selected file hash, and shows only the first 20 lines.
 | [`trajectories/`](trajectories/) | The small index connecting each externally hosted log to its task and model-agent setting |
 | [`evaluators/`](evaluators/) | Per-task evaluation instructions and small helper files used to calculate the target metric |
 | [`protocol/`](protocol/) | Prompt and task-file templates given to the agents |
+| [`results/`](results/) | Frozen aggregate leaderboard, field definitions, and source-artifact hashes |
 | [`docs/`](docs/) | Data scope, file sources, licenses, cleaning rules, release checks, and evaluator migration instructions |
-| [`website/`](website/) | Benchmark homepage and an unpublished leaderboard placeholder |
+| [`website/`](website/) | Benchmark homepage, frozen leaderboard, task explorer, and submission requirements |
 
 ## Task definitions
 
@@ -178,8 +184,9 @@ python3 scripts/build_site_data.py
 python3 -m http.server 8765 --directory website
 ```
 
-Open `http://127.0.0.1:8765` in a browser. The repository does not currently
-publish leaderboard results; the page contains a placeholder only.
+Open `http://127.0.0.1:8765` in a browser. The leaderboard is loaded from
+`website/data/leaderboard.json`; its provenance record is kept under
+[`results/`](results/).
 
 ## Not included
 
