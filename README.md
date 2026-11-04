@@ -121,17 +121,56 @@ To inspect one log without extra Python packages, run the example in the
 [trajectory guide](trajectories/README.md). It prints the run metadata, checks
 the selected file hash, and shows only the first 20 lines.
 
-## Repository map
+## Repository structure
 
-| Path | Contents |
-| --- | --- |
-| [`task_pool/`](task_pool/) | Paper list, selected experiments, reported reference values, datasets, and pinned source-code versions |
-| [`trajectories/`](trajectories/) | The small index connecting each externally hosted log to its task and model-agent setting |
-| [`evaluators/`](evaluators/) | Per-task evaluation instructions and small helper files used to calculate the target metric |
-| [`protocol/`](protocol/) | Prompt and task-file templates given to the agents |
-| [`results/`](results/) | Frozen aggregate leaderboard, field definitions, and source-artifact hashes |
-| [`docs/`](docs/) | Data scope, file sources, licenses, cleaning rules, release checks, and evaluator migration instructions |
-| [`website/`](website/) | Benchmark homepage, frozen leaderboard, task explorer, and submission requirements |
+`task_pool/` defines the 47 frozen tasks, while `evaluators/` binds each task
+to its target metric and checking files. `trajectories/` contains only the
+public index; the 423 compressed logs remain in the Hugging Face dataset.
+`results/` holds frozen aggregate results, and `website/` is the synchronized
+source for the public benchmark page.
+
+```text
+ReproBoundary/
+├── README.md
+├── CONTRIBUTING.md
+├── RELEASE_MANIFEST.json
+├── SHA256SUMS
+├── task_pool/
+│   ├── TASK_INVENTORY_47.csv
+│   ├── tasks.jsonl
+│   ├── DATASET_MEMBERSHIP_PUBLIC.json
+│   └── papers.bib
+├── evaluators/
+│   ├── EVALUATOR_INDEX.csv
+│   └── tasks/
+│       └── <project_id>/
+│           ├── TARGET_EVALUATION.json
+│           └── <task-specific evaluator files>
+├── trajectories/
+│   ├── README.md
+│   └── TRAJECTORY_INDEX.csv
+├── protocol/
+│   ├── AGENT_PROMPT.template.txt
+│   ├── REDUCTION_PROMPT.template.txt
+│   └── TARGET_EVALUATION.template.json
+├── results/
+│   ├── README.md
+│   └── LEADERBOARD_FROZEN_20261011.json
+├── docs/
+│   ├── DATA_CARD.md
+│   ├── EVALUATOR_PROVENANCE.md
+│   ├── PORTABILITY.md
+│   └── SUBMIT_A_RUN.md
+├── scripts/
+│   ├── build_site_data.py
+│   └── verify_release.py
+└── website/
+    ├── index.html
+    ├── app.js
+    ├── styles.css
+    ├── assets/
+    └── data/
+```
 
 ## Task definitions
 
