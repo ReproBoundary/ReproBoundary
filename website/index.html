@@ -61,10 +61,44 @@
       </div>
     </section>
 
-    <section class="section section-light" id="overview">
+    <section class="section section-light" id="leaderboard">
+      <div class="container narrow has-text-centered">
+        <h2 class="section-title">Leaderboard</h2>
+        <p class="section-lead">Frozen, provenance-checked aggregate results are pending publication. No provisional run is presented as a verified benchmark score.</p>
+        <span class="status-pill">Results pending release</span>
+      </div>
+    </section>
+
+    <header class="chapter"><h2>ReproBoundary</h2></header>
+
+    <section class="section" id="construction">
       <div class="container">
-        <h2 class="section-title">Benchmark Overview</h2>
-        <p class="section-lead">A frozen task contract connects the paper claim, agent execution, delivered artifacts, and independent verification.</p>
+        <h2 class="section-title">Construction Pipeline</h2>
+        <p class="section-lead">The benchmark is built as a traceable chain from one paper-reported result to a frozen task, a controlled run, and an independent check.</p>
+        <div class="check-grid">
+          <article><span>01</span><h3>Select a target result</h3><p>Freeze one concrete experiment, paper-reported reference value, public source repository, and exact code revision.</p></article>
+          <article><span>02</span><h3>Define the contract</h3><p>Record the data scope, required stages, target metric, evaluator, and time, compute, memory, and storage limits.</p></article>
+          <article><span>03</span><h3>Run the agents</h3><p>Execute every task with nine model-agent settings, producing 423 indexed trajectories across the 47-task pool.</p></article>
+          <article><span>04</span><h3>Release and verify</h3><p>Separate lightweight code from compressed logs, redact sensitive text, index file hashes, and provide deterministic integrity checks.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="taxonomy">
+      <div class="container">
+        <h2 class="section-title">Task Taxonomy</h2>
+        <p class="section-lead">Tasks are organized along three explicit dimensions instead of being reduced to a single difficulty label.</p>
+        <div class="taxonomy-grid">
+          <article><h3>Experimental scale</h3><p><strong>20 paper-scale tasks</strong> retain the experiment size selected from the paper. <strong>27 resource-bounded tasks</strong> reduce training, search, or repeated work while retaining the complete target evaluation set.</p></article>
+          <article><h3>Research domain</h3><p>The pool spans 15 domains, including language models, multimodal learning, computer vision, reasoning, safety, reinforcement learning, time series, graph learning, retrieval, and scientific machine learning.</p></article>
+          <article><h3>Verification contract</h3><p>Every task binds one target metric to its dataset, required outputs, evaluator source, evaluator version, and expected result format.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="statistics">
+      <div class="container">
+        <h2 class="section-title">Basic Statistics</h2>
         <div class="stats" aria-label="Benchmark statistics">
           <div><strong id="stat-tasks">47</strong><span>paper tasks</span></div>
           <div><strong>20</strong><span>paper-scale</span></div>
@@ -76,18 +110,6 @@
           <img src="./assets/domain-distribution.png" alt="Distribution of the 47 ReproBoundary tasks across research domains" width="2378" height="1500">
           <figcaption>Distribution of the frozen task pool across research domains.</figcaption>
         </figure>
-      </div>
-    </section>
-
-    <section class="section" id="design">
-      <div class="container">
-        <h2 class="section-title">What ReproBoundary Checks</h2>
-        <div class="check-grid">
-          <article><span>01</span><h3>Understand and plan</h3><p>Recover the selected claim and translate the frozen specification into a feasible experimental pipeline.</p></article>
-          <article><span>02</span><h3>Execute the contract</h3><p>Complete every required stage within the declared compute, time, memory, and storage envelope.</p></article>
-          <article><span>03</span><h3>Deliver evidence</h3><p>Retain traceable outputs and process evidence rather than treating a plausible final report as success.</p></article>
-          <article><span>04</span><h3>Verify independently</h3><p>Check artifact completeness and metric agreement separately with the frozen task-specific evaluator.</p></article>
-        </div>
       </div>
     </section>
 
@@ -116,7 +138,23 @@
       </div>
     </section>
 
-    <section class="section" id="data">
+    <header class="chapter"><h2>Evaluation Framework</h2></header>
+
+    <section class="section" id="evaluation">
+      <div class="container">
+        <h2 class="section-title">Evaluation Protocol</h2>
+        <p class="section-lead">ReproBoundary does not treat a plausible report or a matching number as sufficient evidence of reproduction.</p>
+        <div class="protocol-grid">
+          <article><h3>Execution</h3><p>Did the run complete every stage required by the frozen task specification?</p></article>
+          <article><h3>Delivery</h3><p>Are the expected outputs, provenance records, and supporting artifacts present and traceable?</p></article>
+          <article><h3>Metric replay</h3><p>Can the task-specific evaluator recompute the submitted target metric from the required artifacts?</p></article>
+          <article><h3>Agreement</h3><p>Does the recomputed metric agree with the submitted value under the task's declared comparison rule?</p></article>
+        </div>
+        <p class="scope-box"><strong>Important.</strong> Metric agreement confirms a number; it does not by itself prove that every required experimental stage was completed. Process evidence and metric evidence remain separate.</p>
+      </div>
+    </section>
+
+    <section class="section section-light" id="data">
       <div class="container narrow">
         <h2 class="section-title">Data and Verification</h2>
         <div class="prose"><p>GitHub hosts the lightweight task definitions, evaluator records, protocol templates, and verification code. Hugging Face hosts 423 cleaned, compressed execution logs with a central provenance index and SHA-256 fingerprints.</p></div>
@@ -129,18 +167,29 @@ python3 scripts/verify_release.py
       </div>
     </section>
 
-    <section class="section section-light" id="results">
+    <header class="chapter"><h2>Experimental Results</h2></header>
+
+    <section class="section" id="results">
       <div class="container narrow has-text-centered">
-        <h2 class="section-title">Results</h2>
-        <p class="section-lead">The public leaderboard is pending publication of frozen, provenance-checked aggregates. No provisional result is presented as a verified benchmark score.</p>
+        <h2 class="section-title">Main Results</h2>
+        <p class="section-lead">Aggregate benchmark results and failure-mode analyses are not yet included in the public release. They will appear here only after their denominators, provenance, and interpretation are frozen for publication.</p>
+        <span class="status-pill">Not yet published</span>
       </div>
     </section>
 
-    <section class="section" id="submission">
+    <section class="section section-light" id="submission">
       <div class="container narrow has-text-centered">
         <h2 class="section-title">Submit a Run</h2>
         <p class="section-lead">Send the evaluated configuration, result files, and a link to supporting artifacts for verification.</p>
         <a class="email-link" href="mailto:endlesssalaxy@outlook.com?subject=ReproBoundary%20Result%20Submission">endlesssalaxy@outlook.com</a>
+      </div>
+    </section>
+
+    <header class="chapter"><h2>Citation</h2></header>
+
+    <section class="section" id="citation">
+      <div class="container narrow has-text-centered">
+        <p class="section-lead">A formal paper citation has not yet been released. Until then, use the versioned GitHub repository and fixed Hugging Face dataset revision as the public release record.</p>
       </div>
     </section>
   </main>
