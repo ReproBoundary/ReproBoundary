@@ -54,10 +54,10 @@
             Reproducing a machine-learning paper requires more than generating plausible code. An agent must recover the target claim, respect the experimental contract, complete every required stage, and deliver artifacts whose reported metric can be independently checked. ReproBoundary evaluates this end-to-end capability across 47 frozen paper-to-code tasks.
           </p>
           <p>
-            Each task fixes the source repository and revision, data scope, required stages, compute budget, target metric, reference value, and evaluator before the run begins. Twenty tasks retain the paper-selected experimental scale; 27 reduce training, search, or repetition while keeping the complete target evaluation set.
+            Each task fixes the source repository and revision, data scope, required stages, target metric, reference value, expected outputs, and evaluator before the run begins. The public release connects every task definition to its source code, execution trajectory index, and verification record.
           </p>
         </div>
-        <p class="scope-box"><strong>Scope.</strong> Each task reproduces one selected result under a fixed resource limit. It does not reproduce every result or support every conclusion in the source paper.</p>
+        <p class="scope-box"><strong>Scope.</strong> Each task reproduces one selected result under a frozen task definition. It does not reproduce every result or support every conclusion in the source paper.</p>
       </div>
     </section>
 
@@ -77,7 +77,7 @@
         <p class="section-lead">The benchmark is built as a traceable chain from one paper-reported result to a frozen task, a controlled run, and an independent check.</p>
         <div class="check-grid">
           <article><span>01</span><h3>Select a target result</h3><p>Freeze one concrete experiment, paper-reported reference value, public source repository, and exact code revision.</p></article>
-          <article><span>02</span><h3>Define the contract</h3><p>Record the data scope, required stages, target metric, evaluator, and time, compute, memory, and storage limits.</p></article>
+          <article><span>02</span><h3>Define the contract</h3><p>Record the data scope, required stages, expected outputs, target metric, evaluator source, and result format.</p></article>
           <article><span>03</span><h3>Run the agents</h3><p>Execute every task with nine model-agent settings, producing 423 indexed trajectories across the 47-task pool.</p></article>
           <article><span>04</span><h3>Release and verify</h3><p>Separate lightweight code from compressed logs, redact sensitive text, index file hashes, and provide deterministic integrity checks.</p></article>
         </div>
@@ -89,7 +89,7 @@
         <h2 class="section-title">Task Taxonomy</h2>
         <p class="section-lead">Tasks are organized along three explicit dimensions instead of being reduced to a single difficulty label.</p>
         <div class="taxonomy-grid">
-          <article><h3>Experimental scale</h3><p><strong>20 paper-scale tasks</strong> retain the experiment size selected from the paper. <strong>27 resource-bounded tasks</strong> reduce training, search, or repeated work while retaining the complete target evaluation set.</p></article>
+          <article><h3>Research target</h3><p>Each task isolates one paper-reported result, its reference value, the dataset used for final evaluation, and the exact source-code revision needed to interpret it.</p></article>
           <article><h3>Research domain</h3><p>The pool spans 15 domains, including language models, multimodal learning, computer vision, reasoning, safety, reinforcement learning, time series, graph learning, retrieval, and scientific machine learning.</p></article>
           <article><h3>Verification contract</h3><p>Every task binds one target metric to its dataset, required outputs, evaluator source, evaluator version, and expected result format.</p></article>
         </div>
@@ -101,8 +101,8 @@
         <h2 class="section-title">Basic Statistics</h2>
         <div class="stats" aria-label="Benchmark statistics">
           <div><strong id="stat-tasks">47</strong><span>paper tasks</span></div>
-          <div><strong>20</strong><span>paper-scale</span></div>
-          <div><strong>27</strong><span>resource-bounded</span></div>
+          <div><strong>9</strong><span>model-agent settings</span></div>
+          <div><strong>47</strong><span>evaluator records</span></div>
           <div><strong>423</strong><span>execution logs</span></div>
           <div><strong id="stat-domains">15</strong><span>research domains</span></div>
         </div>
@@ -116,20 +116,15 @@
     <section class="section section-light" id="tasks">
       <div class="container">
         <h2 class="section-title">Task Explorer</h2>
-        <p class="section-lead">Browse all frozen tasks by paper, domain, target metric, dataset, or experimental scale.</p>
+        <p class="section-lead">Browse all frozen tasks by paper, domain, target metric, or evaluation dataset.</p>
         <div class="task-controls">
           <label class="search-control"><i data-lucide="search" aria-hidden="true"></i><span class="sr-only">Search tasks</span><input id="task-search" type="search" placeholder="Search paper, task, metric, or dataset" autocomplete="off"></label>
           <label class="select-control"><span class="sr-only">Filter by domain</span><select id="domain-filter"><option value="all">All domains</option></select></label>
-          <div class="scale-control" role="group" aria-label="Filter by experimental scale">
-            <button type="button" class="is-active" data-scale="all" aria-pressed="true">All</button>
-            <button type="button" data-scale="paper-scale" aria-pressed="false">Paper-scale</button>
-            <button type="button" data-scale="resource-bounded" aria-pressed="false">Resource-bounded</button>
-          </div>
         </div>
         <p id="task-count" class="result-count" aria-live="polite">Loading task inventory...</p>
         <div class="table-wrap">
           <table class="task-table">
-            <thead><tr><th scope="col">Paper and target task</th><th scope="col">Domain</th><th scope="col">Target metric</th><th scope="col">Scale</th><th scope="col">Budget</th><th scope="col"><span class="sr-only">Source repository</span></th></tr></thead>
+            <thead><tr><th scope="col">Paper and target task</th><th scope="col">Domain</th><th scope="col">Target metric</th><th scope="col"><span class="sr-only">Source repository</span></th></tr></thead>
             <tbody id="task-table-body"></tbody>
           </table>
           <div id="task-empty" class="empty-state" hidden>No tasks match the current filters.</div>
@@ -154,10 +149,40 @@
       </div>
     </section>
 
-    <section class="section section-light" id="data">
+    <section class="section section-light" id="open-source">
+      <div class="container">
+        <h2 class="section-title">Open-source Release Map</h2>
+        <p class="section-lead">The website, GitHub repository, and Hugging Face dataset are complementary entry points to one versioned release.</p>
+        <div class="release-map">
+          <article>
+            <h3>Tasks</h3>
+            <p>Discover papers here, then inspect the source records on GitHub.</p>
+            <ul><li><a href="#tasks">Website task explorer</a></li><li><a href="https://github.com/ReproBoundary/ReproBoundary/tree/main/task_pool">GitHub task pool</a></li></ul>
+          </article>
+          <article>
+            <h3>Trajectories</h3>
+            <p>Use the central index to connect each task and setting to its released log.</p>
+            <ul><li><a href="https://github.com/ReproBoundary/ReproBoundary/blob/main/trajectories/TRAJECTORY_INDEX.csv">GitHub trajectory index</a></li><li><a href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories">Hugging Face logs</a></li></ul>
+          </article>
+          <article>
+            <h3>Evaluators</h3>
+            <p>Trace each target metric to its contract, helper files, source, and version.</p>
+            <ul><li><a href="https://github.com/ReproBoundary/ReproBoundary/tree/main/evaluators">Evaluator records</a></li><li><a href="https://github.com/ReproBoundary/ReproBoundary/blob/main/docs/EVALUATOR_PROVENANCE.md">Evaluator provenance</a></li></ul>
+          </article>
+          <article>
+            <h3>Verification</h3>
+            <p>Validate the lightweight code release and the external trajectory package separately.</p>
+            <ul><li><a href="https://github.com/ReproBoundary/ReproBoundary/blob/main/scripts/verify_release.py">GitHub release check</a></li><li><a href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories/blob/main/scripts/verify_dataset.py">Hugging Face dataset check</a></li></ul>
+          </article>
+        </div>
+        <p class="connection-line"><a href="https://reproboundary.github.io/">Website</a><span>↔</span><a href="https://github.com/ReproBoundary/ReproBoundary">GitHub</a><span>↔</span><a href="https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories">Hugging Face</a></p>
+      </div>
+    </section>
+
+    <section class="section" id="data">
       <div class="container narrow">
-        <h2 class="section-title">Data and Verification</h2>
-        <div class="prose"><p>GitHub hosts the lightweight task definitions, evaluator records, protocol templates, and verification code. Hugging Face hosts 423 cleaned, compressed execution logs with a central provenance index and SHA-256 fingerprints.</p></div>
+        <h2 class="section-title">Verify the Release</h2>
+        <div class="prose"><p>GitHub hosts the lightweight task definitions, evaluator records, protocol templates, and verification code. Hugging Face hosts 423 cleaned, compressed execution logs. Both surfaces link back to this website and to each other through their release documentation.</p></div>
         <pre class="command"><code>git clone https://github.com/ReproBoundary/ReproBoundary.git
 cd ReproBoundary
 python3 scripts/verify_release.py

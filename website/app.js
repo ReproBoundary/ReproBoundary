@@ -1,13 +1,12 @@
 const PAGE_SIZE = 12;
 
-const state = { tasks: [], query: "", domain: "all", scale: "all", showAll: false };
+const state = { tasks: [], query: "", domain: "all", showAll: false };
 const taskBody = document.querySelector("#task-table-body");
 const taskEmpty = document.querySelector("#task-empty");
 const taskCount = document.querySelector("#task-count");
 const searchInput = document.querySelector("#task-search");
 const domainFilter = document.querySelector("#domain-filter");
 const showAllButton = document.querySelector("#show-all-tasks");
-const scaleButtons = [...document.querySelectorAll("[data-scale]")];
 
 function escapeHTML(value) {
   return String(value)
@@ -24,8 +23,7 @@ function filteredTasks() {
     const matchesQuery = !query || [task.project_id, task.paper_title, task.target_task, task.target_metric, task.evaluation_dataset]
       .some((value) => value.toLowerCase().includes(query));
     const matchesDomain = state.domain === "all" || task.domain_key === state.domain;
-    const matchesScale = state.scale === "all" || task.scale_key === state.scale;
-    return matchesQuery && matchesDomain && matchesScale;
+    return matchesQuery && matchesDomain;
   });
 }
 
@@ -37,8 +35,6 @@ function renderTasks() {
       <td><span class="task-title">${escapeHTML(task.paper_title)}</span><span class="task-target">${escapeHTML(task.target_task)}</span></td>
       <td><span class="domain-label">${escapeHTML(task.domain_label)}</span></td>
       <td>${escapeHTML(task.target_metric)}<span class="metric-reference">ref. ${escapeHTML(task.reference_display)}</span></td>
-      <td><span class="scale-label">${escapeHTML(task.scale_label)}</span></td>
-      <td>${escapeHTML(task.wall_time_hours)} h<br>${escapeHTML(task.hardware_label)}</td>
       <td><a class="repository-link" href="${escapeHTML(task.repository_url)}" aria-label="Open source repository for ${escapeHTML(task.paper_title)}" title="Source repository"><i data-lucide="arrow-up-right" aria-hidden="true"></i></a></td>
     </tr>
   `).join("");
@@ -85,19 +81,6 @@ domainFilter.addEventListener("change", (event) => {
   state.domain = event.target.value;
   state.showAll = false;
   renderTasks();
-});
-
-scaleButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    state.scale = button.dataset.scale;
-    state.showAll = false;
-    scaleButtons.forEach((candidate) => {
-      const active = candidate === button;
-      candidate.classList.toggle("is-active", active);
-      candidate.setAttribute("aria-pressed", String(active));
-    });
-    renderTasks();
-  });
 });
 
 showAllButton.addEventListener("click", () => {
