@@ -27,29 +27,37 @@ this file after changing the main task table. Do not edit it by hand.
 
 ## Leaderboard data
 
-`data/leaderboard.json` is empty until checked aggregate results are ready. An
-**aggregate result** combines results from a fixed set of runs, for example the
-success rate of one model-agent setting across all tasks.
+`data/leaderboard.json` contains the frozen aggregate for the 47-task by
+9-configuration main experiment. The table ranks configurations by strict
+reproduction success and keeps execution, delivery, evaluator replay, strict
+success, and unresolved counts separate.
 
-Each future row uses these fields:
+Each row uses these fields:
 
-- `configuration`: model-agent setting;
-- `execution`: number or rate of runs that completed required stages;
-- `delivery`: number or rate of runs that submitted the required files;
-- `replay_agreement`: number or rate whose submitted metric matched an
-  independent evaluator rerun;
-- `strict_success`: number or rate that passed all required checks; and
-- `pgap`: the performance gap between a reproduced metric and the value
-  reported by the source paper.
+- `model` and `agent`: the evaluated configuration;
+- `execution`: count that completed required stages;
+- `delivery`: count that passed delivery checks;
+- `replay_match`: count whose retained result matched evaluator replay;
+- `strict_success`: count that passed the frozen strict conjunction; and
+- `unresolved`: count without enough evidence for a strict terminal verdict.
 
-Publish only values derived from a fixed set of runs whose source records have
-been checked.
+The public provenance file is
+`../results/LEADERBOARD_FROZEN_20261011.json`. Do not add PGap, runtime, or
+token aggregates without a frozen end-to-end aggregation path.
+
+## Manuscript-derived sections
+
+The construction pipeline, benchmark comparison, failure taxonomy, workflow
+stage analysis, and representative cases are adapted from the manuscript. The
+web pipeline removes resource-scale labels and updates the release summary to
+the verified public inventory. Numerical workflow counts use the post-freeze
+stage ledger; they are not substituted for frozen strict results.
 
 ## Result submissions
 
-The website does not accept file uploads. The Submit section opens an email to
-`endlesssalaxy@outlook.com` with the subject `ReproBoundary Result Submission`.
-Change the address in `index.html` if the project contact changes.
+The website does not accept file uploads. The Submit section specifies the six
+required protocol deliverables, evidence directories, archive checksum, and
+email metadata. The complete procedure is in `../docs/SUBMIT_A_RUN.md`.
 
 ## GitHub Pages
 
