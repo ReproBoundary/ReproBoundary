@@ -13,7 +13,7 @@
 [Website](https://reproboundary.github.io/) ·
 [Frozen results](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/data/leaderboard.json) ·
 [Submit a run](SUBMIT_A_RUN.md) ·
-[Evaluator guide](EVALUATOR_PROVENANCE.md)
+[Evaluator guide](evaluators/EVALUATOR_PROVENANCE.md)
 
 </div>
 
@@ -83,20 +83,18 @@ instructions are maintained in the
 ## Repository structure
 
 `tasks/` defines the 47 frozen tasks, while `evaluators/` binds each task to its
-target metric and checking files. The prompt, submission guide, license notes,
-and evaluator provenance are kept as root-level files. The leaderboard is
-maintained with the website source; papers, the trajectory index, and all 423
-logs remain on Hugging Face. The project website is maintained separately at
+target metric, provenance, and checking files. The prompt, submission guide,
+and license notes are kept as root-level files. The leaderboard is maintained
+with the website source; papers, the trajectory index, and all 423 logs remain
+on Hugging Face. The project website is maintained separately at
 [reproboundary.github.io](https://reproboundary.github.io/).
 
 ```text
 ReproBoundary/
 ├── README.md
-├── CONTRIBUTING.md
 ├── AGENT_PROMPT.txt
 ├── SUBMIT_A_RUN.md
 ├── LICENSES.md
-├── EVALUATOR_PROVENANCE.md
 ├── RELEASE_MANIFEST.json
 ├── SHA256SUMS
 ├── verify_release.py
@@ -104,6 +102,7 @@ ReproBoundary/
 │   └── TASK_INVENTORY_47.csv
 └── evaluators/
     ├── EVALUATOR_INDEX.csv
+    ├── EVALUATOR_PROVENANCE.md
     └── tasks/
         └── <project_id>/
             ├── TARGET_EVALUATION.json
@@ -143,7 +142,7 @@ also fixes the source URL and exact code version.
 
 Some helper files come from the source-paper repositories. Others were written
 for ReproBoundary to prepare inputs, check completeness, or combine repeated
-runs. [Evaluator file origins](EVALUATOR_PROVENANCE.md) identifies which
+runs. [Evaluator file origins](evaluators/EVALUATOR_PROVENANCE.md) identifies which
 is which.
 
 Recomputing a metric can confirm a submitted number. It does not by itself
@@ -162,12 +161,6 @@ files, saved training states, saved predictions, complete copies of third-party
 projects, credentials, or private machine records. Download the trajectories
 from the fixed Hugging Face dataset and public dependencies from the exact
 links and versions recorded in the task and evaluator files.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md). A change to a task, evaluator, or result
-must include a public source or saved evidence and the exact file or code
-version supporting the change.
 
 ## License
 
