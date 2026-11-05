@@ -1,8 +1,8 @@
 # Contributing to ReproBoundary
 
 This repository is an evidence record as well as a code repository. A change
-must preserve the source and meaning of every task, trajectory index entry, and
-score. Compressed execution logs are maintained in the separate Hugging Face
+must preserve the source and meaning of every task and score. The trajectory
+index and compressed execution logs are maintained in the separate Hugging Face
 dataset rather than this GitHub repository.
 
 ## Changes we accept

@@ -11,11 +11,9 @@
 [Task list](tasks/TASK_INVENTORY_47.csv) ·
 [Trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories) ·
 [Website](https://reproboundary.github.io/) ·
-[Frozen results](results/LEADERBOARD_FROZEN_20261011.json) ·
-[Submit a run](docs/SUBMIT_A_RUN.md) ·
-[Data description](docs/DATA_CARD.md) ·
-[Evaluator guide](docs/EVALUATOR_PROVENANCE.md) ·
-[Migration guide](docs/PORTABILITY.md)
+[Frozen results](LEADERBOARD.json) ·
+[Submit a run](SUBMIT_A_RUN.md) ·
+[Evaluator guide](EVALUATOR_PROVENANCE.md)
 
 </div>
 
@@ -49,18 +47,14 @@ All 47 tasks retain their complete target evaluation set.
   [`TASK_INVENTORY_47.csv`](tasks/TASK_INVENTORY_47.csv) is the single
   authoritative task catalog and is directly machine-readable.
 - **Study an agent run:**
-  [`TRAJECTORY_INDEX.csv`](trajectories/TRAJECTORY_INDEX.csv) links every task
-  and model-agent setting to its `agent.log.gz` file in the
-  [trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories).
+  use the [`TRAJECTORY_INDEX.csv`](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories/blob/main/trajectories/TRAJECTORY_INDEX.csv)
+  stored with the logs on Hugging Face.
 - **Check a submitted result:**
   [`EVALUATOR_INDEX.csv`](evaluators/EVALUATOR_INDEX.csv) identifies the
   evaluation command, source-code version, and required helper files.
 - **Read or submit leaderboard results:** inspect the
-  [frozen aggregate](results/LEADERBOARD_FROZEN_20261011.json) and follow the
-  [evidence-package submission guide](docs/SUBMIT_A_RUN.md).
-- **Move an evaluator to another machine:** follow the
-  [migration guide](docs/PORTABILITY.md) without changing the task's data,
-  method, or metric.
+  [frozen aggregate](LEADERBOARD.json) and follow the
+  [evidence-package submission guide](SUBMIT_A_RUN.md).
 
 ## Download and verify the code release
 
@@ -73,12 +67,11 @@ python3 scripts/verify_release.py
 Expected output:
 
 ```text
-verification OK: tasks=47 evaluators=47 trajectory_records=423 bundled_logs=0
+verification OK: tasks=47 evaluators=47 bundled_logs=0
 ```
 
-This check confirms file hashes, index entries, task and evaluator counts,
-evaluator size limits, and that no compressed trajectory logs are bundled in
-the GitHub repository.
+This checks file hashes, task and evaluator counts, evaluator size limits, and
+that no trajectory logs are bundled in the GitHub repository.
 
 ## Download and verify the trajectories
 
@@ -88,16 +81,22 @@ instructions are maintained in the
 
 ## Repository structure
 
-`tasks/` defines the 47 frozen tasks, while `evaluators/` binds each task
-to its target metric and checking files. `trajectories/` contains only the
-public index; the 423 compressed logs remain in the Hugging Face dataset.
-`results/` holds the frozen aggregate results. The project website is maintained
-separately at [reproboundary.github.io](https://reproboundary.github.io/).
+`tasks/` defines the 47 frozen tasks, while `evaluators/` binds each task to its
+target metric and checking files. The prompt, leaderboard, submission guide,
+license notes, and evaluator provenance are kept as root-level files. Papers,
+the trajectory index, and all 423 logs remain on Hugging Face. The project
+website is maintained separately at
+[reproboundary.github.io](https://reproboundary.github.io/).
 
 ```text
 ReproBoundary/
 ├── README.md
 ├── CONTRIBUTING.md
+├── AGENT_PROMPT.txt
+├── LEADERBOARD.json
+├── SUBMIT_A_RUN.md
+├── LICENSES.md
+├── EVALUATOR_PROVENANCE.md
 ├── RELEASE_MANIFEST.json
 ├── SHA256SUMS
 ├── tasks/
@@ -108,21 +107,6 @@ ReproBoundary/
 │       └── <project_id>/
 │           ├── TARGET_EVALUATION.json
 │           └── <task-specific evaluator files>
-├── trajectories/
-│   ├── README.md
-│   └── TRAJECTORY_INDEX.csv
-├── protocol/
-│   ├── AGENT_PROMPT.template.txt
-│   ├── REDUCTION_PROMPT.template.txt
-│   └── TARGET_EVALUATION.template.json
-├── results/
-│   ├── README.md
-│   └── LEADERBOARD_FROZEN_20261011.json
-├── docs/
-│   ├── DATA_CARD.md
-│   ├── EVALUATOR_PROVENANCE.md
-│   ├── PORTABILITY.md
-│   └── SUBMIT_A_RUN.md
 └── scripts/
     └── verify_release.py
 ```
@@ -144,8 +128,9 @@ than being duplicated in the central task catalog.
 
 Every planned run has one cleaned `agent.log.gz` file in the separate
 [trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories).
-GitHub keeps only the central index. Credentials, private paths, authorization
-headers, cookies, and similar sensitive text have been removed or replaced.
+GitHub does not duplicate the trajectory index or log files. Credentials,
+private paths, authorization headers, cookies, and similar sensitive text have
+been removed or replaced.
 
 The archive contains 418 completed run records, four logs whose final state is
 unresolved, and one snapshot saved while a run was active. These states are
@@ -159,7 +144,7 @@ also fixes the source URL and exact code version.
 
 Some helper files come from the source-paper repositories. Others were written
 for ReproBoundary to prepare inputs, check completeness, or combine repeated
-runs. [Evaluator file origins](docs/EVALUATOR_PROVENANCE.md) identifies which
+runs. [Evaluator file origins](EVALUATOR_PROVENANCE.md) identifies which
 is which.
 
 Recomputing a metric can confirm a submitted number. It does not by itself
@@ -191,4 +176,4 @@ No top-level license has yet been selected for files written by the
 ReproBoundary team. Public access does not by itself grant permission to copy,
 modify, or redistribute those files. Papers, datasets, models, source
 repositories, and original evaluation programs retain their own licenses. See
-[`docs/LICENSES.md`](docs/LICENSES.md) before reuse.
+[`LICENSES.md`](LICENSES.md) before reuse.

@@ -36,7 +36,7 @@
     "raw_unresolved_trajectory": 4,
     "running_snapshot_with_prior_attempt_bundle": 1
   },
-  "trajectory_index_count": 423,
+  "external_trajectory_count": 423,
   "bundled_trajectory_file_count": 0,
   "external_trajectory_repository": "SupingSun/ReproBoundary-Execution-Trajectories",
   "external_trajectory_url": "https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories",
