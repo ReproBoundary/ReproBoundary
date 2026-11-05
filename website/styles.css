@@ -60,12 +60,6 @@ button, input, select { font: inherit; }
 .check-grid h3 { margin: 44px 0 10px; font-size: 18px; line-height: 1.35; }
 .check-grid p { margin: 0; color: var(--muted); font-size: 13px; }
 
-.taxonomy-grid, .protocol-grid { display: grid; max-width: 1000px; margin: 36px auto 0; gap: 18px; }
-.taxonomy-grid { grid-template-columns: repeat(3, 1fr); }
-.protocol-grid { grid-template-columns: repeat(4, 1fr); }
-.taxonomy-grid article, .protocol-grid article { padding: 22px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
-.taxonomy-grid h3, .protocol-grid h3 { margin: 0 0 10px; font-size: 17px; }
-.taxonomy-grid p, .protocol-grid p { margin: 0; color: var(--muted); font-size: 13px; }
 
 .task-controls { display: grid; max-width: 780px; margin: 0 auto; grid-template-columns: minmax(260px, 1fr) 230px; gap: 10px; }
 .search-control, .select-control { position: relative; display: flex; min-height: 44px; align-items: center; border: 1px solid #cfcfcf; border-radius: 5px; background: #fff; }
@@ -138,8 +132,6 @@ td { padding: 16px 10px; border-top: 1px solid #e5e5e5; color: #555; font-size: 
   .stats div:nth-child(4), .stats div:nth-child(5) { border-top: 1px solid var(--line); }
   .check-grid { grid-template-columns: repeat(2, 1fr); }
   .check-grid article:nth-child(3), .check-grid article:nth-child(4) { border-top: 1px solid var(--line); }
-  .taxonomy-grid { grid-template-columns: 1fr; }
-  .protocol-grid { grid-template-columns: repeat(2, 1fr); }
   .release-map { grid-template-columns: repeat(2, 1fr); }
   .case-grid { grid-template-columns: 1fr; }
 }
@@ -162,7 +154,6 @@ td { padding: 16px 10px; border-top: 1px solid #e5e5e5; color: #555; font-size: 
   .check-grid article, .check-grid article:nth-child(3), .check-grid article:nth-child(4) { min-height: auto; border-top: 1px solid var(--line); border-right: 1px solid var(--line); }
   .check-grid article:first-child { border-top: 0; }
   .check-grid h3 { margin-top: 18px; }
-  .protocol-grid { grid-template-columns: 1fr; }
   .task-controls { grid-template-columns: 1fr; }
   .release-map { grid-template-columns: 1fr; }
   .submission-grid { grid-template-columns: 1fr; }
