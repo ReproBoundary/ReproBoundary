@@ -82,39 +82,9 @@ the GitHub repository.
 
 ## Download and verify the trajectories
 
-The 423 compressed logs are stored in the public
-[Hugging Face dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories)
-at revision `57e17e11f795c6df9f7806ad2262fd32897ec2e6`. No account or access
-token is required to download the public dataset.
-
-```bash
-python3 -m venv .hf-venv
-source .hf-venv/bin/activate
-python -m pip install "huggingface_hub>=1.0,<2"
-
-hf download SupingSun/ReproBoundary-Execution-Trajectories \
-  --repo-type dataset \
-  --revision 57e17e11f795c6df9f7806ad2262fd32897ec2e6 \
-  --local-dir ReproBoundary-Execution-Trajectories
-
-cd ReproBoundary-Execution-Trajectories
-python3 scripts/verify_dataset.py
-```
-
-Expected output:
-
-```text
-verification OK: tasks=47 settings=9 trajectories=423
-```
-
-The dataset check reads every gzip file and verifies all 423 indexed SHA-256
-hashes. SHA-256 is a file fingerprint used to detect changed bytes. The
-download is about 399 MB; allow at least 1 GB of free space. A full check took
-about two minutes on the machine used for the release audit.
-
-To inspect one log without extra Python packages, run the example in the
-[trajectory guide](trajectories/README.md). It prints the run metadata, checks
-the selected file hash, and shows only the first 20 lines.
+The 423 logs, paper PDFs, trajectory index, download command, and verification
+instructions are maintained in the
+[Hugging Face dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories).
 
 ## Repository structure
 
