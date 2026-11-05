@@ -31,7 +31,7 @@ change. A **repository commit** is an exact saved version of source code.
 Run:
 
 ```bash
-python3 scripts/verify_release.py
+python3 verify_release.py
 ```
 
 This checks file hashes, indexes, counts, size limits, and common secret

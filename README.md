@@ -61,7 +61,7 @@ All 47 tasks retain their complete target evaluation set.
 ```bash
 git clone https://github.com/ReproBoundary/ReproBoundary.git
 cd ReproBoundary
-python3 scripts/verify_release.py
+python3 verify_release.py
 ```
 
 Expected output:
@@ -99,16 +99,15 @@ ReproBoundary/
 ├── EVALUATOR_PROVENANCE.md
 ├── RELEASE_MANIFEST.json
 ├── SHA256SUMS
+├── verify_release.py
 ├── tasks/
 │   └── TASK_INVENTORY_47.csv
-├── evaluators/
-│   ├── EVALUATOR_INDEX.csv
-│   └── tasks/
-│       └── <project_id>/
-│           ├── TARGET_EVALUATION.json
-│           └── <task-specific evaluator files>
-└── scripts/
-    └── verify_release.py
+└── evaluators/
+    ├── EVALUATOR_INDEX.csv
+    └── tasks/
+        └── <project_id>/
+            ├── TARGET_EVALUATION.json
+            └── <task-specific evaluator files>
 ```
 
 ## Task definitions

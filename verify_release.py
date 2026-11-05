@@ -6,7 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parent
 MAX_EVALUATOR_FILE_BYTES = 1024 * 1024
 MAX_EVALUATOR_BUNDLE_BYTES = 10 * 1024 * 1024
 DATASET_REPOSITORY = "SupingSun/ReproBoundary-Execution-Trajectories"
