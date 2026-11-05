@@ -98,14 +98,6 @@ td { padding: 16px 10px; border-top: 1px solid #e5e5e5; color: #555; font-size: 
 .empty-state { padding: 40px; color: var(--muted); text-align: center; }
 .show-all { display: block; margin: 18px auto 0; padding: 8px 16px; border: 1px solid #aaa; border-radius: 999px; color: #333; background: #fff; cursor: pointer; }
 
-.release-map { display: grid; margin-top: 34px; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.release-map article { padding: 22px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
-.release-map h3 { margin: 0 0 8px; font-size: 17px; }
-.release-map p { margin: 0 0 14px; color: var(--muted); font-size: 13px; }
-.release-map ul { margin: 0; padding-left: 18px; font-size: 12px; }
-.release-map li + li { margin-top: 4px; }
-.connection-line { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 28px 0 0; font-size: 14px; font-weight: 600; }
-.connection-line span { color: #999; }
 
 .command { margin: 30px 0 0; padding: 20px 22px; overflow-x: auto; border-radius: 6px; color: #f5f5f5; background: #2b2b2b; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; line-height: 1.75; }
 .submission-grid { display: grid; margin-top: 24px; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -132,7 +124,6 @@ td { padding: 16px 10px; border-top: 1px solid #e5e5e5; color: #555; font-size: 
   .stats div:nth-child(4), .stats div:nth-child(5) { border-top: 1px solid var(--line); }
   .check-grid { grid-template-columns: repeat(2, 1fr); }
   .check-grid article:nth-child(3), .check-grid article:nth-child(4) { border-top: 1px solid var(--line); }
-  .release-map { grid-template-columns: repeat(2, 1fr); }
   .case-grid { grid-template-columns: 1fr; }
 }
 
@@ -155,9 +146,7 @@ td { padding: 16px 10px; border-top: 1px solid #e5e5e5; color: #555; font-size: 
   .check-grid article:first-child { border-top: 0; }
   .check-grid h3 { margin-top: 18px; }
   .task-controls { grid-template-columns: 1fr; }
-  .release-map { grid-template-columns: 1fr; }
   .submission-grid { grid-template-columns: 1fr; }
-  .connection-line { flex-wrap: wrap; }
   .result-count { text-align: left; }
   .footer-content { align-items: flex-start; flex-direction: column; }
 }
