@@ -11,7 +11,6 @@ dataset rather than this GitHub repository.
 - Corrections to task descriptions with a public source.
 - Fixes to a checking program that keep the same data, reported number, and
   calculation.
-- Checked leaderboard data from a fixed set of runs.
 
 ## Evidence required for data changes
 
