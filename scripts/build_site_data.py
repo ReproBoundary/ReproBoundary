@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "task_pool" / "TASK_INVENTORY_47.csv"
+SOURCE = ROOT / "tasks" / "TASK_INVENTORY_47.csv"
 OUTPUT = ROOT / "website" / "data" / "tasks.json"
 
 DOMAIN_LABELS = {

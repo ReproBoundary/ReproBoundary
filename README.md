@@ -8,7 +8,7 @@
 [![Dataset](https://img.shields.io/badge/Hugging%20Face-423%20trajectories-FFD21E)](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories)
 [![Release check](https://img.shields.io/badge/release-verification%20script-197a66)](#download-and-verify-the-code-release)
 
-[Task list](task_pool/TASK_INVENTORY_47.csv) ·
+[Task list](tasks/TASK_INVENTORY_47.csv) ·
 [Trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories) ·
 [Website](https://reproboundary.github.io/) ·
 [Frozen results](results/LEADERBOARD_FROZEN_20261011.json) ·
@@ -50,9 +50,8 @@ All 47 tasks retain their complete target evaluation set.
 ## Start here
 
 - **Browse the papers and tasks:**
-  [`TASK_INVENTORY_47.csv`](task_pool/TASK_INVENTORY_47.csv) is the readable
-  table; [`tasks.jsonl`](task_pool/tasks.jsonl) contains the same task records
-  in a machine-readable format.
+  [`TASK_INVENTORY_47.csv`](tasks/TASK_INVENTORY_47.csv) is the single
+  authoritative task catalog and is directly machine-readable.
 - **Study an agent run:**
   [`TRAJECTORY_INDEX.csv`](trajectories/TRAJECTORY_INDEX.csv) links every task
   and model-agent setting to its `agent.log.gz` file in the
@@ -123,7 +122,7 @@ the selected file hash, and shows only the first 20 lines.
 
 ## Repository structure
 
-`task_pool/` defines the 47 frozen tasks, while `evaluators/` binds each task
+`tasks/` defines the 47 frozen tasks, while `evaluators/` binds each task
 to its target metric and checking files. `trajectories/` contains only the
 public index; the 423 compressed logs remain in the Hugging Face dataset.
 `results/` holds frozen aggregate results, and `website/` is the synchronized
@@ -135,11 +134,8 @@ ReproBoundary/
 ├── CONTRIBUTING.md
 ├── RELEASE_MANIFEST.json
 ├── SHA256SUMS
-├── task_pool/
-│   ├── TASK_INVENTORY_47.csv
-│   ├── tasks.jsonl
-│   ├── DATASET_MEMBERSHIP_PUBLIC.json
-│   └── papers.bib
+├── tasks/
+│   └── TASK_INVENTORY_47.csv
 ├── evaluators/
 │   ├── EVALUATOR_INDEX.csv
 │   └── tasks/
@@ -174,7 +170,7 @@ ReproBoundary/
 
 ## Task definitions
 
-Each row in [`TASK_INVENTORY_47.csv`](task_pool/TASK_INVENTORY_47.csv) records:
+Each row in [`TASK_INVENTORY_47.csv`](tasks/TASK_INVENTORY_47.csv) records:
 
 - the paper title and research area;
 - the selected experiment and result to report;

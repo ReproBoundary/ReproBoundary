@@ -22,7 +22,7 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 errors = []
-tasks = list(csv.DictReader((ROOT / "task_pool/TASK_INVENTORY_47.csv").open(encoding="utf-8-sig")))
+tasks = list(csv.DictReader((ROOT / "tasks/TASK_INVENTORY_47.csv").open(encoding="utf-8-sig")))
 runs = list(csv.DictReader((ROOT / "trajectories/TRAJECTORY_INDEX.csv").open()))
 evaluators = list(csv.DictReader((ROOT / "evaluators/EVALUATOR_INDEX.csv").open()))
 if len(tasks) != 47 or len({row["project_id"] for row in tasks}) != 47:
