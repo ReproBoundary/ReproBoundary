@@ -13,5 +13,5 @@
   DOI is a permanent identifier for a published research item.
 - [ ] Confirm that the package contains no datasets, model weights, hidden
   labels, credentials, or private machine records.
-- [ ] Confirm that the task list, evaluator index, website task data, and paper
-  report the same task count and versions.
+- [ ] Confirm that the task list, evaluator index, and paper report the same
+  task count and versions.

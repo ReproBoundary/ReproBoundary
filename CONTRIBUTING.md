@@ -8,7 +8,6 @@ dataset rather than this GitHub repository.
 ## Changes we accept
 
 - Documentation corrections and clearer explanations.
-- Fixes to website display or support for keyboard and screen-reader users.
 - Corrections to task descriptions with a public source.
 - Fixes to a checking program that keep the same data, reported number, and
   calculation.
@@ -32,12 +31,10 @@ change. A **repository commit** is an exact saved version of source code.
 Run:
 
 ```bash
-python3 scripts/build_site_data.py
 python3 scripts/verify_release.py
 ```
 
-The first command rebuilds the website task list from the main task table. The
-second checks file hashes, indexes, counts, size limits, and common secret
+This checks file hashes, indexes, counts, size limits, and common secret
 patterns.
 
 Do not include trajectory logs, datasets, trained model files, saved training

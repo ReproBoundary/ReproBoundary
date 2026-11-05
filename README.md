@@ -19,10 +19,6 @@
 
 </div>
 
-<div align="center">
-  <img src="website/assets/domain-distribution.png" width="760" alt="Distribution of 47 ReproBoundary tasks across research areas">
-</div>
-
 ReproBoundary tests whether a coding agent can reproduce one specified
 experiment from a research paper. Each task fixes the data, required stages,
 result to report, and program used to check that result.
@@ -125,8 +121,8 @@ the selected file hash, and shows only the first 20 lines.
 `tasks/` defines the 47 frozen tasks, while `evaluators/` binds each task
 to its target metric and checking files. `trajectories/` contains only the
 public index; the 423 compressed logs remain in the Hugging Face dataset.
-`results/` holds frozen aggregate results, and `website/` is the synchronized
-source for the public benchmark page.
+`results/` holds the frozen aggregate results. The project website is maintained
+separately at [reproboundary.github.io](https://reproboundary.github.io/).
 
 ```text
 ReproBoundary/
@@ -157,15 +153,8 @@ ReproBoundary/
 │   ├── EVALUATOR_PROVENANCE.md
 │   ├── PORTABILITY.md
 │   └── SUBMIT_A_RUN.md
-├── scripts/
-│   ├── build_site_data.py
-│   └── verify_release.py
-└── website/
-    ├── index.html
-    ├── app.js
-    ├── styles.css
-    ├── assets/
-    └── data/
+└── scripts/
+    └── verify_release.py
 ```
 
 ## Task definitions
@@ -211,17 +200,6 @@ The trajectory dataset contains logs, not saved predictions, checkpoints,
 model weights, or training states. The logs support chronology, tool-use,
 failure, and release-integrity analysis. They are not sufficient by themselves
 to recompute most task metrics.
-
-## Preview the website
-
-```bash
-python3 scripts/build_site_data.py
-python3 -m http.server 8765 --directory website
-```
-
-Open `http://127.0.0.1:8765` in a browser. The leaderboard is loaded from
-`website/data/leaderboard.json`; its provenance record is kept under
-[`results/`](results/).
 
 ## Not included
 
