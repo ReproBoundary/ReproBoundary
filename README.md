@@ -12,7 +12,7 @@
 [Trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories) ·
 [Website](https://reproboundary.github.io/) ·
 [Frozen results](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/data/leaderboard.json) ·
-[Submit a run](SUBMIT_A_RUN.md) ·
+[Submit a run](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/SUBMIT_A_RUN.md) ·
 [Evaluator guide](evaluators/EVALUATOR_PROVENANCE.md)
 
 </div>
@@ -55,7 +55,7 @@ All 47 tasks retain their complete target evaluation set.
 - **Read or submit leaderboard results:** inspect the
   [frozen aggregate](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/data/leaderboard.json)
   maintained with the website source, and follow the
-  [evidence-package submission guide](SUBMIT_A_RUN.md).
+  [evidence-package submission guide](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/SUBMIT_A_RUN.md).
 
 ## Download and verify the code release
 
@@ -83,8 +83,8 @@ instructions are maintained in the
 ## Repository structure
 
 `tasks/` defines the 47 frozen tasks, while `evaluators/` binds each task to its
-target metric, provenance, and checking files. The prompt, submission guide,
-and license notes are kept as root-level files. The leaderboard is maintained
+target metric, provenance, and checking files. The prompt and license notes are
+kept as root-level files. The leaderboard and submission guide are maintained
 with the website source; papers, the trajectory index, and all 423 logs remain
 on Hugging Face. The project website is maintained separately at
 [reproboundary.github.io](https://reproboundary.github.io/).
@@ -93,7 +93,6 @@ on Hugging Face. The project website is maintained separately at
 ReproBoundary/
 ├── README.md
 ├── AGENT_PROMPT.txt
-├── SUBMIT_A_RUN.md
 ├── LICENSES.md
 ├── RELEASE_MANIFEST.json
 ├── SHA256SUMS
