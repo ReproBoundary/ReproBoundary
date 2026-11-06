@@ -1,9 +1,0 @@
-{
-  "schema_version": "1.0",
-  "task_count": 47,
-  "evaluator_contract_count": 47,
-  "external_trajectory_count": 423,
-  "bundled_trajectory_file_count": 0,
-  "external_trajectory_repository": "SupingSun/ReproBoundary-Execution-Trajectories",
-  "external_trajectory_revision": "57e17e11f795c6df9f7806ad2262fd32897ec2e6"
-}

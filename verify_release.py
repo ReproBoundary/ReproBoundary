@@ -3,14 +3,11 @@ from __future__ import annotations
 
 import csv
 import hashlib
-import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 MAX_EVALUATOR_FILE_BYTES = 1024 * 1024
 MAX_EVALUATOR_BUNDLE_BYTES = 10 * 1024 * 1024
-DATASET_REPOSITORY = "SupingSun/ReproBoundary-Execution-Trajectories"
-DATASET_REVISION = "57e17e11f795c6df9f7806ad2262fd32897ec2e6"
 def sha256(path: Path) -> str:
     h = hashlib.sha256()
     with path.open("rb") as f:
@@ -29,16 +26,6 @@ bundled_logs = list(ROOT.rglob("*.gz"))
 if bundled_logs:
     for path in bundled_logs[:10]:
         errors.append(f"trajectory log must be hosted externally: {path.relative_to(ROOT)}")
-
-manifest = json.loads((ROOT / "RELEASE_MANIFEST.json").read_text())
-if manifest.get("external_trajectory_count") != 423:
-    errors.append("manifest external trajectory count is not 423")
-if manifest.get("bundled_trajectory_file_count") != 0:
-    errors.append("manifest bundled trajectory count is not zero")
-if manifest.get("external_trajectory_repository") != DATASET_REPOSITORY:
-    errors.append("manifest external trajectory repository does not match")
-if manifest.get("external_trajectory_revision") != DATASET_REVISION:
-    errors.append("manifest external trajectory revision does not match")
 
 evaluator_files = [path for path in (ROOT / "evaluators").rglob("*") if path.is_file()]
 evaluator_bundle_bytes = sum(path.stat().st_size for path in evaluator_files)

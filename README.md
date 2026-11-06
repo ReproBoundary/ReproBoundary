@@ -94,7 +94,6 @@ ReproBoundary/
 ├── README.md
 ├── AGENT_PROMPT.txt
 ├── LICENSES.md
-├── RELEASE_MANIFEST.json
 ├── SHA256SUMS
 ├── verify_release.py
 ├── tasks/
