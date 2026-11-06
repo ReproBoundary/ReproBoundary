@@ -27,5 +27,5 @@ used to identify exact file contents.
 
 A **wrapper** is a small program that prepares inputs or calls another program.
 Read the `NOTICE.md` file in each task directory and
-[Where the evaluator files came from](EVALUATOR_PROVENANCE.md) before
+[Where the evaluator files came from](evaluators/EVALUATOR_PROVENANCE.md) before
 redistributing these files.
