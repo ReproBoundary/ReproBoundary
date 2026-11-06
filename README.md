@@ -11,7 +11,7 @@
 [Task list](tasks/TASK_INVENTORY_47.csv) ·
 [Trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories) ·
 [Website](https://reproboundary.github.io/) ·
-[Frozen results](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/data/leaderboard.json) ·
+[Paper results](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/data/leaderboard.json) ·
 [Submit a run](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/SUBMIT_A_RUN.md) ·
 [Evaluator guide](evaluators/EVALUATOR_PROVENANCE.md)
 
@@ -53,7 +53,7 @@ All 47 tasks retain their complete target evaluation set.
   [`EVALUATOR_INDEX.csv`](evaluators/EVALUATOR_INDEX.csv) identifies the
   evaluation command, source-code version, and required helper files.
 - **Read or submit leaderboard results:** inspect the
-  [frozen aggregate](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/data/leaderboard.json)
+  [paper main-results table](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/data/leaderboard.json)
   maintained with the website source, and follow the
   [evidence-package submission guide](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/SUBMIT_A_RUN.md).
 
