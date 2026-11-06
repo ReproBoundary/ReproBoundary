@@ -57,6 +57,70 @@ All 47 tasks retain their complete target evaluation set.
   maintained with the website source, and follow the
   [evidence-package submission guide](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/SUBMIT_A_RUN.md).
 
+## Export, infer, and evaluate
+
+[`pipeline.py`](pipeline.py) provides one standard-library entry point for the
+released workflow. First export the machine-readable dataset from all 47
+frozen task and evaluator contracts:
+
+```bash
+python3 pipeline.py export-dataset --output build/reproboundary
+```
+
+To run one task, download its paper from the
+[trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories/tree/main/task_pool),
+then prepare the pinned source tree and task files:
+
+```bash
+PROJECT_ID=016-2025.emnlp.109
+hf download SupingSun/ReproBoundary-Execution-Trajectories \
+  "task_pool/${PROJECT_ID}.pdf" --repo-type dataset --local-dir build/papers
+python3 pipeline.py prepare-run "$PROJECT_ID" \
+  --output "runs/$PROJECT_ID" --clone-source \
+  --paper "build/papers/task_pool/${PROJECT_ID}.pdf"
+python3 pipeline.py show "$PROJECT_ID"
+```
+
+Pass the generated prompt to a coding agent. This Codex example can be replaced
+by another non-interactive agent command; `pipeline.py` records the command and
+combined output under `runs/<project_id>/logs/`:
+
+```bash
+python3 pipeline.py infer --run-dir "runs/$PROJECT_ID" -- \
+  codex exec --sandbox workspace-write -
+```
+
+After the run has produced the contract-required artifacts, execute the exact
+frozen command from `EVALUATOR_INDEX.csv` as a local replay:
+
+```bash
+python3 pipeline.py evaluate --run-dir "runs/$PROJECT_ID"
+```
+
+Use `infer --dry-run` or `evaluate --dry-run` to inspect a command without
+executing it. Task-specific models, datasets, dependencies, GPU resources, and
+time limits are defined in `TARGET_EVALUATION.json`; preparing a run does not
+download those scientific dependencies. For the four link-only papers, follow
+their official URLs in the dataset's `PAPER_INDEX.csv` instead of the `hf
+download` command above.
+
+`infer` is limited to the contract's `experiment_seconds`; an optional
+`--timeout-seconds` must be positive and cannot exceed that limit. This public
+helper runs one agent process and does not start the separate evidence-only
+finalization session used by the official benchmark harness.
+
+`export-dataset` exports runnable records from the already reviewed release. It
+does not automate the paper screening, human verification, or task approval
+used to construct the benchmark.
+
+This CLI is not the official leaderboard-equivalent harness. `evaluate`
+re-derives the command from the released evaluator index and verifies every
+bundled helper file before running it, but some tasks also call upstream
+evaluator files inside the agent-controlled source tree. The CLI does not
+isolate those upstream files, replay host-side stage checks, or provide an
+independent verdict. Leaderboard submissions therefore still require the
+separate evidence-package review linked above.
+
 ## Download and verify the code release
 
 ```bash
@@ -95,6 +159,7 @@ ReproBoundary/
 ├── AGENT_PROMPT.txt
 ├── LICENSES.md
 ├── SHA256SUMS
+├── pipeline.py
 ├── verify_release.py
 ├── tasks/
 │   └── TASK_INVENTORY_47.csv

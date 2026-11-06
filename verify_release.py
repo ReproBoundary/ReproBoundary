@@ -16,6 +16,9 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 errors = []
+for required in ("README.md", "AGENT_PROMPT.txt", "pipeline.py"):
+    if not (ROOT / required).is_file():
+        errors.append(f"missing required release file: {required}")
 tasks = list(csv.DictReader((ROOT / "tasks/TASK_INVENTORY_47.csv").open(encoding="utf-8-sig")))
 evaluators = list(csv.DictReader((ROOT / "evaluators/EVALUATOR_INDEX.csv").open()))
 if len(tasks) != 47 or len({row["project_id"] for row in tasks}) != 47:
