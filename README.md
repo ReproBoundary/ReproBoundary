@@ -2,14 +2,14 @@
 
 # ReproBoundary
 
-**An Agent Capability Boundary Benchmark for Complex Paper-to-Code Reproduction**
+**How Reliably Can Coding Agents Reproduce AI Research Papers?**
 
 [![Website](https://img.shields.io/badge/website-reproboundary.github.io-12213f)](https://reproboundary.github.io/)
-[![Dataset](https://img.shields.io/badge/Hugging%20Face-423%20trajectories-FFD21E)](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories)
+[![Dataset](https://img.shields.io/badge/Hugging%20Face-423%20execution%20traces-FFD21E)](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories)
 [![Release check](https://img.shields.io/badge/release-verification%20script-197a66)](#download-and-verify-the-code-release)
 
 [Task list](tasks/TASK_INVENTORY_47.csv) ·
-[Trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories) ·
+[Execution-trace dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories) ·
 [Website](https://reproboundary.github.io/) ·
 [Paper results](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/data/leaderboard.json) ·
 [Submit a run](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/SUBMIT_A_RUN.md) ·
@@ -17,26 +17,25 @@
 
 </div>
 
-ReproBoundary tests whether a coding agent can reproduce one specified
-experiment from a research paper. Each task fixes the data, required stages,
-result to report, and program used to check that result.
+ReproBoundary evaluates whether coding agents can carry out specified
+paper-reproduction tasks and submit independently verifiable results. Each task
+fixes execution and evaluation requirements before agent runs.
 
-**Code and metadata live here; the 423 compressed trajectories live on
+**Code and metadata live here; the 423 compressed execution traces live on
 [Hugging Face](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories).**
-This separation keeps the GitHub clone lightweight while preserving a fixed,
-hash-verifiable data release.
+This separation keeps the GitHub clone lightweight; the dataset records file
+hashes for the released execution traces.
 
-> **Scope.** A task reproduces one selected result under a frozen task
-> definition. It does not reproduce every result or support every conclusion
-> in the source paper.
+> **Scope.** Our findings concern agent performance on the fixed benchmark
+> tasks, not the reproducibility of the papers' full-scale results.
 
 ## At a glance
 
 | Released material | Count | What it provides |
 | --- | ---: | --- |
 | Paper-reproduction tasks | 47 | One fixed experiment from each paper |
-| Model-agent settings | 9 | Nine combinations of a language model and coding agent |
-| Execution logs | 423 | Cleaned, compressed logs hosted in the separate Hugging Face dataset |
+| Model–agent configurations | 9 | Nine configurations across five base models |
+| Execution traces | 423 | Released, compressed records hosted in the separate Hugging Face dataset |
 | Evaluator records | 47 | The exact metric, command, source, and version for each task |
 
 All 47 tasks retain their complete target evaluation set.
@@ -68,7 +67,7 @@ python3 pipeline.py export-dataset --output build/reproboundary
 ```
 
 To run one task, download its paper from the
-[trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories/tree/main/task_pool),
+[execution-trace dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories/tree/main/task_pool),
 then prepare the pinned source tree and task files:
 
 ```bash
@@ -106,20 +105,23 @@ download` command above.
 
 `infer` is limited to the contract's `experiment_seconds`; an optional
 `--timeout-seconds` must be positive and cannot exceed that limit. This public
-helper runs one agent process and does not start the separate evidence-only
-finalization session used by the official benchmark harness.
+helper runs one agent process. It does not implement the separate agent session
+of up to one hour that the paper's experimental setup allows for organizing and
+submitting existing artifacts.
 
 `export-dataset` exports runnable records from the already reviewed release. It
 does not automate the paper screening, human verification, or task approval
 used to construct the benchmark.
 
-This CLI is not the official leaderboard-equivalent harness. `evaluate`
+This CLI does not reproduce the complete evaluation setup described in the
+paper. `evaluate`
 re-derives the command from the released evaluator index and verifies every
 bundled helper file before running it, but some tasks also call upstream
 evaluator files inside the agent-controlled source tree. The CLI does not
-isolate those upstream files, replay host-side stage checks, or provide an
-independent verdict. Leaderboard submissions therefore still require the
-separate evidence-package review linked above.
+isolate those upstream files or reproduce host-side stage verification.
+Running it alone therefore does not establish the paper's execution-success
+criterion. Leaderboard submissions still require the separate package review
+linked above.
 
 ## Download and verify the code release
 
@@ -136,11 +138,11 @@ verification OK: tasks=47 evaluators=47 bundled_logs=0
 ```
 
 This checks file hashes, task and evaluator counts, evaluator size limits, and
-that no trajectory logs are bundled in the GitHub repository.
+that no execution-trace logs are bundled in the GitHub repository.
 
-## Download and verify the trajectories
+## Download and verify the execution traces
 
-The 423 logs, paper PDFs, trajectory index, download command, and verification
+The 423 execution traces, paper PDFs, index, download command, and verification
 instructions are maintained in the
 [Hugging Face dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories).
 
@@ -149,7 +151,7 @@ instructions are maintained in the
 `tasks/` defines the 47 frozen tasks, while `evaluators/` binds each task to its
 target metric, provenance, and checking files. The prompt and license notes are
 kept as root-level files. The leaderboard and submission guide are maintained
-with the website source; papers, the trajectory index, and all 423 logs remain
+with the website source; papers, the execution-trace index, and all 423 logs remain
 on Hugging Face. The project website is maintained separately at
 [reproboundary.github.io](https://reproboundary.github.io/).
 
@@ -185,17 +187,13 @@ Each row in [`TASK_INVENTORY_47.csv`](tasks/TASK_INVENTORY_47.csv) records:
 Execution requirements remain in each task-specific evaluation contract rather
 than being duplicated in the central task catalog.
 
-## Execution logs
+## Execution traces
 
-Every planned run has one cleaned `agent.log.gz` file in the separate
-[trajectory dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories).
-GitHub does not duplicate the trajectory index or log files. Credentials,
+Every planned run has one released `agent.log.gz` file in the separate
+[execution-trace dataset](https://huggingface.co/datasets/SupingSun/ReproBoundary-Execution-Trajectories).
+GitHub does not duplicate the execution-trace index or log files. Credentials,
 private paths, authorization headers, cookies, and similar sensitive text have
 been removed or replaced.
-
-The archive contains 418 completed run records, four logs whose final state is
-unresolved, and one snapshot saved while a run was active. These states are
-preserved as recorded rather than converted into guessed outcomes.
 
 ## Evaluators
 
@@ -208,20 +206,21 @@ for ReproBoundary to prepare inputs, check completeness, or combine repeated
 runs. [Evaluator file origins](evaluators/EVALUATOR_PROVENANCE.md) identifies which
 is which.
 
-Recomputing a metric can confirm a submitted number. It does not by itself
-prove that the agent completed every required experimental stage. Stage checks
-and metric checks must therefore remain separate.
+Rerunning an evaluator on retained outputs verifies the reported metric against
+those outputs; it does not, by itself, establish how they were produced. The
+paper therefore assesses process evidence and metric agreement separately.
 
-The trajectory dataset contains logs, not saved predictions, checkpoints,
-model weights, or training states. The logs support chronology, tool-use,
-failure, and release-integrity analysis. They are not sufficient by themselves
+The execution-trace dataset contains execution traces, not saved predictions,
+checkpoints, model weights, or training states. Execution records provide
+evidence that required stages ran, but they cannot prove that every
+implementation detail matches the paper. They are not sufficient by themselves
 to recompute most task metrics.
 
 ## Not included
 
-The GitHub release does not contain trajectory logs, datasets, trained model
+The GitHub release does not contain execution traces, datasets, trained model
 files, saved training states, saved predictions, complete copies of third-party
-projects, credentials, or private machine records. Download the trajectories
+projects, credentials, or private machine records. Download the execution traces
 from the fixed Hugging Face dataset and public dependencies from the exact
 links and versions recorded in the task and evaluator files.
 
