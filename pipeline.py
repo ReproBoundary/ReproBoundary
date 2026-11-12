@@ -11,15 +11,19 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
 import hashlib
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
+import re
 import shlex
 import shutil
 import signal
 import subprocess
 import sys
+import tarfile
+import tempfile
 from datetime import datetime, timezone
 from typing import Any, Iterable
 
@@ -29,6 +33,16 @@ TASKS_CSV = ROOT / "tasks" / "TASK_INVENTORY_47.csv"
 EVALUATORS_CSV = ROOT / "evaluators" / "EVALUATOR_INDEX.csv"
 TASK_EVALUATORS = ROOT / "evaluators" / "tasks"
 PROMPT_TEMPLATE = ROOT / "AGENT_PROMPT.txt"
+DELIVERABLE_FILES = (
+    "DATASET_SELECTION.json",
+    "pipeline-execution.json",
+    "reproduction-report.md",
+    "audit.json",
+    "metrics.json",
+    "security-attestation.json",
+)
+JSON_DELIVERABLE_FILES = tuple(name for name in DELIVERABLE_FILES if name.endswith(".json"))
+SUBMISSION_LABEL = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,79}")
 
 
 def sha256(path: Path) -> str:
@@ -555,6 +569,542 @@ def evaluate(args: argparse.Namespace) -> int:
     )
 
 
+def safe_submission_label(value: str, field: str) -> str:
+    if not SUBMISSION_LABEL.fullmatch(value):
+        raise RuntimeError(
+            f"{field} must use 1-80 ASCII letters, digits, '.', '_' or '-' and start with a letter or digit"
+        )
+    return value
+
+
+def safe_relative_submission_path(raw: str) -> PurePosixPath:
+    if not isinstance(raw, str) or not raw or "\\" in raw:
+        raise RuntimeError(f"invalid relative artifact path: {raw!r}")
+    path = PurePosixPath(raw)
+    if (
+        path.is_absolute()
+        or raw.rstrip("/") != str(path)
+        or any(part in {"", ".", ".."} for part in path.parts)
+    ):
+        raise RuntimeError(f"unsafe relative artifact path: {raw!r}")
+    return path
+
+
+def require_fields(payload: dict[str, Any], fields: Iterable[str], filename: str) -> None:
+    missing = [field for field in fields if field not in payload]
+    if missing:
+        raise RuntimeError(f"{filename} is missing required fields: {', '.join(missing)}")
+
+
+def load_submission_deliverables(results_dir: Path) -> dict[str, Any]:
+    deliverables: dict[str, Any] = {}
+    for filename in DELIVERABLE_FILES:
+        path = contained_path(results_dir, filename, must_exist=True)
+        if not path.is_file():
+            raise RuntimeError(f"required deliverable is not a regular file: {filename}")
+        if filename.endswith(".json"):
+            try:
+                payload = json.loads(path.read_text(encoding="utf-8"))
+            except (UnicodeDecodeError, json.JSONDecodeError) as error:
+                raise RuntimeError(f"invalid JSON deliverable {filename}: {error}") from error
+            if not isinstance(payload, dict):
+                raise RuntimeError(f"{filename} must contain one JSON object")
+            deliverables[filename] = payload
+        else:
+            try:
+                report = path.read_text(encoding="utf-8")
+            except UnicodeDecodeError as error:
+                raise RuntimeError(f"{filename} must be UTF-8 text") from error
+            if not report.strip():
+                raise RuntimeError(f"{filename} must not be empty")
+            deliverables[filename] = report
+    return deliverables
+
+
+def validate_contract_deliverables(
+    project_id: str,
+    contract: dict[str, Any],
+    contract_hash: str,
+    deliverables: dict[str, Any],
+) -> None:
+    required_output = contract.get("required_agent_output", {})
+    required_files = required_output.get("required_files")
+    if required_files != list(DELIVERABLE_FILES):
+        raise RuntimeError("the released contract does not use the supported six-file v4 output set")
+    if set(deliverables) != set(DELIVERABLE_FILES):
+        raise RuntimeError("submission deliverables do not match the contract-required file set")
+    if not isinstance(deliverables["reproduction-report.md"], str) or not deliverables[
+        "reproduction-report.md"
+    ].strip():
+        raise RuntimeError("reproduction-report.md must be non-empty UTF-8 text")
+
+    schema_version = required_output.get("schema_version")
+    field_groups = {
+        "DATASET_SELECTION.json": "dataset_selection_required_fields",
+        "pipeline-execution.json": "pipeline_execution_required_fields",
+        "metrics.json": "metrics_required_fields",
+        "security-attestation.json": "security_attestation_required_fields",
+    }
+    legacy_security_fields = [
+        "schema_version",
+        "project_id",
+        "target_contract_sha256",
+        "security_policy_id",
+        "security_policy_sha256",
+        "declared_events",
+        "no_undeclared_security_events",
+        "notes",
+    ]
+    for filename in JSON_DELIVERABLE_FILES:
+        payload = deliverables[filename]
+        if not isinstance(payload, dict):
+            raise RuntimeError(f"{filename} must contain one JSON object")
+        require_fields(payload, ("schema_version", "project_id", "target_contract_sha256"), filename)
+        if payload["schema_version"] != schema_version:
+            raise RuntimeError(f"{filename} schema_version does not match the task contract")
+        if payload["project_id"] != project_id:
+            raise RuntimeError(f"{filename} project_id does not match the submission")
+        if payload["target_contract_sha256"] != contract_hash:
+            raise RuntimeError(f"{filename} target_contract_sha256 does not match the released contract")
+        field_group = field_groups.get(filename)
+        if field_group:
+            fields = required_output.get(field_group)
+            if fields is None and filename == "security-attestation.json":
+                fields = legacy_security_fields
+            if not isinstance(fields, list) or not all(isinstance(field, str) for field in fields):
+                raise RuntimeError(f"contract field list is invalid: {field_group}")
+            require_fields(payload, fields, filename)
+
+    dataset = deliverables["DATASET_SELECTION.json"]
+    reduced = contract.get("reduced_reproduction", {})
+    templates = required_output.get("output_templates") or {}
+    expected_dataset = templates.get("DATASET_SELECTION.json", {})
+    expected_execution = templates.get("pipeline-execution.json", {})
+    expected_protocol_id = expected_dataset.get("reduction_protocol_id", reduced.get("protocol_id"))
+    expected_data_scopes = expected_dataset.get("data_scopes", reduced.get("data_scopes"))
+    expected_stage_budgets = expected_dataset.get("stage_budgets", reduced.get("stage_budgets"))
+    if dataset.get("target_metric_id") != contract.get("target_metric_id"):
+        raise RuntimeError("DATASET_SELECTION.json target_metric_id does not match the contract")
+    if dataset.get("reduction_protocol_id") != expected_protocol_id:
+        raise RuntimeError("DATASET_SELECTION.json reduction_protocol_id does not match the contract")
+    if dataset.get("data_scopes") != expected_data_scopes:
+        raise RuntimeError("DATASET_SELECTION.json data_scopes differ from the frozen contract")
+    if dataset.get("stage_budgets") != expected_stage_budgets:
+        raise RuntimeError("DATASET_SELECTION.json stage_budgets differ from the frozen contract")
+    if dataset.get("no_unplanned_reductions") is not True:
+        raise RuntimeError("DATASET_SELECTION.json must set no_unplanned_reductions to true")
+
+    execution = deliverables["pipeline-execution.json"]
+    if execution.get("reduction_protocol_id") != expected_execution.get(
+        "reduction_protocol_id", reduced.get("protocol_id")
+    ):
+        raise RuntimeError("pipeline-execution.json reduction_protocol_id does not match the contract")
+    if execution.get("actual_data_scopes") != expected_execution.get(
+        "actual_data_scopes", reduced.get("data_scopes")
+    ):
+        raise RuntimeError("pipeline-execution.json actual_data_scopes differ from the frozen contract")
+    if execution.get("actual_stage_budgets") != expected_execution.get(
+        "actual_stage_budgets", reduced.get("stage_budgets")
+    ):
+        raise RuntimeError("pipeline-execution.json actual_stage_budgets differ from the frozen contract")
+    if execution.get("pipeline_status") not in required_output.get("pipeline_status_values", []):
+        raise RuntimeError("pipeline-execution.json has an invalid pipeline_status")
+    if not isinstance(execution.get("deviations"), list):
+        raise RuntimeError("pipeline-execution.json deviations must be an array")
+    stages = execution.get("stages")
+    if not isinstance(stages, list):
+        raise RuntimeError("pipeline-execution.json stages must be an array")
+    if isinstance(expected_execution.get("stages"), list):
+        expected_stage_ids = [stage.get("stage_id") for stage in expected_execution["stages"]]
+    else:
+        expected_stage_ids = [
+            stage.get("stage_id")
+            for stage in reduced.get("pipeline_stages", [])
+            if isinstance(stage, dict) and stage.get("must_execute") is True
+        ]
+    actual_stage_ids = [stage.get("stage_id") for stage in stages if isinstance(stage, dict)]
+    if actual_stage_ids != expected_stage_ids or len(actual_stage_ids) != len(stages):
+        raise RuntimeError("pipeline-execution.json stages do not match the required pipeline stages")
+    stage_fields = required_output.get("pipeline_stage_record_fields", [])
+    stage_statuses = required_output.get("pipeline_stage_status_values", [])
+    for stage in stages:
+        require_fields(stage, stage_fields, "pipeline-execution.json stage")
+        if stage.get("status") not in stage_statuses:
+            raise RuntimeError(f"invalid status for pipeline stage {stage.get('stage_id')}")
+        for field in ("commands", "exit_codes", "input_artifacts", "output_artifacts", "evidence_paths"):
+            if not isinstance(stage.get(field), list):
+                raise RuntimeError(f"pipeline stage {stage.get('stage_id')} field {field} must be an array")
+        if len(stage["commands"]) != len(stage["exit_codes"]):
+            raise RuntimeError(f"pipeline stage {stage.get('stage_id')} command and exit-code counts differ")
+        if stage.get("status") != "not_started":
+            if not stage["commands"] or not all(isinstance(code, int) for code in stage["exit_codes"]):
+                raise RuntimeError(f"started pipeline stage {stage.get('stage_id')} lacks commands or exit codes")
+            if not str(stage.get("started_at", "")).strip() or not str(stage.get("finished_at", "")).strip():
+                raise RuntimeError(f"started pipeline stage {stage.get('stage_id')} lacks timestamps")
+    if execution.get("pipeline_status") == "pipeline_complete":
+        if any(stage.get("status") != "completed" for stage in stages) or execution["deviations"]:
+            raise RuntimeError("pipeline_complete requires every stage completed with no deviations")
+
+    audit = deliverables["audit.json"]
+    if "audit.json" in templates:
+        require_fields(audit, templates["audit.json"].keys(), "audit.json")
+        if not isinstance(audit.get("events"), list) or not isinstance(audit.get("notes"), str):
+            raise RuntimeError("audit.json must contain an events array and notes string")
+
+    metrics = deliverables["metrics.json"]
+    if metrics.get("target_metric_id") != contract.get("target_metric_id"):
+        raise RuntimeError("metrics.json target_metric_id does not match the contract")
+    if metrics.get("pipeline_status") != execution.get("pipeline_status"):
+        raise RuntimeError("metrics.json and pipeline-execution.json disagree on pipeline_status")
+    if metrics.get("reproduction_status") not in required_output.get("reproduction_status_values", []):
+        raise RuntimeError("metrics.json has an invalid reproduction_status")
+    if metrics.get("comparability_status") not in required_output.get("comparability_status_values", []):
+        raise RuntimeError("metrics.json has an invalid comparability_status")
+    for field in ("metrics", "auxiliary_metrics", "target_protocol_deviations"):
+        if not isinstance(metrics.get(field), list):
+            raise RuntimeError(f"metrics.json field {field} must be an array")
+    obtained = metrics.get("target_metric_obtained")
+    if not isinstance(obtained, bool):
+        raise RuntimeError("metrics.json target_metric_obtained must be a boolean")
+    if obtained and not metrics["metrics"]:
+        raise RuntimeError("metrics.json claims a target metric but contains no primary metric entry")
+    if not obtained and (metrics["metrics"] or not str(metrics.get("no_metric_reason", "")).strip()):
+        raise RuntimeError("a no-metric submission must have no primary metric and a non-empty no_metric_reason")
+    if obtained:
+        if len(metrics["metrics"]) != 1:
+            raise RuntimeError("metrics.json must contain exactly one primary target metric")
+        primary = metrics["metrics"][0]
+        if not isinstance(primary, dict):
+            raise RuntimeError("metrics.json primary metric entry must be an object")
+        require_fields(primary, required_output.get("primary_metric_entry_fields", []), "metrics.json metric")
+        if primary.get("metric_id") != contract.get("target_metric_id"):
+            raise RuntimeError("metrics.json primary metric_id does not match the contract")
+    if metrics.get("reproduction_status") == "completed_reproduction" and not (
+        obtained
+        and metrics.get("comparability_status") == "comparable"
+        and metrics.get("pipeline_status") == "pipeline_complete"
+        and not metrics["target_protocol_deviations"]
+    ):
+        raise RuntimeError("completed_reproduction requires a comparable metric and complete, undeviated pipeline")
+
+    security = deliverables["security-attestation.json"]
+    policy = contract.get("security_policy", {})
+    if security.get("security_policy_id") != policy.get("policy_id"):
+        raise RuntimeError("security-attestation.json security_policy_id does not match the contract")
+    if security.get("security_policy_sha256") != policy.get("source_sha256"):
+        raise RuntimeError("security-attestation.json security_policy_sha256 does not match the contract")
+    if not isinstance(security.get("declared_events"), list):
+        raise RuntimeError("security-attestation.json declared_events must be an array")
+    if not isinstance(security.get("no_undeclared_security_events"), bool):
+        raise RuntimeError("security-attestation.json no_undeclared_security_events must be a boolean")
+    if not isinstance(security.get("notes"), str):
+        raise RuntimeError("security-attestation.json notes must be a string")
+
+
+def collect_artifact_references(deliverables: dict[str, Any]) -> list[str]:
+    scalar_keys = {"evidence_path", "selected_ids_path"}
+    array_keys = {"evidence_paths", "output_artifacts"}
+    references: set[str] = set()
+
+    def visit(value: Any) -> None:
+        if isinstance(value, dict):
+            for key, child in value.items():
+                if key in scalar_keys and child is not None:
+                    if not isinstance(child, str) or not child:
+                        raise RuntimeError(f"{key} must be a non-empty relative path or null")
+                    references.add(str(safe_relative_submission_path(child)))
+                elif key in array_keys:
+                    if not isinstance(child, list):
+                        raise RuntimeError(f"{key} must be an array of relative paths")
+                    for item in child:
+                        if not isinstance(item, str) or not item:
+                            raise RuntimeError(f"{key} contains an invalid path")
+                        references.add(str(safe_relative_submission_path(item)))
+                else:
+                    visit(child)
+        elif isinstance(value, list):
+            for child in value:
+                visit(child)
+
+    for payload in deliverables.values():
+        visit(payload)
+    return sorted(references)
+
+
+def resolve_artifact_reference(workspace: Path, results_dir: Path, relative: str) -> Path:
+    relative_path = Path(*PurePosixPath(relative).parts)
+    candidates: list[Path] = []
+    for root in (results_dir, workspace):
+        try:
+            candidate = contained_path(root, relative_path, must_exist=True)
+        except RuntimeError:
+            continue
+        if candidate.exists() and candidate not in candidates:
+            candidates.append(candidate)
+    if not candidates:
+        raise RuntimeError(f"referenced artifact is missing: {relative}")
+    if len(candidates) > 1 and len({candidate.resolve() for candidate in candidates}) > 1:
+        raise RuntimeError(f"referenced artifact is ambiguous between the workspace and results: {relative}")
+    return candidates[0]
+
+
+def copy_artifact(source: Path, destination: Path) -> None:
+    if source.is_symlink():
+        raise RuntimeError(f"artifact symlinks are not allowed: {source}")
+    if source.is_file():
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)
+        return
+    if not source.is_dir():
+        raise RuntimeError(f"artifact is not a regular file or directory: {source}")
+    for child in sorted(source.rglob("*")):
+        if child.is_symlink():
+            raise RuntimeError(f"artifact symlinks are not allowed: {child}")
+        if child.is_file():
+            target = destination / child.relative_to(source)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(child, target)
+        elif not child.is_dir():
+            raise RuntimeError(f"unsupported artifact file type: {child}")
+
+
+def make_source_patch(workspace: Path, helper_files: list[str]) -> bytes:
+    if not (workspace / ".git").is_dir():
+        raise RuntimeError("cannot package source changes without a pinned Git checkout")
+    exclusions = ["results", "PROJECT_TASK.json", "PAPER_CONTEXT.md", "PAPER.pdf", *helper_files]
+    pathspec = [".", *[f":(exclude){relative}" for relative in exclusions]]
+    tracked = subprocess.run(
+        ["git", "diff", "--binary", "--no-ext-diff", "HEAD", "--", *pathspec],
+        cwd=workspace,
+        check=True,
+        stdout=subprocess.PIPE,
+    ).stdout
+    untracked_raw = subprocess.check_output(
+        ["git", "ls-files", "--others", "--exclude-standard", "-z"], cwd=workspace
+    )
+    excluded = {PurePosixPath(item) for item in exclusions}
+    patch_parts = [tracked]
+    for raw in untracked_raw.split(b"\0"):
+        if not raw:
+            continue
+        relative = PurePosixPath(raw.decode("utf-8"))
+        if relative.parts[0] == "results" or relative in excluded:
+            continue
+        source = contained_path(workspace, Path(*relative.parts), must_exist=True)
+        if not source.is_file() or source.stat().st_size > 1024 * 1024:
+            raise RuntimeError(f"untracked source must be a regular file no larger than 1 MiB: {relative}")
+        diff = subprocess.run(
+            ["git", "diff", "--no-index", "--binary", "--", "/dev/null", str(relative)],
+            cwd=workspace,
+            stdout=subprocess.PIPE,
+        )
+        if diff.returncode not in {0, 1}:
+            raise RuntimeError(f"could not encode untracked source in source.patch: {relative}")
+        patch_parts.append(diff.stdout)
+    patch = b"".join(patch_parts)
+    if len(patch) > 10 * 1024 * 1024:
+        raise RuntimeError("source.patch exceeds 10 MiB; remove generated data from the source tree")
+    return patch
+
+
+def submission_claim(metrics: dict[str, Any]) -> str:
+    if (
+        metrics.get("target_metric_obtained") is True
+        and metrics.get("reproduction_status") == "completed_reproduction"
+        and metrics.get("comparability_status") == "comparable"
+        and metrics.get("pipeline_status") == "pipeline_complete"
+        and not metrics.get("target_protocol_deviations")
+    ):
+        return "complete_reproduction"
+    if metrics.get("target_metric_obtained") is True:
+        return "partial_result"
+    return "no_metric"
+
+
+def submission_file_records(root: Path) -> list[dict[str, Any]]:
+    records = []
+    for path in sorted(root.rglob("*")):
+        if path.is_symlink():
+            raise RuntimeError(f"submission symlinks are not allowed: {path.relative_to(root)}")
+        if path.is_file() and path != root / "submission.json":
+            records.append(
+                {
+                    "path": path.relative_to(root).as_posix(),
+                    "bytes": path.stat().st_size,
+                    "sha256": sha256(path),
+                }
+            )
+        elif not path.is_dir() and not path.is_file():
+            raise RuntimeError(f"unsupported submission file type: {path.relative_to(root)}")
+    return records
+
+
+def validate_submission_directory(root: Path) -> tuple[str, int]:
+    allowed_top_level = {"submission.json", "artifacts", "agent.log.gz", "source.patch"}
+    actual_top_level = {path.name for path in root.iterdir()}
+    required_top_level = {"submission.json", "artifacts", "agent.log.gz"}
+    if not required_top_level.issubset(actual_top_level) or not actual_top_level.issubset(allowed_top_level):
+        raise RuntimeError("submission must contain submission.json, artifacts/, agent.log.gz, and optional source.patch")
+    if not (root / "artifacts").is_dir() or (root / "artifacts").is_symlink():
+        raise RuntimeError("submission artifacts must be a real directory")
+    submission_path = root / "submission.json"
+    try:
+        envelope = json.loads(submission_path.read_text(encoding="utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise RuntimeError(f"invalid submission.json: {error}") from error
+    if not isinstance(envelope, dict) or envelope.get("schema_version") != "1.0":
+        raise RuntimeError("submission.json must use submission schema 1.0")
+    project_id = envelope.get("project_id")
+    if not isinstance(project_id, str):
+        raise RuntimeError("submission.json has no valid project_id")
+    task, evaluator, contract, contract_path = load_project(project_id)
+    contract_hash = sha256(contract_path)
+    if envelope.get("benchmark") != "ReproBoundary":
+        raise RuntimeError("submission.json benchmark must be ReproBoundary")
+    if envelope.get("target_contract_sha256") != contract_hash:
+        raise RuntimeError("submission.json target_contract_sha256 does not match the released contract")
+    if envelope.get("source_commit") != task["repository_commit"]:
+        raise RuntimeError("submission.json source_commit does not match the frozen task commit")
+    for field in ("model", "agent"):
+        value = envelope.get(field)
+        if not isinstance(value, str):
+            raise RuntimeError(f"submission.json has no valid {field}")
+        safe_submission_label(value, field)
+    expected_root_name = f"{project_id}-{envelope['model']}-{envelope['agent']}"
+    if root.name != expected_root_name:
+        raise RuntimeError(f"submission top-level directory must be {expected_root_name}")
+    if envelope.get("artifact_root") != "artifacts":
+        raise RuntimeError("submission.json artifact_root must be artifacts")
+    deliverables = envelope.get("deliverables")
+    if not isinstance(deliverables, dict):
+        raise RuntimeError("submission.json deliverables must be an object")
+    validate_contract_deliverables(project_id, contract, contract_hash, deliverables)
+    if envelope.get("claim") != submission_claim(deliverables["metrics.json"]):
+        raise RuntimeError("submission.json claim does not match metrics.json")
+
+    expected_records = submission_file_records(root)
+    records = envelope.get("files")
+    if records != expected_records:
+        raise RuntimeError("submission.json file manifest does not match the package files")
+    for relative in collect_artifact_references(deliverables):
+        artifact = root / "artifacts" / Path(*PurePosixPath(relative).parts)
+        if not artifact.exists():
+            raise RuntimeError(f"submission is missing referenced artifact: {relative}")
+        try:
+            artifact.resolve(strict=True).relative_to((root / "artifacts").resolve(strict=True))
+        except ValueError as error:
+            raise RuntimeError(f"artifact path escapes the package: {relative}") from error
+    try:
+        with gzip.open(root / "agent.log.gz", "rb") as stream:
+            while stream.read(1024 * 1024):
+                pass
+    except (OSError, EOFError) as error:
+        raise RuntimeError(f"agent.log.gz is not a valid gzip stream: {error}") from error
+    return project_id, len(expected_records)
+
+
+def pack_submission(args: argparse.Namespace) -> int:
+    run_dir, task, evaluator, contract, workspace, task_config, _ = load_run(args.run_dir)
+    model = safe_submission_label(args.model, "model")
+    agent = safe_submission_label(args.agent, "agent")
+    project_id = task["project_id"]
+    expected_name = f"{project_id}-{model}-{agent}.tar.gz"
+    output = args.output.resolve()
+    if output.name != expected_name:
+        raise RuntimeError(f"output filename must be {expected_name}")
+    if output.exists():
+        raise RuntimeError(f"refusing to overwrite existing submission: {output}")
+    results_dir = contained_path(workspace, Path("results") / project_id, must_exist=True)
+    if not results_dir.is_dir():
+        raise RuntimeError(f"missing results directory: results/{project_id}")
+    deliverables = load_submission_deliverables(results_dir)
+    contract_hash = sha256(task_config)
+    validate_contract_deliverables(project_id, contract, contract_hash, deliverables)
+    agent_log = contained_path(run_dir, "logs/agent.log", must_exist=True)
+    if not agent_log.is_file():
+        raise RuntimeError("run has no regular logs/agent.log")
+
+    output.parent.mkdir(parents=True, exist_ok=True)
+    package_root_name = expected_name.removesuffix(".tar.gz")
+    with tempfile.TemporaryDirectory(prefix="reproboundary-submit-") as temporary:
+        root = Path(temporary) / package_root_name
+        artifacts = root / "artifacts"
+        artifacts.mkdir(parents=True)
+        for relative in collect_artifact_references(deliverables):
+            source = resolve_artifact_reference(workspace, results_dir, relative)
+            copy_artifact(source, artifacts / Path(*PurePosixPath(relative).parts))
+        evaluator_log = run_dir / "logs/evaluator.log"
+        if evaluator_log.is_symlink():
+            raise RuntimeError("evaluator log must not be a symlink")
+        if evaluator_log.is_file():
+            copy_artifact(evaluator_log, artifacts / "_run/evaluator.log")
+
+        with agent_log.open("rb") as source, (root / "agent.log.gz").open("wb") as raw:
+            with gzip.GzipFile(filename="agent.log", mode="wb", fileobj=raw, mtime=0) as compressed:
+                shutil.copyfileobj(source, compressed)
+        patch = make_source_patch(workspace, evaluator["bundled_helper_files"])
+        if patch:
+            (root / "source.patch").write_bytes(patch)
+        envelope = {
+            "schema_version": "1.0",
+            "benchmark": "ReproBoundary",
+            "project_id": project_id,
+            "model": model,
+            "agent": agent,
+            "source_commit": task["repository_commit"],
+            "target_contract_sha256": contract_hash,
+            "claim": submission_claim(deliverables["metrics.json"]),
+            "artifact_root": "artifacts",
+            "deliverables": deliverables,
+            "files": submission_file_records(root),
+        }
+        json_dump(root / "submission.json", envelope)
+        validated_project, file_count = validate_submission_directory(root)
+        if validated_project != project_id:
+            raise RuntimeError("internal submission validation returned the wrong project")
+        with tarfile.open(output, "w:gz", format=tarfile.PAX_FORMAT) as archive:
+            archive.add(root, arcname=package_root_name, recursive=True)
+    print(
+        f"packed submission: project_id={project_id} files={file_count + 1} "
+        f"path={output} sha256={sha256(output)}"
+    )
+    return 0
+
+
+def validate_submission(args: argparse.Namespace) -> int:
+    archive_path = args.archive.resolve()
+    if not archive_path.is_file():
+        raise RuntimeError(f"submission archive does not exist: {archive_path}")
+    with tempfile.TemporaryDirectory(prefix="reproboundary-validate-") as temporary:
+        destination = Path(temporary)
+        with tarfile.open(archive_path, "r:gz") as archive:
+            members = archive.getmembers()
+            if not members:
+                raise RuntimeError("submission archive is empty")
+            seen: set[str] = set()
+            roots: set[str] = set()
+            for member in members:
+                path = safe_relative_submission_path(member.name)
+                if member.name.rstrip("/") != str(path):
+                    raise RuntimeError(f"archive member path is not canonical: {member.name}")
+                if member.name in seen:
+                    raise RuntimeError(f"duplicate archive member: {member.name}")
+                seen.add(member.name)
+                roots.add(path.parts[0])
+                if not (member.isfile() or member.isdir()):
+                    raise RuntimeError(f"archive links and special files are not allowed: {member.name}")
+            if len(roots) != 1:
+                raise RuntimeError("submission archive must contain one top-level directory")
+            archive.extractall(destination)
+        root = destination / next(iter(roots))
+        project_id, file_count = validate_submission_directory(root)
+    print(
+        f"submission OK: project_id={project_id} files={file_count + 1} "
+        f"sha256={sha256(archive_path)}"
+    )
+    return 0
+
+
 def show_task(args: argparse.Namespace) -> int:
     task, evaluator_row, contract, _ = load_project(args.project_id)
     print(f"{task['project_id']}: {task['paper_title']}")
@@ -606,6 +1156,21 @@ def parser() -> argparse.ArgumentParser:
     score.add_argument("--timeout-seconds", type=int)
     score.add_argument("--dry-run", action="store_true")
     score.set_defaults(handler=evaluate)
+
+    package = commands.add_parser(
+        "pack-submission", help="validate one run and create the compact leaderboard package"
+    )
+    package.add_argument("--run-dir", type=Path, required=True)
+    package.add_argument("--model", required=True, help="short model label used in the archive name")
+    package.add_argument("--agent", required=True, help="short agent label used in the archive name")
+    package.add_argument("--output", type=Path, required=True, help="exact <project>-<model>-<agent>.tar.gz path")
+    package.set_defaults(handler=pack_submission)
+
+    validate = commands.add_parser(
+        "validate-submission", help="validate a compact leaderboard submission archive"
+    )
+    validate.add_argument("archive", type=Path)
+    validate.set_defaults(handler=validate_submission)
     return root
 
 

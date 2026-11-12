@@ -96,6 +96,21 @@ frozen command from `EVALUATOR_INDEX.csv` as a local replay:
 python3 pipeline.py evaluate --run-dir "runs/$PROJECT_ID"
 ```
 
+Package the six contract-required deliverables, their referenced artifacts,
+the compressed agent log, and any source change into one compact submission:
+
+```bash
+MODEL=your-model AGENT=your-agent
+python3 pipeline.py pack-submission --run-dir "runs/$PROJECT_ID" --model "$MODEL" --agent "$AGENT" --output "$PROJECT_ID-$MODEL-$AGENT.tar.gz"
+python3 pipeline.py validate-submission "$PROJECT_ID-$MODEL-$AGENT.tar.gz"
+```
+
+The archive has only `submission.json`, `artifacts/`, `agent.log.gz`, and an
+optional `source.patch` at its top level. `submission.json` embeds the original
+six v4 deliverables without replacing their frozen schemas. See the
+[submission guide](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/SUBMIT_A_RUN.md)
+for the upload and email fields.
+
 Use `infer --dry-run` or `evaluate --dry-run` to inspect a command without
 executing it. Task-specific models, datasets, dependencies, GPU resources, and
 time limits are defined in `TARGET_EVALUATION.json`; preparing a run does not
