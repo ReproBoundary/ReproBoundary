@@ -734,6 +734,13 @@ def validate_contract_deliverables(
         for field in ("commands", "exit_codes", "input_artifacts", "output_artifacts", "evidence_paths"):
             if not isinstance(stage.get(field), list):
                 raise RuntimeError(f"pipeline stage {stage.get('stage_id')} field {field} must be an array")
+        for field in ("input_artifacts", "output_artifacts", "evidence_paths"):
+            for relative in stage[field]:
+                if not isinstance(relative, str) or not relative:
+                    raise RuntimeError(
+                        f"pipeline stage {stage.get('stage_id')} field {field} contains an invalid path"
+                    )
+                safe_relative_submission_path(relative)
         if len(stage["commands"]) != len(stage["exit_codes"]):
             raise RuntimeError(f"pipeline stage {stage.get('stage_id')} command and exit-code counts differ")
         if stage.get("status") != "not_started":
