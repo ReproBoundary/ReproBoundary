@@ -29,6 +29,29 @@ hashes for the released execution traces.
 > **Scope.** Our findings concern agent performance on the fixed benchmark
 > tasks, not the reproducibility of the papers' full-scale results.
 
+## Quick start
+
+With Git, Python 3, and an authenticated Codex CLI installed, one command
+downloads the benchmark code and matching paper, checks out the task's frozen
+source commit, runs the agent, and launches the frozen evaluator:
+
+```bash
+git clone --depth 1 https://github.com/ReproBoundary/ReproBoundary.git && cd ReproBoundary && python3 pipeline.py run 016-2025.emnlp.109 --agent codex
+```
+
+Each invocation creates a timestamped directory under `runs/` and keeps the
+prompt, source tree, agent log, evaluator log, and contract-required outputs
+together. The 43 redistributable papers are downloaded from the Hugging Face
+dataset; the four link-only papers are downloaded directly from their official
+arXiv URLs and are not redistributed by this repository.
+
+To use another non-interactive coding agent, pass its command explicitly; the
+frozen prompt is sent on standard input unless `--no-prompt-stdin` is set:
+
+```bash
+python3 pipeline.py run "$PROJECT_ID" --agent-command "your-agent --non-interactive"
+```
+
 ## At a glance
 
 | Released material | Count | What it provides |
@@ -56,7 +79,7 @@ All 47 tasks retain their complete target evaluation set.
   maintained with the website source, and follow the
   [evidence-package submission guide](https://github.com/ReproBoundary/ReproBoundary.github.io/blob/main/SUBMIT_A_RUN.md).
 
-## Export, infer, and evaluate
+## Manual workflow
 
 [`pipeline.py`](pipeline.py) provides one standard-library entry point for the
 released workflow. First export the machine-readable dataset from all 47

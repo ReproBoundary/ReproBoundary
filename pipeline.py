@@ -13,6 +13,7 @@ import argparse
 import csv
 import gzip
 import hashlib
+import io
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -24,6 +25,9 @@ import subprocess
 import sys
 import tarfile
 import tempfile
+import urllib.error
+import urllib.parse
+import urllib.request
 from datetime import datetime, timezone
 from typing import Any, Iterable
 
@@ -33,6 +37,16 @@ TASKS_CSV = ROOT / "tasks" / "TASK_INVENTORY_47.csv"
 EVALUATORS_CSV = ROOT / "evaluators" / "EVALUATOR_INDEX.csv"
 TASK_EVALUATORS = ROOT / "evaluators" / "tasks"
 PROMPT_TEMPLATE = ROOT / "AGENT_PROMPT.txt"
+PAPER_INDEX_URL = (
+    "https://huggingface.co/datasets/SupingSun/"
+    "ReproBoundary-Execution-Trajectories/resolve/main/PAPER_INDEX.csv"
+)
+PAPER_DATASET_BASE = (
+    "https://huggingface.co/datasets/SupingSun/"
+    "ReproBoundary-Execution-Trajectories/resolve/main/"
+)
+MAX_PAPER_INDEX_BYTES = 1024 * 1024
+MAX_PAPER_BYTES = 100 * 1024 * 1024
 DELIVERABLE_FILES = (
     "DATASET_SELECTION.json",
     "pipeline-execution.json",
@@ -56,6 +70,118 @@ def sha256(path: Path) -> str:
 def read_csv(path: Path) -> list[dict[str, str]]:
     with path.open(encoding="utf-8-sig", newline="") as stream:
         return list(csv.DictReader(stream))
+
+
+def fetch_bytes(url: str, maximum: int) -> bytes:
+    request = urllib.request.Request(url, headers={"User-Agent": "ReproBoundary/1.0"})
+    try:
+        with urllib.request.urlopen(request, timeout=60) as response:
+            length = response.headers.get("Content-Length")
+            if length is not None and int(length) > maximum:
+                raise RuntimeError(f"remote file exceeds {maximum} bytes: {url}")
+            payload = response.read(maximum + 1)
+    except (OSError, ValueError, urllib.error.URLError, RuntimeError) as error:
+        raise RuntimeError(f"could not download {url}: {error}") from error
+    if len(payload) > maximum:
+        raise RuntimeError(f"remote file exceeds {maximum} bytes: {url}")
+    return payload
+
+
+def fetch_paper_index() -> dict[str, dict[str, str]]:
+    try:
+        content = fetch_bytes(PAPER_INDEX_URL, MAX_PAPER_INDEX_BYTES).decode("utf-8-sig")
+    except UnicodeDecodeError as error:
+        raise RuntimeError("the remote paper index is not UTF-8 CSV") from error
+    rows = list(csv.DictReader(io.StringIO(content)))
+    indexed = {row.get("project_id", ""): row for row in rows}
+    tasks, _ = load_catalog()
+    task_ids = {row["project_id"] for row in tasks}
+    if len(rows) != 47 or set(indexed) != task_ids:
+        raise RuntimeError("the remote paper index does not match the 47 released tasks")
+    return indexed
+
+
+def validate_pdf(path: Path, *, expected_hash: str = "", expected_bytes: str = "") -> None:
+    if not path.is_file():
+        raise RuntimeError(f"paper is not a regular file: {path}")
+    with path.open("rb") as stream:
+        if stream.read(5) != b"%PDF-":
+            raise RuntimeError(f"paper is not a readable PDF: {path}")
+    if expected_bytes:
+        try:
+            size = int(expected_bytes)
+        except ValueError as error:
+            raise RuntimeError("paper index contains an invalid byte count") from error
+        if path.stat().st_size != size:
+            raise RuntimeError(f"paper byte count mismatch: {path}")
+    if expected_hash and sha256(path) != expected_hash:
+        raise RuntimeError(f"paper SHA-256 mismatch: {path}")
+
+
+def paper_download_record(project_id: str, row: dict[str, str]) -> tuple[str, str, str]:
+    pdf_path = row.get("pdf_path", "").strip()
+    if pdf_path:
+        relative = safe_relative_submission_path(pdf_path)
+        if relative.parts[0] != "task_pool" or relative.suffix.lower() != ".pdf":
+            raise RuntimeError(f"invalid bundled paper path for {project_id}")
+        url = PAPER_DATASET_BASE + urllib.parse.quote(str(relative), safe="/")
+        return url, row.get("sha256", "").strip(), row.get("bytes", "").strip()
+
+    source_url = row.get("source_url", "").strip()
+    parsed = urllib.parse.urlparse(source_url)
+    if (
+        row.get("redistribution_status") != "link_only_no_downstream_license"
+        or parsed.scheme != "https"
+        or parsed.netloc != "arxiv.org"
+        or not parsed.path.startswith("/abs/")
+    ):
+        raise RuntimeError(f"no approved paper download source for {project_id}; pass --paper")
+    arxiv_id = parsed.path.removeprefix("/abs/").strip("/")
+    if not arxiv_id or "/" in arxiv_id:
+        raise RuntimeError(f"invalid arXiv source for {project_id}")
+    return f"https://arxiv.org/pdf/{arxiv_id}", "", ""
+
+
+def download_paper(project_id: str, destination: Path) -> Path:
+    row = fetch_paper_index()[project_id]
+    url, expected_hash, expected_bytes = paper_download_record(project_id, row)
+    destination = destination.resolve()
+    if destination.is_file():
+        try:
+            validate_pdf(destination, expected_hash=expected_hash, expected_bytes=expected_bytes)
+            print(f"using cached paper: {destination}")
+            return destination
+        except RuntimeError:
+            print(f"cached paper failed verification; downloading a fresh copy: {destination}")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    temporary = destination.with_name(destination.name + ".part")
+    if temporary.exists():
+        temporary.unlink()
+    try:
+        request = urllib.request.Request(url, headers={"User-Agent": "ReproBoundary/1.0"})
+        with urllib.request.urlopen(request, timeout=120) as response, temporary.open("wb") as stream:
+            length = response.headers.get("Content-Length")
+            if length is not None and int(length) > MAX_PAPER_BYTES:
+                raise RuntimeError(f"paper exceeds {MAX_PAPER_BYTES} bytes: {url}")
+            total = 0
+            while True:
+                block = response.read(1024 * 1024)
+                if not block:
+                    break
+                total += len(block)
+                if total > MAX_PAPER_BYTES:
+                    raise RuntimeError(f"paper exceeds {MAX_PAPER_BYTES} bytes: {url}")
+                stream.write(block)
+        validate_pdf(temporary, expected_hash=expected_hash, expected_bytes=expected_bytes)
+        temporary.replace(destination)
+    except (OSError, ValueError, urllib.error.URLError, RuntimeError) as error:
+        if temporary.exists():
+            temporary.unlink()
+        if isinstance(error, RuntimeError):
+            raise
+        raise RuntimeError(f"could not download paper for {project_id}: {error}") from error
+    print(f"downloaded paper: project_id={project_id} path={destination} sha256={sha256(destination)}")
+    return destination
 
 
 def as_bool(value: str) -> bool:
@@ -567,6 +693,68 @@ def evaluate(args: argparse.Namespace) -> int:
         env=runtime_environment(run_dir, task["project_id"], workspace, task_config, prompt),
         dry_run=args.dry_run,
     )
+
+
+def one_command_run(args: argparse.Namespace) -> int:
+    task, _, _, _ = load_project(args.project_id)
+    custom_command = shlex.split(args.agent_command) if args.agent_command else []
+    if args.agent and custom_command:
+        raise RuntimeError("choose either --agent or --agent-command, not both")
+    if args.agent == "codex":
+        agent_command = ["codex", "exec", "--sandbox", "workspace-write", "-"]
+    elif custom_command:
+        agent_command = custom_command
+    else:
+        raise RuntimeError("provide --agent codex or --agent-command")
+
+    if args.output is None:
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+        output = ROOT / "runs" / f"{args.project_id}-{timestamp}"
+    else:
+        output = args.output
+    if args.paper is not None:
+        paper = args.paper.resolve()
+        validate_pdf(paper)
+    else:
+        paper = download_paper(
+            args.project_id,
+            ROOT / "build" / "papers" / f"{args.project_id}.pdf",
+        )
+
+    prepare_run(
+        argparse.Namespace(
+            project_id=args.project_id,
+            output=output,
+            paper=paper,
+            clone_source=True,
+        )
+    )
+    run_dir = output.resolve()
+    print(f"starting agent: preset={args.agent or 'custom'} run_dir={run_dir}")
+    agent_exit = infer(
+        argparse.Namespace(
+            run_dir=run_dir,
+            timeout_seconds=args.timeout_seconds,
+            no_prompt_stdin=args.no_prompt_stdin,
+            dry_run=False,
+            agent_command=agent_command,
+        )
+    )
+    evaluator_exit = 0
+    if not args.no_evaluate:
+        print(f"starting frozen evaluator: project_id={task['project_id']}")
+        evaluator_exit = evaluate(
+            argparse.Namespace(
+                run_dir=run_dir,
+                timeout_seconds=args.evaluator_timeout_seconds,
+                dry_run=False,
+            )
+        )
+    print(
+        f"run finished: project_id={task['project_id']} agent_exit={agent_exit} "
+        f"evaluator_exit={evaluator_exit} path={run_dir}"
+    )
+    return 0 if agent_exit == 0 and evaluator_exit == 0 else 1
 
 
 def safe_submission_label(value: str, field: str) -> str:
@@ -1150,13 +1338,28 @@ def parser() -> argparse.ArgumentParser:
     prepare.add_argument("--clone-source", action="store_true", help="clone and checkout the pinned upstream commit")
     prepare.set_defaults(handler=prepare_run)
 
-    run = commands.add_parser("infer", help="pass the frozen prompt to a coding-agent command")
-    run.add_argument("--run-dir", type=Path, required=True)
-    run.add_argument("--timeout-seconds", type=int)
-    run.add_argument("--no-prompt-stdin", action="store_true")
-    run.add_argument("--dry-run", action="store_true")
-    run.add_argument("agent_command", nargs=argparse.REMAINDER)
-    run.set_defaults(handler=infer)
+    one = commands.add_parser(
+        "run",
+        help="download the paper, prepare the pinned source, run an agent, and launch the evaluator",
+    )
+    one.add_argument("project_id")
+    one.add_argument("--agent", choices=("codex",), help="built-in agent command preset")
+    one.add_argument("--output", type=Path, help="run directory; default is a timestamped directory under runs/")
+    one.add_argument("--paper", type=Path, help="use this local paper PDF instead of downloading it")
+    one.add_argument("--timeout-seconds", type=int, help="agent timeout, bounded by the task contract")
+    one.add_argument("--evaluator-timeout-seconds", type=int, help="evaluator timeout, bounded by the task contract")
+    one.add_argument("--no-prompt-stdin", action="store_true", help="do not pass the prompt on agent stdin")
+    one.add_argument("--no-evaluate", action="store_true", help="stop after the agent exits")
+    one.add_argument("--agent-command", help="quoted custom non-interactive agent command")
+    one.set_defaults(handler=one_command_run)
+
+    inference = commands.add_parser("infer", help="pass the frozen prompt to a coding-agent command")
+    inference.add_argument("--run-dir", type=Path, required=True)
+    inference.add_argument("--timeout-seconds", type=int)
+    inference.add_argument("--no-prompt-stdin", action="store_true")
+    inference.add_argument("--dry-run", action="store_true")
+    inference.add_argument("agent_command", nargs=argparse.REMAINDER)
+    inference.set_defaults(handler=infer)
 
     score = commands.add_parser("evaluate", help="run the task's frozen evaluator command")
     score.add_argument("--run-dir", type=Path, required=True)
